@@ -26,6 +26,7 @@
     "session-mongoose": "*",
     "basic-auth-mongoose": "*",
     "emailjs": "*",
+    "moment": "*",
     "cron": "*",
     "nconf": "*",
     "hoard": "*",

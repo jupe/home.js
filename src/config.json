@@ -2,7 +2,7 @@
   "app": {
     "port": 8080,
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
-    "date": "2013-03-31T10:36:20.000Z"
+    "date": "2013-03-31T17:58:28.766Z"
   },
   "email": {
     "from": "no-reply@gmail.com",
