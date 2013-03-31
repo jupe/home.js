@@ -1,0 +1,34 @@
+{
+  "name": "node-home-automation",
+  "description": "Home Automation Server",
+  "version": "0.0.1",
+  "homepage": "https://code.google.com/p/node-home-automation",
+  "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
+  "bugs" : {
+    "url" : "https://code.google.com/p/node-home-automation/issues/list"
+  },
+  "repository": {
+        "type": "git",
+        "url": "https://code.google.com/p/node-home-automation/"
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "express-resource": "*",
+    "node-uuid": "*",
+    "owfs": "*",
+    "mongoose": "*",
+    "session-mongoose": "*",
+    "basic-auth-mongoose": "*",
+    "emailjs": "*",
+    "cron": "*",
+    "nconf": "*",
+    "hoard": "*"
+  },
+  "contributors": [
+    "Jussi Vatjus-Anttila <jussiva@gmail.com> (http://jussiva.dyndns.org)"
+  ],
+  "scripts": {
+   "start": "node-dev app.js"
+  }
+}

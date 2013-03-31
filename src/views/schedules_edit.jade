@@ -1,0 +1,18 @@
+extends layout
+
+block header
+   script(type='text/javascript', src='/javascripts/schedules.edit.js')
+   script(type='text/javascript', src='/javascripts/vendor/SlickGrid/lib/jquery.event.drag-2.0.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/SlickGrid/lib/jquery.event.drop-2.0.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/SlickGrid/slick.core.js')
+   script(type='text/javascript', src='/javascripts/vendor/SlickGrid/slick.remotemodel.js')
+   script(type='text/javascript', src='/javascripts/vendor/SlickGrid/slick.grid.js')
+   
+   script(type='text/javascript')
+    var uuid =!{JSON.stringify(uuid)}
+    
+block content
+  h1="Schedule "
+   a(href="/schedules/"+uuid+".json")="json"
+  
+  form#schedule

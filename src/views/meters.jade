@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1="Meter"
+  each meter in meters
+   h2
+    a(href="/meters/"+meter._id)=meter._id
+    -if(meter.protocol=="ow")
+     ="(1wire)"
+    -else if(meter.protocol=="zwave")
+     ="zwave"
+    -else 
+     =" Unknown"
