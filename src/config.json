@@ -2,7 +2,7 @@
   "app": {
     "port": 8080,
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
-    "date": "2013-03-31T17:58:28.766Z"
+    "date": "2013-03-31T10:36:20.000Z"
   },
   "email": {
     "from": "no-reply@gmail.com",
@@ -10,8 +10,8 @@
     "ssl": false
   },
   "owfs": {
-    "enable": false,
-    "host": "192.168.0.101",
+    "enable": true,
+    "host": "127.0.0.1",
     "port": 4304,
     "simulate": false
   },

@@ -85,7 +85,9 @@ var install = function(cb){
                 } else {
                     console.log('verify that all dependencies are installed');
                     exec('npm install', function(error, stdout, stderr){
-                        console.log(error|stdout);
+                        console.log(error);
+                        console.log(stdout);
+                        console.log(stderr);
                         cb(null, {success: true});
                     });
                     nconf.set('app:date', new Date() );

@@ -65,7 +65,7 @@ $(function() {
               });
         grid.onCellChange.subscribe(function(e,args){
             storeConfgs( 'app', { 
-                port:       args.item['port'], 
+                port: args.item['port'], 
             });
         });
     });
@@ -139,10 +139,8 @@ $(function() {
             storeConfgs( 'owfs', { 
                     host:       args.item['host'], 
                     port:       args.item['port'], 
-                    from:       args.item['from'], 
-                    ssh:        args.item['ssh'],
-                    username:   args.item['username'],
-                    password:   args.item['password'] 
+                    enable:     args.item['enable'], 
+                    simulate:   args.item['simulate']
                     });
         });
     });
