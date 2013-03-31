@@ -1,10 +1,11 @@
 {
+  "app": {
+    "port": 8080
+  },
   "email": {
     "from": "no-reply@gmail.com",
     "host": "smtp.kolumbus.fi",
-    "ssl": false,
-    "user": "",
-    "password": ""
+    "ssl": false
   },
   "owfs": {
     "enable": false,
@@ -16,7 +17,7 @@
     "host": "localhost"
   },
   "mongodb": {
-    "host": "192.168.0.10",
+    "host": "localhost",
     "database": "nodeHomeAutomation",
     "port": 27017,
     "opts": {

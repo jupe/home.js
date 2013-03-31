@@ -18,7 +18,8 @@ var express = require('express')
   , path = require('path')
   , cronservice = require("./services/cron.js")
   , email = require('emailjs')
-  , SessionStore = require("session-mongoose")(express);
+  , SessionStore = require("session-mongoose")(express)
+  , conf = require('./config');
 
 var app = express();
 
@@ -26,7 +27,7 @@ var cron = new cronservice();
 cron.start();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8080);
+  app.set('port', conf.app.port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.set('view engine', 'jade');
