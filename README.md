@@ -1,16 +1,17 @@
 # home.js
-Node for Home Automation.
+General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
 
  * Supported OS: Linux/partially windows
- * Supported HW: Raspberry Pi& x86 based
- 
-General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
+ * Supported HW: Raspberry Pi & x86 based systems
+
+![SW Architecture](https://raw.github.com/wiki/jupe/home.js/homejs.svg)
 
 * [Slides](https://docs.google.com/presentation/d/170iVTeOct5t582AydG844MueAhtyf9o6j5V6DbciLRM/edit?usp=sharing)
 * [Discussion group](http://groups.google.com/group/node-home-automatino)
 
 ## Features
 Some of thease might be under develop
+ * Upgrade application directly from web UI
  * node.js based server with flexible db (mongodb)
  * HTTP html/json RESTful API
  * onewire
@@ -27,6 +28,8 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL) file.
 * [nodejs](www.nodejs.org)
 * [mongodb](mongodb.org)
 * [owfs](www.owfs.org)  (will be optional dependency)
+ * limitations: owfs support only linux.
+  * I've thinking to start using some other onewire library
 
 
 ## Used node modules
@@ -50,14 +53,11 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL) file.
 ## todo
 - [x] Moving sources from [code.google](https://code.google.com/p/node-home-automation/) to github
 - [ ] Move rest of wiki/pages
-- [ ] Continue developing..
-- [ ] ...
+- [ ] Get more participations
+- [X] Continue developing
 
-Project is currently in [code.gogle] (https://code.google.com/p/node-home-automation/). 
-I'm thinking move project to github...
+## License
 
-License
--------
 
 Released under the MIT License
 
