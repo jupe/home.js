@@ -13,7 +13,39 @@ function storeConfgs(type, values)
         }
     }); 
 }
+function upgrade(event){
+    alert('Upgrade app');
+    $('#upgrade').html('upgrading.');
+    $.ajax({
+        type: "POST",
+        url: '/admin/upgrade',
+        contentType : 'application/json',
+        data: JSON.stringify(values),
+        success: function () {
+            $('#upgrade').html('upgrading..ready. Wait a little more for reload app');
+            setTimeout( location.reload(),
+                2000 );
+        },
+        error: function(){
+            alert('failure');
+        }
+    }); 
+}
+
 $(function() {
+    
+    $.getJSON('/admin/upgrade.json', function(data){
+        if( data.uptodate ) {
+            $('#upgrade').html('Application is already up to date');
+        } else {
+            html = '<a href="'+data.link+'" title="'+data.title+'">There is update available</a>';
+            html += '<br><input type="button" value="Upgrade now" id="upgradeNow" />';
+            html += '<color=red>WARNING! ALL YOUR LOCAL CONFIGURATIONS WILL BE LOST</color>';
+            $('#upgrade').html(html);
+            
+            $('#upgradeNow').button().click( upgrade );
+        }
+    });
     
     $.getJSON('/admin/configure/app.json', function(app){
         var data = [];

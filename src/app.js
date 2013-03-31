@@ -79,6 +79,8 @@ var admin = require('./routes/admin');
 app.get('/admin/configure', admin.configure);
 app.put('/admin/configure/:configure', admin.update);
 app.get('/admin/configure/:configure.:format?', admin.get);
+app.get('/admin/upgrade.:format?', admin.versions);
+app.post('/admin/upgrade.:format?', admin.upgrade);
 
 //app.get('/devices/status', require('./resources/devices').status);
 var devices = require('./resources/devices');

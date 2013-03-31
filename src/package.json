@@ -1,16 +1,21 @@
 {
-  "name": "node-home-automation",
-  "description": "Home Automation Server",
+  "name": "home.js",
+  "description": "Home automation server",
   "version": "0.0.1",
-  "homepage": "https://code.google.com/p/node-home-automation",
+  "homepage": "https://github.com/jupe/home.js",
   "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
   "bugs" : {
-    "url" : "https://code.google.com/p/node-home-automation/issues/list"
+    "url" : "https://github.com/jupe/home.js/issues"
   },
   "repository": {
         "type": "git",
-        "url": "https://code.google.com/p/node-home-automation/"
+        "url": "https://github.com/jupe/home.js"
   },
+  "licenses" : [
+      { "type" : "MIT"
+      , "url" : "https://github.com/jupe/home.js/blob/master/LICENSE"
+      }
+    ]
   "dependencies": {
     "express": "*",
     "jade": "*",
@@ -23,10 +28,12 @@
     "emailjs": "*",
     "cron": "*",
     "nconf": "*",
-    "hoard": "*"
+    "hoard": "*",
+    "feedparser": "*",
+    "request": "*"
   },
   "contributors": [
-    "Jussi Vatjus-Anttila <jussiva@gmail.com> (http://jussiva.dyndns.org)"
+    "Jussi Vatjus-Anttila <jussiva@gmail.com>"
   ],
   "scripts": {
    "start": "node-dev app.js"

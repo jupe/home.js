@@ -1,6 +1,8 @@
 {
   "app": {
-    "port": 8080
+    "port": 8080,
+    "feed": "https://github.com/jupe/home.js/commits/master.atom",
+    "date": "2013-03-31T10:36:20.000Z"
   },
   "email": {
     "from": "no-reply@gmail.com",
@@ -13,12 +15,9 @@
     "port": 4304,
     "simulate": false
   },
-  "zwave.me": {
-    "host": "localhost"
-  },
   "mongodb": {
     "host": "localhost",
-    "database": "nodeHomeAutomation",
+    "database": "homejs",
     "port": 27017,
     "opts": {
       "server": {
