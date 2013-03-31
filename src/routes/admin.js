@@ -83,7 +83,7 @@ var install = function(cb){
                 if( error ) {
                     cb(error);
                 } else {
-                    cb(error, {success: true});
+                    cb(null, {success: true});
                     nconf.set('app:date', new Date() );
                     nconf.save(function (err) {});
                 }
