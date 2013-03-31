@@ -72,12 +72,13 @@ exports.versions = function(req, res){
        }
       });
 }
-var install = function(archive, cb){
-    
+var install = function(cb){
+    console.log('git fetch changes');
     exec('git fetch --all', function(error, stdout, stderr){
         if( error ) {
             cb(error);
         } else {
+            console.log('git reset master');
             exec('git reset --hard origin/master', function(error, stdout, stderr){
                 if( error ) {
                     cb(error);

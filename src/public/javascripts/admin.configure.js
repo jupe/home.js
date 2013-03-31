@@ -14,17 +14,15 @@ function storeConfgs(type, values)
     }); 
 }
 function upgrade(event){
-    alert('Upgrade app');
-    $('#upgrade').html('upgrading.');
+    $('#upgrade').html('upgrading..');
     $.ajax({
         type: "POST",
         url: '/admin/upgrade',
         contentType : 'application/json',
-        data: JSON.stringify(values),
+        data: JSON.stringify({}),
         success: function () {
             $('#upgrade').html('upgrading..ready. Wait a little more for reload app');
-            setTimeout( location.reload(),
-                2000 );
+            setTimeout( location.reload(), 2000 );
         },
         error: function(){
             alert('failure');
