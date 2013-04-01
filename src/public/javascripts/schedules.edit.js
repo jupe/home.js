@@ -36,7 +36,7 @@ $(function() {
                         data: JSON.stringify(values),
                         success: function () {
                             $('#res').html('<p>Saved</p>');
-                            window.location = '/schedules/'+uuid
+                            window.location = '/schedules/'+schedule.uuid
                         },
                         error: function(){
                             alert('failure');

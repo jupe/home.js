@@ -51,6 +51,15 @@ exports.get = function(req, res){
   });
 }
 
+exports.commit = function(req,res){
+    console.log('get commit details');
+    exec('git rev-parse HEAD', function(error, commit, stderr){
+        exec('git show -s --format="%ci"', function(error, timestamp, stderr){
+            res.json( {id: commit, timestamp: timestamp} );
+        });
+    });
+}
+
 exports.versions = function(req, res){
     url = conf.app.feed;
     request(url).pipe(new FeedParser())

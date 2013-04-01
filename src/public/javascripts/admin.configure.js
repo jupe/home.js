@@ -24,8 +24,8 @@ function upgrade(event){
             $('#upgrade').html('upgrading..ready. Wait a little more for reload app');
             setTimeout( location.reload(), 10000 );
         },
-        error: function(){
-            alert('failure');
+        error: function(msg){
+            $('#upgrade').html( 'upgrading..fails! '+JSON.stringify(msg) );
         }
     }); 
 }
@@ -48,13 +48,19 @@ function reboot(event){
 
 $(function() {
     
+    $.getJSON('/admin/commit.json', function(commit){
+        $('#commit').html( "Current version: "+
+            '<a href="https://github.com/jupe/home.js/commit/'+commit.id+'">'+
+            "Timestamp: "+moment(new Date(commit.timestamp)).format('YYYY/MM/DD HH:mm')+
+            "</a>"
+            );
+    });
     $.getJSON('/admin/upgrade.json', function(data){
         if( data.uptodate ) {
             $('#upgrade').html('Application is already up to date');
         } else {
-            html = '<a href="'+data.link+'" title="'+data.title+'">There is update available</a>';
-            html += '<br><input type="button" value="Upgrade now" id="upgradeNow" />';
-            html += '<color=red>WARNING! ALL YOUR LOCAL CONFIGURATIONS WILL BE LOST</color>';
+            html = '<br><input type="button" title="WARNING! ALL YOUR LOCAL CONFIGURATIONS WILL BE LOST" value="Upgrade now" id="upgradeNow" ="test"/>';
+            html += '<a href="'+data.link+'" title="'+data.title+'">There is update available</a>';
             $('#upgrade').html(html);
             
             $('#upgradeNow').button().click( upgrade );

@@ -88,6 +88,7 @@ app.get('/admin/configure/:configure.:format?', admin.get);
 app.get('/admin/upgrade.:format?', admin.versions);
 app.post('/admin/upgrade.:format?', admin.upgrade);
 app.post('/admin/reboot.:format?', admin.reboot);
+app.get('/admin/commit.:format?', admin.commit);
 
 //app.get('/devices/status', require('./resources/devices').status);
 var devices = require('./resources/devices');

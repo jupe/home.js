@@ -118,7 +118,7 @@ function OwService(db) {
                             console.log(err);
                         } if( !found )
                         {
-                            var schedule = { name: 'owReadAll', cron: '* */5 * * * *', actions: [ action.uuid]};
+                            var schedule = { name: 'owReadAll', cron: '0 */5 * * * *', actions: [ action.uuid]};
                             db.schedules.create( schedule, function(err,ok){
                                 if( err ){
                                     console.log(err);
