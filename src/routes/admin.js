@@ -114,6 +114,12 @@ var install = function(cb){
         });
         */
 }
+exports.reboot = function(req, res){
+    autorize(req, res, function(req,res){
+        res.json({ok: 1});
+        exec('sudo reboot', function(error, stdout, stderr){});
+    });
+}
 exports.upgrade = function(req, res){
     console.log('upgrading..');
     autorize(req, res, function(req,res){

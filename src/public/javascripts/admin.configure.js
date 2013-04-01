@@ -29,6 +29,22 @@ function upgrade(event){
         }
     }); 
 }
+function reboot(event){
+    $('#reboot').html('rebooting..');
+    $.ajax({
+        type: "POST",
+        url: '/admin/reboot',
+        contentType : 'application/json',
+        data: JSON.stringify({}),
+        success: function () {
+            $('#reboot').html('reboot success. Wait a minute while rebooting..');
+            setTimeout( location.reload(), 60000 );
+        },
+        error: function(){
+            alert('failure');
+        }
+    }); 
+}
 
 $(function() {
     
@@ -44,6 +60,7 @@ $(function() {
             $('#upgradeNow').button().click( upgrade );
         }
     });
+    $('#reboot').button().click( reboot );
     
     $.getJSON('/admin/configure/app.json', function(app){
         var data = [];

@@ -11,7 +11,7 @@ $(function() {
         var data = [];
         $.each(devices, function(i, device){
             data[i] = {
-                name: '<a href="/device/'+device.uuid+'/edit">'+device.name+'</a>',
+                name: '<a href="/devices/'+device.uuid+'/edit">'+device.name+'</a>',
                 createTimestamp: (new moment(device.created.timestamp)).format('YY/MM/DD hh:mm'),
                 enable: '<a href="#" enable="'+device.enable+'" class="enabler" uuid="'+device.uuid+'">'+device.enable+'</a>',
                 type: device.type,
