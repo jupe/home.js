@@ -26,7 +26,11 @@ var app = express();
 var cron = new cronservice();
 cron.start();
 
+// Change process title
 process.title = 'home.js';
+
+//change current working directory (required for git pull)
+process.chdir(require('path').dirname(require.main.filename)); 
 
 app.configure(function(){
   app.set('port', conf.app.port);

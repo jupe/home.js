@@ -22,7 +22,7 @@ function upgrade(event){
         data: JSON.stringify({}),
         success: function () {
             $('#upgrade').html('upgrading..ready. Wait a little more for reload app');
-            setTimeout( location.reload(), 2000 );
+            setTimeout( location.reload(), 10000 );
         },
         error: function(){
             alert('failure');

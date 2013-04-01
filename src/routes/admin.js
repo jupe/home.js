@@ -76,11 +76,13 @@ var install = function(cb){
     console.log('git fetch changes');
     exec('git fetch --all', function(error, stdout, stderr){
         if( error ) {
+            console.log(error);
             cb(error);
         } else {
             console.log('git reset master');
             exec('git reset --hard origin/master', function(error, stdout, stderr){
                 if( error ) {
+                    console.log(error);
                     cb(error);
                 } else {
                     console.log('verify that all dependencies are installed');
