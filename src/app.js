@@ -26,6 +26,8 @@ var app = express();
 var cron = new cronservice();
 cron.start();
 
+process.title = 'home.js';
+
 app.configure(function(){
   app.set('port', conf.app.port);
   app.set('views', __dirname + '/views');
