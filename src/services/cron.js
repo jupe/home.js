@@ -3,7 +3,7 @@ var   email = require('emailjs')
     , owservice = require("./onewire.js")
     , Db = require("../resources/database");
 db = new Db();
-
+var CFG = require('../config.json');
 
 var cronSession = {}
 var timeZone ="";
@@ -30,7 +30,7 @@ function event(type, msg, uuid, details){
 }
 //helper function for scripts
 function sendEmail( to, subject, msg, cb){
-    var cfg = require('../config.json').email;
+    var cfg = CFG.email;
     var server  = email.server.connect( cfg );
     server.send( {
         text: msg, from: cfg.from, to: to, subject: subject
@@ -129,7 +129,7 @@ CronService.prototype.start = function(){
                 };
             }
         });
-    }, 5000);
+    }, CFG.app.service_poll_interval);
 }
 CronService.prototype.stop = function(){
     for( var key in cronSession ){

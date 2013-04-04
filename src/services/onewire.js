@@ -1,6 +1,8 @@
 var http = require('http');
 var Ow = require("./api_onewire");
-var ow = new Ow("localhost", 4304);
+var CFG = require('../config');
+console.log(CFG.owfs);
+var ow = new Ow(CFG.owfs.host, CFG.owfs.port);
 
 var Db = require("../resources/database");
 db = new Db();
@@ -17,7 +19,7 @@ function postEventData(path, data, callback)
 
     var options = {
       host: 'localhost',
-      port: 8080,
+      port: CFG.app.port,
       path: path,
       method: 'POST',
       headers: headers

@@ -5,7 +5,7 @@ $(function() {
     
     $('#about').click( function(){
         $.pnotify({
-            title: 'node-home-automatino',
+            title: 'home.js',
             text: 'Copyright: JVA',
             history: false,
             delay: 2000,

@@ -13,6 +13,17 @@ function storeConfgs(type, values)
         }
     }); 
 }
+
+function checkAvailability()
+{
+    $.ajax('/', function(data){
+        if( data) {
+            location.reload();
+        }
+        else setTimeout( checkAvailability, 10000 );
+    });
+}
+
 function upgrade(event){
     $('#upgrade').html('upgrading..');
     $.ajax({
@@ -22,7 +33,7 @@ function upgrade(event){
         data: JSON.stringify({}),
         success: function () {
             $('#upgrade').html('upgrading..ready. Wait a little more for reload app');
-            setTimeout( location.reload(), 10000 );
+            setTimeout( checkAvailability, 10000 );
         },
         error: function(msg){
             $('#upgrade').html( 'upgrading..fails! '+JSON.stringify(msg) );
@@ -40,8 +51,8 @@ function reboot(event){
             $('#reboot').html('reboot success. Wait a minute while rebooting..');
             setTimeout( location.reload(), 60000 );
         },
-        error: function(){
-            alert('failure');
+        error: function(msg){
+            $('#reboot').html( 'reboot..fails! '+JSON.stringify(msg) );
         }
     }); 
 }
@@ -72,14 +83,16 @@ $(function() {
         var data = [];
         
         data[0] = {
-            port: app.port
+            port: app.port,
+            service_poll_interval: app.service_poll_interval 
           };
         
         function formatter(row, cell, value, columnDef, dataContext) {
             return value;
         }
         var columns = [
-            {id: "port", name: "Port", field: "port", formatter: formatter, width: 80, resizable: false, editor: Slick.Editors.Integer }
+            {id: "port", name: "Port", field: "port", formatter: formatter, width: 80, resizable: false, editor: Slick.Editors.Integer },
+            {id: "service_poll_interval", name: "Service poll interval", field: "service_poll_interval", formatter: formatter, /*width: 80,*/ resizable: false, editor: Slick.Editors.Integer }
           ];
         grid = new Slick.Grid("#app", data, columns, {
                 enableCellNavigation: true,
@@ -88,7 +101,8 @@ $(function() {
               });
         grid.onCellChange.subscribe(function(e,args){
             storeConfgs( 'app', { 
-                port: args.item['port'], 
+                port: args.item['port'],
+                service_poll_interval: args.item['service_poll_interval'],
             });
         });
     });

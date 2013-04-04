@@ -1,8 +1,9 @@
 {
   "app": {
     "port": 8080,
+    "service_poll_interval": 5000,
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
-    "date": "2013-03-31T10:36:20.000Z"
+    "date": "2013-04-4T17:14:20.000Z"
   },
   "email": {
     "from": "no-reply@gmail.com",
@@ -16,7 +17,7 @@
     "simulate": false
   },
   "mongodb": {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "database": "homejs",
     "port": 27017,
     "opts": {
