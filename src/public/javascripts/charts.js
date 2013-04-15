@@ -66,15 +66,28 @@ function hoardTime( time )
 }
 function fetchHoard( uuid, callback )
 {
+    function GetSelectedPeriod()
+    {
+        var from = new Date().getTime()-2*60*60*1000;
+        var to = new Date().getTime();
+        var selected = $("input[type='radio'][name='period']:checked");
+        if (selected.length > 0){
+            from = new Date(selected.attr('from')).getTime();
+            to = new Date(selected.attr('to')).getTime();
+        }
+        return {from: from, to: to};
+    }
     var url = '/devices/'+uuid+'/events.hoard?';
-    url += 'from='+hoardTime((new Date()).getTime() - 1000*60*60*24);
-    url += '&to='+hoardTime((new Date()).getTime());
+    period = GetSelectedPeriod();
+    url += 'from='+period.from;
+    url += '&to='+period.to;
     //1363716900
     //url += '&to='+(new Date()).getTime();
     $.getJSON(url, function(hoard){
         var data = [];
-        var stamp = hoard.timeInfo.from;
+        var stamp = new Date(hoard.timeInfo.from).getTime();
         var interval = hoard.timeInfo.interval;
+        $('#resolution').html(interval/1000+' s');
         $.each(hoard.values, function(key, value)
         {
             if( value == 'null' )
@@ -117,8 +130,8 @@ function drawChart()
             mode: "time",
         },
         yaxis: {
-            min: -30,
-            max: 30
+            //min: -30,
+            //max: 30
         },
         grid: {
             hoverable: true,
@@ -152,11 +165,11 @@ function drawChart()
                 previousPoint = item.dataIndex;
 
                 $("#tooltip").remove();
-                var x = item.datapoint[0].toFixed(2),
+                var x = parseInt(item.datapoint[0]),
                 y = item.datapoint[1].toFixed(2);
 
                 showTooltip(item.pageX, item.pageY,
-                    item.series.label + " of " + moment(new Date(x*1000)).format('YYYY/MM/DD HH:mm') + " = " + y);
+                    item.series.label + " of " + moment(new Date(x)).format('YYYY/MM/DD HH:mm') + " = " + y);
             }
         } else {
             $("#tooltip").remove();
@@ -173,10 +186,20 @@ function drawChart()
     });
     
 }
-
+var hoardUuidCache = [];
 $(function() {
-     $.getJSON("/devices.json", function(data){
-        var hoardUuids = [];
+
+    
+    $('.period').change( function(){
+        fetchHoards( hoardUuidCache, 0, {}, function(flotData)
+        {
+            gFlotData = flotData;
+            drawChart();
+        });
+    });
+    
+    $.getJSON("/devices.json", function(data){
+        
         // [[-373597200000, 315.71], [-370918800000, 317.45]]
         $.each(data, function(key, device)
         {
@@ -184,7 +207,7 @@ $(function() {
             {
                 if( device.hoard.enable )
                 {
-                    hoardUuids.push(device);
+                    hoardUuidCache.push(device);
                 }
         
                 /*if( val.doc.meter.rrd.href )
@@ -201,16 +224,15 @@ $(function() {
                 }
                 */
             }
-            fetchHoards( hoardUuids, 0, {}, function(flotData)
-            {
-                gFlotData = flotData;
-                drawChart();
-            });
         });
+        
+        fetchHoards( hoardUuidCache, 0, {}, function(flotData)
+        {
+            gFlotData = flotData;
+            drawChart();
+        });
+        
         //$('#debug').append( JSON.stringify(chartData) );
-        
-        
-        
     });
     
     /*

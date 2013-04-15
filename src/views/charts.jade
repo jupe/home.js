@@ -17,11 +17,11 @@ block header
    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.selection.js')
    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.threshold.js')
    style
-    .demo-container {
+    .chart-container {
         box-sizing: border-box;
         width: 850px;
-        height: 450px;
-        padding: 20px 15px 15px 15px;
+        height: 500px;
+        padding: 5px 15px 15px 15px;
         margin: 15px auto 30px auto;
         border: 1px solid #ddd;
         background: #fff;
@@ -35,8 +35,10 @@ block header
         -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
     }
-    .demo-placeholder {
+    .chart-placeholder {
         width: 100%;
         height: 100%;
         font-size: 14px;
@@ -44,8 +46,25 @@ block header
     }
    
 block content
-  h1="Charts summary"
+  center
+   h1="Charts summary"
   
-  div(class="demo-container")
-   div(id="chart", class="demo-placeholder")
+  div(class="chart-container")
+   center
+    input(type="radio", class="period", id="last2h", title="Last 2h", name="period", from=new Date(new Date().getTime()-(2*60*60*1000)), to=new Date(), checked="checked")
+    input(type="radio", class="period", id="last6h", title="Last 6h", name="period", from=new Date(new Date().getTime()-(6*60*60*1000)), to=new Date())
+    //label(for="today")="Today"
+    input(type="radio", class="period", id="today", title="Today", name="period", from=new Date(new Date().getTime()-(24*60*60*1000)), to=new Date())
+    //label(for="today")="Today"
+    input(type="radio", class="period", id="week",  title="Week",  name="period", from=new Date(new Date().getTime()-(7*24*60*60*1000)), to=new Date())
+    //label(for="week")="Week"
+    input(type="radio", class="period", id="month", title="Month", name="period", from=new Date(new Date().getTime()-(30*24*60*60*1000)), to=new Date())
+    //label(for="month")="Month"
+    input(type="radio", class="period", id="year", title="Year", name="period", from=new Date(new Date().getTime()-(360*24*60*60*1000)), to=new Date())
+    input(type="radio", class="period", id="twoyear", title="Two Year", name="period", from=new Date(new Date().getTime()-(2*365*24*60*60*1000)), to=new Date())
+    input(type="radio", class="period", id="threeyear", title="Three Years", name="period", from=new Date(new Date().getTime()-(3*365*24*60*60*1000)), to=new Date())
+    //label(for="year")="Year"
+    div#resolution
+
+   div(id="chart", class="chart-placeholder")
   div#debug

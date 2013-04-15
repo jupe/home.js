@@ -7,11 +7,14 @@ if( require('../config').owfs.simulate )
     simulator.prototype.dir = function(url, cb){
         cb(['/28.9AE37A030000', '/28.9AE37A030002']);
     }
+    function random(min, max) {
+      return(Math.floor(Math.random() * (max-min)*10)+min*10)/10;
+    };
     simulator.prototype.read = function(url, cb){
         if( url == '/28.9AE37A030000/temperature' )
-            cb(12.23);
+            cb(random(0, 5) );
         else if( url == '/28.9AE37A030002/temperature' )
-            cb(15.23);
+            cb(random(15, 20) );
         else cb('false');
     }
     Client = simulator;

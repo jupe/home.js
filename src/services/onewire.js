@@ -24,7 +24,7 @@ function postEventData(path, data, callback)
       method: 'POST',
       headers: headers
     };
-    console.log(options.path);
+    console.log('[POST]'+options.path);
     // Setup the request.  The options parameter is
     // the object we defined above.
     var req = http.request(options, function(res) {
@@ -71,6 +71,7 @@ function isNumber (o) {
 var instance;
 function OwService(db) {
     instance=this;
+    
     //create ping action if it not exists
     db.actions.findOne({name: 'owPing'}, function(err, found){
         if( err ){
@@ -103,6 +104,7 @@ function OwService(db) {
             });
         }
     });
+    
     //create measure action if it not exists
     db.actions.findOne({name: 'owReadAll'}, function(err, found){
         if( err ){
@@ -139,11 +141,11 @@ function OwService(db) {
 OwService.prototype.ping = function(archives, period){
     console.log("reload ow meters");
     
-    if( !archives )
+    if( !(archives instanceof Array))
         archives = [ [60*5, 12*24],     // meas/5min  1 days
-                    [60*10, 12*24*7],  // meas/10min  7 days
-                    [60*60, 24*365*50] // meas/1h    50 year
-                  ]
+                     [60*10, 12*24*7],  // meas/10min  7 days
+                     [60*60, 24*365*50] // meas/1h    50 year
+                  ];
     if( !period )
         period = 0.5;
     try {
@@ -200,10 +202,14 @@ OwService.prototype.read = function(device, callback)
     console.log("Reading device: "+path);
     try {
        ow.read(path, function(result){
-            if( isNumber(result) ){
+            if( result !== false && isNumber(result) ){
                 console.log("result: %d", result);
+                values = []; //[[result]]
+                var unixStamp = parseInt(new Date().getTime() / 1000);
+                for(var i=0;i<device.hoard.archives.length;i++)
+                    values.push( [unixStamp, result] ); //because all hoard-archives need to be update
                 postEventData( '/devices/'+device.uuid+"/events.json", 
-                              { values: [[result]], type: 'hoard' }, function(d){
+                              { values: values, type: 'hoard' }, function(d){
                     callback(null, device);
                 });
             }

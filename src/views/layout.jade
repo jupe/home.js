@@ -44,6 +44,7 @@ html
     
     script(type='text/javascript')
       var user = !{JSON.stringify(user|null)};
+      //var server = { os: process.platform };
     block header
   body
    
@@ -70,18 +71,18 @@ html
             -else
              li
               a(href="javascript:void(0)")=user.name
-            li
-              a(href="/maps")="map"
-              ul
-                li
-                 a(href="/maps/edit")="Edit"
+            //li
+            //  a(href="/maps")="map"
+            //  ul
+            //    li
+            //     a(href="/maps/edit")="Edit"
             li
               a(href="/charts/")="Charts"
-              ul
-                li
-                 a(href="/charts/temperatures")="Temperature"
-                li
-                 a(href="/charts/energy")="Energy"
+              //ul
+              //  li
+              //   a(href="/charts/temperatures")="Temperature"
+              //  li
+              //   a(href="/charts/energy")="Energy"
             li
               a(href="/devices")="Devices"
               ul

@@ -123,7 +123,7 @@ CronService.prototype.start = function(){
             if( err ) {
                 event('fatal', err);
             } else if( schedules.length > 0 ) {
-                console.log('Init schedules (n: '+schedules.length+')');
+                //console.log('Init schedules (n: '+schedules.length+')');
                 for(var i=0;i<schedules.length;i++){
                     initSchedule( schedules[i] );
                 };

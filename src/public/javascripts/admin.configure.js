@@ -163,8 +163,9 @@ $(function() {
         var columns = [
             {id: "host", name: "Host", field: "host", formatter: formatter, width: 200, resizable: false, editor: Slick.Editors.Text },
             {id: "port", name: "Port", field: "port", formatter: formatter, width: 80, resizable: false, editor: Slick.Editors.Integer },
-            {id: "enable", name: "Enable", field: "enable", width: 80, resizable: false, editor: Slick.Editors.Checkbox, formatter: Slick.Formatters.Checkmark},
-            {id: "simulate", name: "Simulate", field: "Simulate", width: 80, formatter: formatter, resizable: false, editor: Slick.Editors.Checkmark},
+            {id: "simulate", name: "Simulate", field: "simulate", width: 80, resizable: false, editor: Slick.Editors.Checkbox, formatter: Slick.Formatters.Checkmark},
+            {id: "enable",   name: "Enable",   field: "enable",   width: 80, resizable: false, editor: Slick.Editors.Checkbox, formatter: Slick.Formatters.Checkmark},
+            
             
           ];
         grid = new Slick.Grid("#owfs", data, columns, {

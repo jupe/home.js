@@ -66,8 +66,8 @@ exports.new = function (req, res) {
 
 exports.create = function (req, res) {
 	console.log('create device');
-	console.log(req.params|'');
-	console.log(req.body|'');
+	console.log(req.params);
+	console.log(req.body);
 	db.devices.create(req.body, function (error, device) {
 		if (error) {
             console.log("oooo");
@@ -146,6 +146,7 @@ exports.events = function(req,res)
     console.log("Device events");
     console.log(req.params);
     console.log(req.query);
+    console.log(req.body);
     switch (req.params.format) {
         case (undefined):
         case ('html'):
@@ -160,39 +161,59 @@ exports.events = function(req,res)
             console.log('get hoard');
             
             db.devices.findOne( {uuid: req.params.device}, function(error, device){
-                console.log(device.hoard);
-                if( fs.existsSync( device.hoard.file ) ){
-                    var from = unixTime()-1000,
-                        to = unixTime();
-                    if( req.query.from )
-                        from = parseInt(req.query.from);
-                    if( req.query.to )
-                        to = parseInt(req.query.to);
-                    hoard.fetch(device.hoard.file, from, to, 
-                        function(err, timeInfo, values) {
-                        if (err) {
-                            console.log(err);
-                            res.send(500, err);
-                        } else {
-                            res.json( { timeInfo: {from: timeInfo[0], to: timeInfo[1], interval: timeInfo[2]}, values: values });
+                if( error ) { 
+                    res.send(500, error);
+                } else if( device ) {
+                    console.log(device.hoard);
+                    if( device.hoard.file && fs.existsSync( device.hoard.file ) ){
+                        var from = unixTime()-60*60*24, //default: "last 1h"
+                            to = unixTime();
+                        if( req.query.from ){
+                            from = parseInt(req.query.from)/1000;
+                        } else if( req.body.from ) {
+                            from = parseInt(req.body.from)/1000;
                         }
-                    });
+                        if( req.query.to ){
+                            to = parseInt(req.query.to)/1000;
+                        } else if( req.body.to ) {
+                            to = parseInt(req.body.to)/1000;
+                        }
+                        //console.log( new Date(from*1000) );
+                        //console.log( new Date(to*1000) );
+                        hoard.fetch(device.hoard.file, from, to, 
+                            function(err, timeInfo, values) {
+                            if (err) {
+                                console.log(err);
+                                res.send(500, err);
+                            } else {
+                                console.log( timeInfo );
+                                console.log( new Date(timeInfo[0]*1000) );
+                                res.json( { timeInfo: {from: new Date(timeInfo[0]*1000), to: new Date(timeInfo[1]*1000), interval: timeInfo[2]*1000}, values: values });
+                            }
+                        });
+                    } else {
+                        res.send(500, "Hoard file not found!");
+                    }
+                } else {
+                    res.send(404);
                 }
             });
+            
             break;
         default:
             res.render(501, {user: req.session.user}); //Not Implemented
             break;
 	}
 }
-function unixTime() {
+function unixTime(date) {
+  if( date ) return parseInt(date.getTime() / 1000);
   return parseInt(new Date().getTime() / 1000);
 };
-function pushToHoard(filename, values, timestamp, cb )
+function pushToHoard(filename, values, cb )
 {
     if( filename && fs.existsSync( filename ) )
     {   console.log('hoard file exists and will be update');
-        hoard.update(filename, values, timestamp, cb);
+        hoard.updateMany(filename, values, cb);
     } else cb("File "+filename+" not exists!");
 }
 exports.newEvent = function(req,res)
@@ -218,8 +239,9 @@ exports.newEvent = function(req,res)
                 console.log(event.values);
                 db.devices.update( {uuid: device.uuid}, {'ow.lastValue': event.values[0][0]}, function(e,d){} );
                 
-                var stamp = unixTime();
-                pushToHoard(device.hoard.file, event.values, stamp, function(err) {
+                //var stamp = unixTime();
+                
+                pushToHoard(device.hoard.file, event.values, function(err) {
                     if (err) {
                         console.log("hoard error");
                         console.log('err: '+err);

@@ -14,10 +14,10 @@
     "enable": true,
     "host": "127.0.0.1",
     "port": 4304,
-    "simulate": false
+    "simulate": true
   },
   "mongodb": {
-    "host": "127.0.0.1",
+    "host": "localhost",
     "database": "homejs",
     "port": 27017,
     "opts": {

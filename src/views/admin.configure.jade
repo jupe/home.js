@@ -8,7 +8,8 @@ block content
   
   div#commit
   div#upgrade
-  input(type="button", value="Reboot device", id="reboot")
+  -if( process.platform == 'linux' )
+   input(type="button", value="Reboot device", id="reboot")
   
   h4="App Configs"
   div(id="app", style="height:70px")
