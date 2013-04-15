@@ -70,14 +70,17 @@ exports.versions = function(req, res){
       })
       .on('end', function () {
        // do the next thing
-       if( new Date(this.articles[0].date).getTime() >= 
+       console.log(new Date(conf.app.date) );
+       if( new Date(conf.app.date) == 'Invalid Date' ||
+           new Date(this.articles[0].date).getTime() >= 
            new Date(conf.app.date).getTime() ) {
         res.json( {
             uptodate: false, 
             link: this.articles[0].link, 
-            title: this.articles[0].title} );
+            title: this.articles[0].title,
+            yours: new Date(conf.app.date) } );
        } else {
-         res.json( {uptodate: true});
+         res.json( {uptodate: true, articles: new Date(this.articles[0].date).getTime(), yours: conf.app.date });
        }
       });
 }
