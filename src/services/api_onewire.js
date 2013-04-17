@@ -12,9 +12,9 @@ if( require('../config').owfs.simulate )
     };
     simulator.prototype.read = function(url, cb){
         if( url == '/28.9AE37A030000/temperature' )
-            cb(random(0, 5) );
+            cb(random(-20, 5) );
         else if( url == '/28.9AE37A030002/temperature' )
-            cb(random(15, 20) );
+            cb(random(15, 25) );
         else cb('false');
     }
     Client = simulator;

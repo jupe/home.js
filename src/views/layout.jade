@@ -50,7 +50,7 @@ html
    
     div(id="wrapper")
    
-        div(id="headerwrap")
+        //div(id="headerwrap")
         div(id="header")
           p
            ul#topmenu 
@@ -84,26 +84,28 @@ html
               //  li
               //   a(href="/charts/energy")="Energy"
             li
-              a(href="/devices")="Devices"
+              a(href="#")="Devices"
               ul
+                li
+                 a(href="/devices")="List"
                 li
                  a(href="/devices/tree")="Tree"
                 //li
                 // a(href="/devices/status")="Status"
-                li
-                 a(href="/devices?type=switch")="Switches"
-                li
-                 a(href="/devices?type=sensor")="Sensors"
-                li
-                 a(href="/devices?type=meter")="Meters"
-                li
-                 a(href="/devices?type=thermostats")="Thermostats"
-                li
-                 a(href="/devices?type=locks")="Locks"
-                li
-                 a(href="/devices?type=cameras")="Cameras"
-                li
-                 a(href="/devices/configurations")="Configurations"
+                //li
+                // a(href="/devices?type=switch")="Switches"
+                //li
+                // a(href="/devices?type=sensor")="Sensors"
+                //li
+                // a(href="/devices?type=meter")="Meters"
+                //li
+                // a(href="/devices?type=thermostats")="Thermostats"
+                //li
+                // a(href="/devices?type=locks")="Locks"
+                //li
+                // a(href="/devices?type=cameras")="Cameras"
+                //li
+                // a(href="/devices/configurations")="Configurations"
             //li
             //  a(href="/networks")="Network"
             //  ul
@@ -140,16 +142,16 @@ html
             li
               a(href="#", id="about")="About"
         
-        div(id="contentwrap")
+        //div(id="contentwrap")
         div(id="content")
-          p 
            block content
            div#genericDialog
-       
         
-        div(id="footerwrap")
+        //div(id="footerwrap")
         div(id="footer")
-           p(style="margin: 0px 20%;")
+           p(style="margin: 0px 20%; text-align: center;")
              a(href="https://github.com/jupe/home.js")
-              ="hode.js"
-             =" - Designed by JVA"
+              ="Home.js"
+             =" - Designed by "
+             a(href="https://github.com/jupe")
+              ="JVA"

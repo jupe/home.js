@@ -164,7 +164,7 @@ exports.events = function(req,res)
                 if( error ) { 
                     res.send(500, error);
                 } else if( device ) {
-                    console.log(device.hoard);
+                    //console.log(device.hoard);
                     if( device.hoard.file && fs.existsSync( device.hoard.file ) ){
                         var from = unixTime()-60*60*24, //default: "last 1h"
                             to = unixTime();
@@ -237,7 +237,7 @@ exports.newEvent = function(req,res)
                 try {
                 //[ [t,v] ]
                 console.log(event.values);
-                db.devices.update( {uuid: device.uuid}, {'ow.lastValue': event.values[0][0]}, function(e,d){} );
+                db.devices.update( {uuid: device.uuid}, {'ow.lastValue': event.values[0][1]}, function(e,d){} );
                 
                 //var stamp = unixTime();
                 

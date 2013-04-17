@@ -12,12 +12,13 @@ p {
     margin: 0 auto;
     width: 1000px;
 }
-
+/*
 #headerwrap {
     width: 1000px;
     float: left;
     margin: 0 auto;
 }
+*/
 
 #header {
     height: 50px;
@@ -28,27 +29,27 @@ p {
     /* #eb521f; */
     margin: 5px;
 }
-
+/*
 #contentwrap {
     width: 1000;
     float: left;
     margin: 0 auto;
-}
+}*/
 
 #content {
     background: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #ebebeb;
-    margin: 50px;
+    margin: 10px;
 }
-
+/*
 #footerwrap {
     width: 1000px;
     float: left;
     margin: 0 auto;
     clear: both;
 }
-
+*/
 #footer {
     height: 40px;
     background: #33FF66;

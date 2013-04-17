@@ -109,7 +109,15 @@ function fetchHoards( devices, i, flotData, callback )
         fetchHoard( devices[i].uuid, function(data){
             flotData[ devices[i].name] = { 
                 label: devices[i].name +'[C]',
-                data: data}
+                data: data,
+                points: { show: true },
+                /*color: "rgb(30, 180, 20)",
+                threshold: {
+					below: 0,
+					color: "rgb(200, 20, 30)"
+				},*/
+                lines: { show: true/*, fill: true*/ },
+                }
             fetchHoards(devices, i+1, flotData, callback); 
         });
     } else {
@@ -120,70 +128,112 @@ function fetchHoards( devices, i, flotData, callback )
 var gFlotData = {};
 function drawChart()
 {
-    var data = []
+    var datasets = []
     $.each(gFlotData, function(key, dataset)
     {
-        data.push(dataset);
-    });
-    $.plot("#chart", data, {
-        xaxis: { 
-            mode: "time",
-        },
-        yaxis: {
-            //min: -30,
-            //max: 30
-        },
-        grid: {
-            hoverable: true,
-            clickable: true
-        },
+        datasets.push(dataset);
     });
     
-    function showTooltip(x, y, contents) {
-        $("<div id='tooltip'>" + contents + "</div>").css({
-            position: "absolute",
-            display: "none",
-            top: y + 5,
-            left: x + 5,
-            border: "1px solid #fdd",
-            padding: "2px",
-            "background-color": "#fee",
-            opacity: 0.80
-        }).appendTo("body").fadeIn(200);
+    var i = 0;
+    $.each(datasets, function(key, val) {
+        val.color = i;
+        ++i;
+    });
+
+    /*
+    // insert checkboxes 
+    var choiceContainer = $("#choices");
+    if(choiceContainer.html() == "" ) {
+        $.each(datasets, function(key, val) {
+            choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                "' checked='checked' id='id" + key + "'></input>" +
+                "<label for='id" + key + "'>"
+                + val.label + "</label>");
+        });
     }
 
-    var previousPoint = null;
-    $("#chart").bind("plothover", function (event, pos, item) {
+    choiceContainer.find("input").click(plotAccordingToChoices);
+    */
+    
+    function plotAccordingToChoices() {
 
-        
-        //var str = "(" + pos.x.toFixed(2) + ", " + pos.y.toFixed(2) + ")";
-        //$("#hoverdata").text(str);
-        
-        if (item) {
-            if (previousPoint != item.dataIndex) {
+        var data = [];
 
-                previousPoint = item.dataIndex;
-
-                $("#tooltip").remove();
-                var x = parseInt(item.datapoint[0]),
-                y = item.datapoint[1].toFixed(2);
-
-                showTooltip(item.pageX, item.pageY,
-                    item.series.label + " of " + moment(new Date(x)).format('YYYY/MM/DD HH:mm') + " = " + y);
+        /*
+        choiceContainer.find("input:checked").each(function () {
+            var key = $(this).attr("name");
+            if (key && datasets[key]) {
+                data.push(datasets[key]);
             }
-        } else {
-            $("#tooltip").remove();
-            previousPoint = null;            
-        }
-        
-    });
+        });
+        */
 
-    $("#chart").bind("plotclick", function (event, pos, item) {
-        if (item) {
-            //$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
-            plot.highlight(item.series, item.datapoint);
+        if (datasets.length > 0) {
+            $.plot("#chart", datasets, {
+                xaxis: { 
+                    mode: "time",
+                    timezone: "browser"
+                },
+                yaxis: {
+                    //min: -30,
+                    //max: 30
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true
+                },
+            });
+            var previousPoint = null;
+            $("#chart").bind("plothover", function (event, pos, item) {
+
+                function showTooltip(x, y, contents) {
+                    $("<div id='tooltip'>" + contents + "</div>").css({
+                        position: "absolute",
+                        display: "none",
+                        top: y + 5,
+                        left: x + 5,
+                        border: "1px solid #fdd",
+                        padding: "2px",
+                        "background-color": "#fee",
+                        opacity: 0.80
+                    }).appendTo("body").fadeIn(200);
+                }
+                //var str = "(" + pos.x.toFixed(2) + ", " + pos.y.toFixed(2) + ")";
+                //$("#hoverdata").text(str);
+                
+                if (item) {
+                    if (previousPoint != item.dataIndex) {
+
+                        previousPoint = item.dataIndex;
+
+                        $("#tooltip").remove();
+                        var x = parseInt(item.datapoint[0]),
+                        y = item.datapoint[1].toFixed(2);
+
+                        showTooltip(item.pageX, item.pageY,
+                            item.series.label + " of " + moment(new Date(x)).format('YYYY/MM/DD HH:mm') + " = " + y);
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;            
+                }
+                
+            });
+            $(".chart-container").resizable({
+                maxWidth: 1000,
+                maxHeight: 700,
+                minWidth: 450,
+                minHeight: 250,
+            });
+            $("#chart").bind("plotclick", function (event, pos, item) {
+                if (item) {
+                    //$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
+                    plot.highlight(item.series, item.datapoint);
+                }
+            });
         }
-    });
+    }
+    plotAccordingToChoices();
     
 }
 var hoardUuidCache = [];
