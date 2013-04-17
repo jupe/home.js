@@ -18,11 +18,19 @@ var express = require('express')
   , path = require('path')
   , cronservice = require("./services/cron.js")
   , email = require('emailjs')
-  , SessionStore = require("session-mongoose")(express)
-  , conf = require('./config');
-
+  , fs = require('fs')
+  , SessionStore = require("session-mongoose")(express);
+  
+if( !fs.existsSync('./config.json') ){
+    if(fs.existsSync('./config.template.json') ){
+       fs.createReadStream('./config.template.json').pipe(fs.createWriteStream('./config.json'));
+    } else {
+        console.error('config file (config.json) missing.');
+        process.exit(1);
+    }
+}
+var conf = require('./config');
 var app = express();
-
 var cron = new cronservice();
 cron.start();
 
