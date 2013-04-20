@@ -22,7 +22,7 @@ Some of thease might be under develop
 
 ## Installation
 
-See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL) file.
+See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 
 ## Dependencies
 * [nodejs](www.nodejs.org)
