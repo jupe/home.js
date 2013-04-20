@@ -1,15 +1,6 @@
-# INSTALLATION INTRODUCTIONS
+# HOME.JS INSTALLATION INTRODUCTIONS
 
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-^^ INSTALLATION INTRODUCTIONS    ^^
-^^          home.js              ^^
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-## Debian based systems (e.g. wheezy)
+## Debian based systems, e.g. wheezy ( Raspberry Pi )
 
     sudo apt-get update
     sudo apt-get install git owserver owhttpd
@@ -31,7 +22,7 @@
     npm install
     npm start > log/app.log
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 ## Arclinux
 
     pacman -S nodejs mongodb git
@@ -43,5 +34,5 @@
     npm install
     npm start > log/app.log
 
-*) https://wiki.archlinux.org/index.php/MongoDB
-*) https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+* https://wiki.archlinux.org/index.php/MongoDB
+* https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
