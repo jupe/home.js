@@ -4,6 +4,10 @@ General home automation framework based on node.js and mongodb. First supported 
  * Supported OS: Linux/partially windows
  * Supported HW: Raspberry Pi & x86 based systems
 
+![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/chart.summary.png)
+![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/configure.png)
+![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/devices.png)
+![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/devices_tree.png)
 ![SW Architecture](https://raw.github.com/wiki/jupe/home.js/homejs.png)
 
 * [Slides](https://docs.google.com/presentation/d/170iVTeOct5t582AydG844MueAhtyf9o6j5V6DbciLRM/edit?usp=sharing)
