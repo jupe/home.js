@@ -9,7 +9,7 @@ var Db = require("../resources/database");
 db = new Db();
 
 httpjs.defaultHost( CFG.app.host );
-httpjs.defaultHost( CFG.app.port );
+httpjs.defaultPort( CFG.app.port );
 
 function findOwid(id, cb)
 {
