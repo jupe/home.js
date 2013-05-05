@@ -167,7 +167,7 @@ OwService.prototype.read = function(device, callback)
                 var unixStamp = parseInt(new Date().getTime() / 1000);
                 for(var i=0;i<device.hoard.archives.length;i++)
                     values.push( [unixStamp, result] ); //because all hoard-archives need to be update
-                httpjs.post( '/devices/'+device.uuid+"/events.json", 
+                httpjs.postJSON( '/devices/'+device.uuid+"/events.json", 
                               { values: values, type: 'hoard' }, callback);
             }
             else{ 
