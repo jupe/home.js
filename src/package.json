@@ -31,7 +31,8 @@
     "nconf": "*",
     "hoard": "*",
     "feedparser": "*",
-    "request": "*"
+    "request": "*",
+    "http-json-request": "*"
   },
   "contributors": [
     "Jussi Vatjus-Anttila <jussiva@gmail.com>"
