@@ -1,56 +1,15 @@
 var http = require('http');
 var Ow = require("./api_onewire");
 var CFG = require('../config');
+var httpjs = require('http-json-request');
 console.log(CFG.owfs);
 var ow = new Ow(CFG.owfs.host, CFG.owfs.port);
 
 var Db = require("../resources/database");
 db = new Db();
 
-
-function postEventData(path, data, callback)
-{
-    var dataStr = JSON.stringify(data);
-
-    var headers = {
-      'Content-Type': 'application/json',
-      'Content-Length': dataStr.length
-    };
-
-    var options = {
-      host: 'localhost',
-      port: CFG.app.port,
-      path: path,
-      method: 'POST',
-      headers: headers
-    };
-    console.log('[POST]'+options.path);
-    // Setup the request.  The options parameter is
-    // the object we defined above.
-    var req = http.request(options, function(res) {
-      res.setEncoding('utf-8');
-      var responseString = '';
-      res.on('data', function(data) {
-        responseString += data;
-      });
-      res.on('end', function() {
-        var resultObject = null;
-        try {
-          resultObject = JSON.parse(responseString);
-        } catch( e ) {
-            console.log(e);
-        }
-        callback(null, resultObject);
-      });
-    });
-
-    req.on('error', function(e) {
-      callback(e);
-    });
-
-    req.write(dataStr);
-    req.end();
-}
+httpjs.defaultHost( CFG.app.host );
+httpjs.defaultHost( CFG.app.port );
 
 function findOwid(id, cb)
 {
@@ -173,7 +132,7 @@ OwService.prototype.ping = function(archives, period){
                                 period: period
                             }
                         };
-                        postEventData( '/devices.json', device, function(error, data){
+                        httpjs.postJSON( '/devices.json', device, function(error, data){
                             console.log(error);
                             console.log(data);
                             db.events.create( {
@@ -208,10 +167,8 @@ OwService.prototype.read = function(device, callback)
                 var unixStamp = parseInt(new Date().getTime() / 1000);
                 for(var i=0;i<device.hoard.archives.length;i++)
                     values.push( [unixStamp, result] ); //because all hoard-archives need to be update
-                postEventData( '/devices/'+device.uuid+"/events.json", 
-                              { values: values, type: 'hoard' }, function(d){
-                    callback(null, device);
-                });
+                httpjs.post( '/devices/'+device.uuid+"/events.json", 
+                              { values: values, type: 'hoard' }, callback);
             }
             else{ 
                 console.log("Invalid value");

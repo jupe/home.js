@@ -63,11 +63,12 @@ html
                    //fieldset
                    //  div(class="FieldLabel")="Username"
                    //  div(class="FieldItem")
-                   input(type="text", name="name", class="Text", style="width:100px")
+                   input(type="text", name="name", class="Text", placeholder="@username", autocomplete: "false", style="margin: 2px; width:100px; height: 10px")
                    //  div(class="FieldLabel")="Password"
                      
-                   input(type="password", name="password", class="Text", style="width:100px")
-                   input(class="button", type="submit", value="Login")  
+                   input(type="password", name="password", class="Text", placeholder="@password", autocomplete="false", style="margin: 2px; width:100px; height: 10px")
+                   center
+                    input(type="submit", value="Login")  
             -else
              li
               a(href="javascript:void(0)")=user.name
@@ -114,7 +115,7 @@ html
             //    li
             //     a(href="/networks?page=routes")="Routing table"
             li
-              a(href="/automations")="Automation"
+              a(href="#")="Automation"
               ul
                 li
                  a(href="/actions")="Actions"
@@ -127,7 +128,7 @@ html
                 //li
                 // a(href="/zones/states")="Zone states"
             li
-              a(href="/experts")="Admin"
+              a(href="#")="Admin"
               ul
                 //li
                 // a(href="javascript:void(0)")="Controller info"

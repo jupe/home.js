@@ -1,13 +1,13 @@
 $(function() {
-    
+    /*
     var url = '/devices.json';
     if( typeof(query) == 'object'){
         url +='?';
         $.each(query, function(key, item){
            url +=key+'='+item;
         });
-    }
-    $.getJSON(url, function(devices){
+    }*/
+    HomeJs.getDevices(query, function(devices){
         var data = [];
         $.each(devices, function(i, device){
             data[i] = {

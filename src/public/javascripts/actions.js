@@ -1,24 +1,7 @@
-function enableAction(uuid, enable, callback)
-{
-    values = {enable: enable }
-    $.ajax({
-        type: "PUT",
-        url: '/actions/'+uuid+'.json',
-        contentType : 'application/json',
-        data: JSON.stringify(values),
-        success: function () {
-            callback(null, 1);
-        },
-        error: function(){
-            callback('error');
-        }
-    });
-}
 var grid;
 $(function() {
-    var api = CloudApi;
    
-    $.getJSON('/actions.json', function(actions){
+    HomeJs.getActions(false, function(actions){
         var data = [];
         for(var i=0;i<actions.length;i++)
         {
@@ -50,7 +33,7 @@ $(function() {
             var uuid = e.target.attributes.getNamedItem('uuid').value;
             var enable = e.target.attributes.getNamedItem('enable').value=='true';
             
-            enableAction(uuid, !enable, function(err, ok){
+            HomeJs.enableAction(uuid, !enable, function(err, ok){
                 if( err ){
                 } else {
                     location.reload();

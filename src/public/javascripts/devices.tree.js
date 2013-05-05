@@ -1,6 +1,6 @@
 $(function() {
     
-    var api = CloudApi;
+    var api = HomeJs;
     var $genericDialog = $("#genericDialog");
     //api.devicesByProtocol( "zwave", function(devs){} );
     //api.devicesByProtocol( "zwave", function(devs){} );    

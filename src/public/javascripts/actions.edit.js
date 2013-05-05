@@ -2,7 +2,7 @@ $(function() {
 
     
 
-    $.getJSON('/actions/'+uuid+'.json', function(schedule){
+    HomeJs.getAction(uuid, function(schedule){
         var schema = {
             name:   { type: 'string', title: 'Name', required: true },
             enable:   { type: 'boolean', title: 'Enable' },
@@ -23,18 +23,13 @@ $(function() {
               }
               else {
                 if( !values.enable ) values['enable'] = false;
-                 $.ajax({
-                    type: "PUT",
-                    url: '/actions/'+uuid+'.json',
-                    contentType : 'application/json',
-                    data: JSON.stringify(values),
-                    success: function () {
-                        $('#res').html('<p>Saved</p>');
-                        window.location = '/actions/'+uuid
-                    },
-                    error: function(){
-                        alert('failure');
-                    }
+                HomeJs.saveAction(uuid, valuse, function(error, ok)
+                {
+                  if( error ) alert('failure: '+error);
+                  else {
+                    $('#res').html('<p>Saved</p>');
+                    window.location = '/actions/'+uuid
+                  }
                 });
               }
             }

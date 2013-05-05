@@ -41,15 +41,24 @@ process.title = 'home.js';
 process.chdir(require('path').dirname(require.main.filename)); 
 
 app.configure(function(){
+  
   app.set('port', conf.app.port);
+  app.set('view engine', 'jade');
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('view engine', 'jade');
-  app.use(express.favicon());
+  
   app.use(express.logger('dev'));
+  app.use(express.compress());
+  
+  //app.use(express.staticCache());
+  
+  //these files shouldn't never change
+  app.use(express.static(__dirname + '/public', {maxAge: 86400000})); 
+  
+  
+  app.use(express.favicon());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('ZcLoUd'));
+  app.use(express.cookieParser('HoMeJs'));
   // mongo session storing - there was some problems with rpi !
   /*var store = new SessionStore({
         url: "mongodb://"+require('./config.json').mongodb.host+"/"+require('./config.json').mongodb.database,
@@ -60,7 +69,6 @@ app.configure(function(){
     cookie: { maxAge: 900000 } // expire session in 15 min or 900 seconds
   }));
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){

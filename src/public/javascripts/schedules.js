@@ -1,24 +1,7 @@
-function enableSchedule(uuid, enable, callback)
-{
-    values = {enable: enable }
-    $.ajax({
-        type: "PUT",
-        url: '/schedules/'+uuid+'.json',
-        contentType : 'application/json',
-        data: JSON.stringify(values),
-        success: function () {
-            callback(null, 1);
-        },
-        error: function(){
-            callback('error');
-        }
-    });
-}
 var grid;
 $(function() {
-    var api = CloudApi;
-   
-    $.getJSON('/schedules.json', function(schedules){
+    
+    HomeJs.getSchedules(false, function(schedules){
         var data = [];
         for(var i=0;i<schedules.length;i++)
         {            
@@ -61,7 +44,7 @@ $(function() {
             var uuid = e.target.attributes.getNamedItem('uuid').value;
             var enable = e.target.attributes.getNamedItem('enable').value=='true';
             
-            enableSchedule(uuid, !enable, function(err, ok){
+            HomeJs.enableSchedule(uuid, !enable, function(err, ok){
                 if( err ){
                 } else {
                     location.reload();

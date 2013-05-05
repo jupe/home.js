@@ -8,11 +8,11 @@ $(function() {
         type: 'string', enum: ['']
       }}
     }
-    $.getJSON('/actions.json', function(actions){
+    HomeJs.getActions(false, function(actions){
         for(var i=0;i<actions.length;i++){
             schema.actions.items.enum.push(actions[i].uuid);
         }
-        $.getJSON('/schedules/'+uuid+'.json', function(schedule){
+        HomeJs.getSchedule(uuid, function(schedule){
             $('#schedule').jsonForm({
                 schema: schema,
                 value: schedule,
@@ -28,22 +28,16 @@ $(function() {
                         alert('invalid crons');
                         return;
                     }
-                    
-                    $.ajax({
-                        type: "PUT",
-                        url: '/schedules/'+uuid+'.json',
-                        contentType : 'application/json',
-                        data: JSON.stringify(values),
-                        success: function () {
-                            $('#res').html('<p>Saved</p>');
+                    HomeJs.saveSchedule(uuid, values, function(error, ok){
+                      if(error) alert('failure');
+                      else {
+                        $('#res').html('<p>Saved</p>');
                             setTimeout(function(){
-                                window.location = '/schedules/';
+                                //window.location = '/schedules/';
                             }, 2000);
-                        },
-                        error: function(){
-                            alert('failure');
-                        }
+                      }
                     });
+                    
                   }
                 }
             });

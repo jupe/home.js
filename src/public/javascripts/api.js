@@ -1,22 +1,111 @@
-var CloudApi = {
+/*var getJSON = function(url, data, callback)
+{
+  if( typeof(data) == 'function')
+  {
+    callback = data;
+    data = '';
+  } else if( typeof(data) == 'object') {
+    data = JSON.stringify(data);
+  }
+  function setHeader(xhr) {
+    xhr.setRequestHeader('Accept-Encoding', 'gzip');
+  }
+  $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'application/json; charset=utf-8',
+          data: data,
+          success: callback,
+          beforeSend: setHeader
+        });
+}*/
+
+var HomeJs = {
     host: "192.168.0.103",
-    timestamp: undefined,
-    devices: [],
+    timestamp: new Date(),
+    Cache: {devices: [] },
     
-    fetchDevices: function(cb){
-        $.getJSON("/devices.json", function(data){
+    putJSON: function(url, json, callback)
+    {
+      $.ajax({
+        type: "PUT",
+        url: url,
+        contentType : 'application/json',
+        data: JSON.stringify(json),
+        success: function () {
+            callback(null, 1);
+        },
+        error: function(){
+            callback('error');
+        }
+      });
+    },
+    
+    enableAction: function(uuid, enable, callback)
+    {
+      HomeJs.putJSON('/actions/'+uuid+'.json', {enable: enable }, callback);
+    },
+    getAction: function(uuid, callback)
+    {
+      $.getJSON('/actions/'+uuid+'.json', callback);
+    },
+    saveAction: function(uuid, action, callback)
+    {
+      HomeJs.putJSON('/actions/'+uuid+'/', action, callback);
+    },
+    getActions: function(filters, callback)
+    {
+      $.getJSON('/actions.json', callback);
+    },
+    
+    
+    enableSchedule: function(uuid, enable, callback)
+    {
+      HomeJs.putJSON('/schedules/'+uuid+'.json', {enable: enable }, callback);
+    },
+    getSchedule: function(uuid, callback)
+    {
+      $.getJSON('/schedules/'+uuid+'.json', callback);
+    },
+    saveSchedule: function(uuid, action, callback)
+    {
+      HomeJs.putJSON('/schedules/'+uuid+'/', action, callback);
+    },
+    getSchedules: function(filters, callback)
+    {
+      $.getJSON('/schedules.json', callback);
+    },
+    
+    
+    getEvents: function(filters, callback)
+    {
+      $.getJSON('/events.json', callback);
+    },
+    
+    getDevices: function(query, cb){
+        var url = "/devices.json";
+        if( typeof(query) == 'object'){
+          url +='?';
+          $.each(query, function(key, item){
+             url +=key+'='+item;
+          });
+        }
+        $.getJSON(url, function(data){
+            cb(data);
             if(data){
-                this.timestamp = new Date();
-                var list=[];
-                $.each(data.rows, function(key, val)
-                {
-                    list.push( val.doc );
-                });
-                cb(list);
-            } cb(false);
-            
+                HomeJs.Cache.devices = data;
+            }
         });
      },
+     
+     getDeviceHoard: function(uuid, period, callback)
+     {
+      var url = '/devices/'+uuid+'/events.hoard?';
+      url += 'from='+period.from;
+      url += '&to='+period.to;
+      $.getJSON(url, callback);
+     },
+     
      isFresh: function()
      {
         if( this.timestamp == undefined ){
@@ -72,9 +161,10 @@ var CloudApi = {
 /*
 $(document).ready(function()
 {
-    var refreshId = setInterval( function()
-    {
-        fetchDevices();
-    }, 5000);
+  
+  var refreshId = setInterval( function()
+  {
+      fetchDevices();
+  }, 5000);
 }
 */

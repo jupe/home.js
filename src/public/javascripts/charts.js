@@ -77,13 +77,7 @@ function fetchHoard( uuid, callback )
         }
         return {from: from, to: to};
     }
-    var url = '/devices/'+uuid+'/events.hoard?';
-    period = GetSelectedPeriod();
-    url += 'from='+period.from;
-    url += '&to='+period.to;
-    //1363716900
-    //url += '&to='+(new Date()).getTime();
-    $.getJSON(url, function(hoard){
+    HomeJs.getDeviceHoard(uuid, GetSelectedPeriod(), function(hoard){
         var data = [];
         var stamp = new Date(hoard.timeInfo.from).getTime();
         var interval = hoard.timeInfo.interval;
@@ -247,8 +241,7 @@ $(function() {
             drawChart();
         });
     });
-    
-    $.getJSON("/devices.json", function(data){
+    HomeJs.getDevices(false, function(data){
         
         // [[-373597200000, 315.71], [-370918800000, 317.45]]
         $.each(data, function(key, device)
