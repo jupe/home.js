@@ -32,7 +32,9 @@ if( !fs.existsSync('./config.json') ){
 var conf = require('./config');
 var app = express();
 var cron = new cronservice();
-cron.start();
+//cron.start();
+var Db = require("./resources/database");
+GLOBAL.db = new Db();
 
 // Change process title
 process.title = 'home.js';
@@ -115,6 +117,9 @@ app.get('/devices/:device/events.:format?', devices.events);
 app.post('/devices/:device/events.:format?', devices.newEvent);
 var devicesResource = app.resource('devices', devices);
 
+
+var data = require('./resources/data');
+var devicesResource = app.resource('data', data);
 
 app.get('/mailtest', function(req,res){
     console.log("mailtest..");

@@ -17,13 +17,13 @@ exports.newUser = function(req, res)
 }
 exports.login = function (req, res) {
   
-  if (req.body.name == 'admin' && req.body.password == 'admin') {
+  if (req.body.record.username == 'admin' && req.body.record.password == 'admin') {
     console.log("login success!");
-    req.session.user = {name: 'admin'}
-    res.redirect('/');
+    req.session.user = 'admin';
+    res.json({success: true});
   } else {
     console.log("login fails!");
-    res.send('Bad user/pass');
+    res.json(500, {success: false});
   }
   /*db.users.findOne({ username: req.body.user.name }, function(err, user) {
     if (user && user.authenticate(req.body.user.password)) {

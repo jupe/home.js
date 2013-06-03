@@ -1,62 +1,3 @@
-/*
-function rrdFetch(fname, cb) {
-	try {
-	  FetchBinaryURLAsync(fname, function(bf) {
-		  var i_rrd_data=undefined;
-		  try {
-			var i_rrd_data=new RRDFile(bf);            
-		  } catch(err) {
-			cb(err);
-		  }
-		  if (i_rrd_data!=undefined) {
-			cb(null, i_rrd_data);
-		  }
-	  });
-	} catch (err) {
-	  cb(err);
-	}
-}
-var flot = null;
-function draw_chart(divid, rrddata) {
-	if ((rrddata==undefined)) {
-	  return; // some data still missing
-	}
-    rrd_data_sum=new RRDFileSum([rrddata]);
-       
-	// the rrdFlot object creates and handles the graph
-	//var rrdflot_defaults={graph_only:false,use_checked_DSs:true,checked_DSs:['outdoor'],use_rra:true,rra:0,}
-	var rrdflot_defaults={ 
-		graph_width:"700px", graph_height:"300px", 
-		scale_width:"450px", scale_height:"100px", 
-		//timezone:"+2",
-		//use_elem_buttons: true,
-		//use_rra: true,
-		//multi_rra: true	
-	};
-	var graph_opts= {
-		legend: { noColumns:4},
-		tooltip: true,
-		tooltipOpts: { content: "<h4>%s</h4> %x <br>Value: %y.3" }
-	};
-	var ds_graph_opts={ 
-        'W':{ 
-            //color: "#ff8000", 
-            label: 'energy [W]',
-            lines: { show: true, fill: false, fillColor:"#ffff80"},
-            //checked: flot?flot.ds_graph_options.outdoor.checked:true
-        },
-       'kWh':{ 
-            label: 'energy [kWh]', color: "#00c0c0", 
-            lines: { show: true, fill: false},
-            //checked: flot?flot.ds_graph_options.livingroom.checked:true
-        }
-    };
-
-	// the rrdFlot object creates and handles the graph
-	flot=new rrdFlot(divid,rrd_data_sum,graph_opts,ds_graph_opts, rrdflot_defaults);
-}
-*/
-
 function hoardTime( time )
 {
     if( typeof(time) == 'number')
@@ -133,6 +74,8 @@ function drawChart()
         val.color = i;
         ++i;
     });
+    
+   
 
     /*
     // insert checkboxes 
@@ -213,12 +156,13 @@ function drawChart()
                 }
                 
             });
-            $(".chart-container").resizable({
+            
+            /*$(".chart-container").resizable({
                 maxWidth: 1000,
                 maxHeight: 700,
                 minWidth: 450,
                 minHeight: 250,
-            });
+            });*/
             $("#chart").bind("plotclick", function (event, pos, item) {
                 if (item) {
                     //$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
@@ -233,7 +177,73 @@ function drawChart()
 var hoardUuidCache = [];
 $(function() {
 
+     // set new content
+    w2ui['layout'].content('main',
+      '<div class="chart-container" style="height: 100%; width: 100%">'+
+      '  <div id="chart" class="chart-placeholder" />'+
+      '</div>'
+      );
+      
+    var lastHour = function(hours){
+      return new Date(new Date().getTime()-(hours*60*60*1000))
+    }
     
+    
+    w2ui['layout'].content('right', '<div id="sidebar" style="height: 300px; width: 180px;"></div>');
+    $('#sidebar').w2sidebar({
+      name       : 'sidebar',
+      //topHTML    : '<div style="background-color: #eee; padding: 10px 5px; border-bottom: 1px solid silver">Conf</div>',
+      //bottomHTML : '<div style="background-color: #eee; padding: 10px 5px; border-top: 1px solid silver">Conf</div>',
+      nodes : [ 
+        { id: 'level-1', text: 'Period', img: 'icon-folder', expanded: true, group: true,
+          nodes: [ { id: 'level-1-1', from: lastHour(6), text: 'Last 6h', img: 'icon-page' },
+               { id: 'level-1-2', text: 'Last day', img: 'icon-page' },
+               { id: 'level-1-3', text: 'Last week', img: 'icon-page' },
+               { id: 'level-1-4', text: 'Last month', img: 'icon-page' },
+               { id: 'level-1-5', text: 'Last 6 month', img: 'icon-page' },
+               { id: 'level-1-6', text: 'Last Year', img: 'icon-page' }
+             ]
+        },
+        { id: 'level-2', text: 'Devices', img: 'icon-folder', group: true,
+          nodes: [ 
+               { id: 'level-2-1', text: 'Level 2.1', img: 'icon-page' },
+               { id: 'level-2-2', text: 'Level 2.2', img: 'icon-page' },
+               { id: 'level-2-3', text: 'Level 2.3', img: 'icon-page' }
+             ]
+        },
+      ],
+      onClick: function (target, data) {
+        console.log('Target: '+ target);
+      }
+    });
+    
+      /*'<center>'+
+      '<br/>'+
+      '<label for="last6h">Last 6h</label>'+
+      '<input type="radio" class="period" id="last6h" name="period" from="'+lastHour(6)+' to='+lastHour(0)+'checked="checked"></input>'+
+      '<br/>'+
+      '<label for="last24h">Last day</label>'+
+      '<input type="radio" class="period"  id="last24h"  name="period" from="'+lastHour(24)+' to='+lastHour(0)+'></input>'+
+      '<br/>'+
+      '<label for="lastWeek">Last Week</label>'+
+      '<input type="radio" class="period" id="lastWeek" name="period" from="'+lastHour(24*7)+' to='+lastHour(0)+'></input>'+
+      '<br/>'+
+      '//label(for="today")="Today"'+
+      '<input(type="radio", class="period", id="today", title="Today", name="period", from=new Date(new Date().getTime()-(24*60*60*1000)), to=new Date())'+
+      '//label(for="today")="Today"'+
+      '<input(type="radio", class="period", id="week",  title="Week",  name="period", from=new Date(new Date().getTime()-(7*24*60*60*1000)), to=new Date())'+
+      '//label(for="week")="Week"'+
+      '<input(type="radio", class="period", id="month", title="Month", name="period", from=new Date(new Date().getTime()-(30*24*60*60*1000)), to=new Date())'+
+      '//label(for="month")="Month"'+
+      '<input(type="radio", class="period", id="year", title="Year", name="period", from=new Date(new Date().getTime()-(360*24*60*60*1000)), to=new Date())'+
+      '<input(type="radio", class="period", id="twoyear", title="Two Year", name="period", from=new Date(new Date().getTime()-(2*365*24*60*60*1000)), to=new Date())'+
+      '<input(type="radio", class="period", id="threeyear", title="Three Years", name="period", from=new Date(new Date().getTime()-(3*365*24*60*60*1000)), to=new Date())'+
+      '//label(for="year")Year</label>'+
+      '<div#resolution>'
+      '</center>'
+    );*/
+    
+      
     $('.period').change( function(){
         fetchHoards( hoardUuidCache, 0, {}, function(flotData)
         {

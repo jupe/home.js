@@ -52,24 +52,24 @@ block header
         margin-right: auto;
     }
    
-block content
-  div(class="chart-container")
-   center
-    input(type="radio", class="period", id="last2h", title="Last 2h", name="period", from=new Date(new Date().getTime()-(2*60*60*1000)), to=new Date(), checked="checked")
-    input(type="radio", class="period", id="last6h", title="Last 6h", name="period", from=new Date(new Date().getTime()-(6*60*60*1000)), to=new Date())
-    //label(for="today")="Today"
-    input(type="radio", class="period", id="today", title="Today", name="period", from=new Date(new Date().getTime()-(24*60*60*1000)), to=new Date())
-    //label(for="today")="Today"
-    input(type="radio", class="period", id="week",  title="Week",  name="period", from=new Date(new Date().getTime()-(7*24*60*60*1000)), to=new Date())
-    //label(for="week")="Week"
-    input(type="radio", class="period", id="month", title="Month", name="period", from=new Date(new Date().getTime()-(30*24*60*60*1000)), to=new Date())
-    //label(for="month")="Month"
-    input(type="radio", class="period", id="year", title="Year", name="period", from=new Date(new Date().getTime()-(360*24*60*60*1000)), to=new Date())
-    input(type="radio", class="period", id="twoyear", title="Two Year", name="period", from=new Date(new Date().getTime()-(2*365*24*60*60*1000)), to=new Date())
-    input(type="radio", class="period", id="threeyear", title="Three Years", name="period", from=new Date(new Date().getTime()-(3*365*24*60*60*1000)), to=new Date())
-    //label(for="year")="Year"
-    div#resolution
-  
-   div(id="chart", class="chart-placeholder")
-   p(id="choices", style="float:right; width:150px;")
+//block content
+//  div(class="chart-container")
+//   center
+//    input(type="radio", class="period", id="last2h", title="Last 2h", name="period", from=new Date(new Date().getTime()-(2*60*60*1000)), to=new Date(), checked="checked")
+//    input(type="radio", class="period", id="last6h", title="Last 6h", name="period", from=new Date(new Date().getTime()-(6*60*60*1000)), to=new Date())
+//    //label(for="today")="Today"
+//    input(type="radio", class="period", id="today", title="Today", name="period", from=new Date(new Date().getTime()-(24*60*60*1000)), to=new Date())
+//    //label(for="today")="Today"
+//    input(type="radio", class="period", id="week",  title="Week",  name="period", from=new Date(new Date().getTime()-(7*24*60*60*1000)), to=new Date())
+//    //label(for="week")="Week"
+//    input(type="radio", class="period", id="month", title="Month", name="period", from=new Date(new Date().getTime()-(30*24*60*60*1000)), to=new Date())
+//    //label(for="month")="Month"
+//    input(type="radio", class="period", id="year", title="Year", name="period", from=new Date(new Date().getTime()-(360*24*60*60*1000)), to=new Date())
+//    input(type="radio", class="period", id="twoyear", title="Two Year", name="period", from=new Date(new Date().getTime()-(2*365*24*60*60*1000)), to=new Date())
+//    input(type="radio", class="period", id="threeyear", title="Three Years", name="period", from=new Date(new Date().getTime()-(3*365*24*60*60*1000)), to=new Date())
+//    //label(for="year")="Year"
+//    div#resolution
+//  
+//   div(id="chart", class="chart-placeholder")
+//   p(id="choices", style="float:right; width:150px;")
   
