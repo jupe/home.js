@@ -6,11 +6,11 @@ var db;
 
 /* Thinking how to replace hoard/rrdtool with mongodb.. not in use yet */
 var Value = new Schema({
-  device: {Schema.Types.ObjectId, ref: 'devices'},
-  values: [
+  device: {type: Schema.Types.ObjectId, ref: 'devices'},
+  values: [ {
     value: {type: Number},
     unit:  {type: String, enum: ['C', 'V','A','%'], default: 'C'},
-  ]
+  }]
 });
 
 var toHours = function(v){
