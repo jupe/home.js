@@ -1,4 +1,6 @@
-# home.js
+home.js
+=======
+
 General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
 
  * Supported OS: Linux/partially windows
@@ -59,6 +61,10 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 - [ ] Move rest of wiki/pages
 - [ ] Get more participations
 - [X] Continue developing
+
+## Contributors
+
+* [Jussi Vatjus-Anttila][jva]
 
 ## License
 
