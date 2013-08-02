@@ -1,0 +1,43 @@
+{
+  "name": "home.js",
+  "description": "Home automation server",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jupe/home.js",
+  "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
+  "bugs" : {
+    "url" : "https://github.com/jupe/home.js/issues"
+  },
+  "repository": {
+        "type": "git",
+        "url": "https://github.com/jupe/home.js"
+  },
+  "licenses" : [
+      { "type" : "MIT"
+      , "url" : "https://github.com/jupe/home.js/blob/master/LICENSE"
+      }
+    ],
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "express-resource": "*",
+    "node-uuid": "*",
+    "owfs": "*",
+    "mongoose": "*",
+    "session-mongoose": "*",
+    "basic-auth-mongoose": "*",
+    "emailjs": "*",
+    "moment": "*",
+    "cron": "*",
+    "nconf": "*",
+    "hoard": "*",
+    "feedparser": "*",
+    "request": "*",
+    "http-json-request": "*"
+  },
+  "contributors": [
+    "Jussi Vatjus-Anttila <jussiva@gmail.com>"
+  ],
+  "scripts": {
+   "start": "node-dev app.js"
+  }
+}

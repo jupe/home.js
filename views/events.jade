@@ -1,0 +1,16 @@
+extends layout
+
+block header
+   script(type='text/javascript', src='/javascripts/events.js')
+   
+block content
+  h1="Events"
+  
+  table(id="events")
+   thead
+    tr
+     td(width="140px")="Timestamp"
+     td(width="100px")="Type"
+     td(width="500px")="Msg"
+     td(width="500px")="Details"
+   tbody

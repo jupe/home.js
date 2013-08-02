@@ -1,0 +1,12 @@
+extends layout
+
+block header
+   script(type='text/javascript', src='/javascripts/devices.js')
+   script(type='text/javascript')
+    var query =!{JSON.stringify(query)}
+   
+block content
+  
+  h1="Devices"
+  
+  div(id="devices", style="height:500px;")

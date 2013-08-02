@@ -1,0 +1,82 @@
+/*!
+ * jquery.ui.potato.menu
+ * 
+ * Copyright (c) 2009-2011 makoto_kw, http://www.makotokw.com
+ * Licensed under the MIT license.
+ * 
+ * @author makoto_kw
+ * @version 1.2
+ */
+.potato-menu {
+	/*margin:0;*/
+    margin: -20px 50px;
+	padding:0;
+	width:auto;
+	list-style:none;
+}
+.potato-menu:after {
+	content: " ";
+	display: block;
+	visibility: hidden;
+	clear: both;
+	height: 0.1px;
+	font-size: 0.1em;
+	line-height: 0;
+}
+.potato-menu .potato-menu-item {
+	padding:0;
+	position:relative;
+	list-style:none;
+	list-style-position:outside;
+	display:inline;
+	margin:0;
+	float:left;
+}
+.potato-menu .potato-menu-item a {
+	display:block;
+	text-decoration:none;
+	white-space:nowrap;
+	outline:0;
+}
+.potato-menu .potato-menu-group {
+	margin:0;
+	padding:0;
+	-webkit-padding-start:0;
+	-webkit-padding-end:0;
+	position:absolute;
+	display:none;
+	z-index:1000;
+}
+
+ .potato-menu-item {
+    width:120px;
+    font-size:12px;
+    /*background:#333;*/
+    background:rgb(209, 196, 193);
+    border-radius: 10px;
+    /*background:#FF6633;*/
+    /*background:rgba(0,0,0,0.9);*/
+}
+.potato-menu-group {
+    z-index:1000;
+}
+.potato-menu-item a {
+    padding:5px 20px 5px 12px;
+    color: #fff;
+}
+.potato-menu-hover {
+    background-color: #33FF66;
+}
+.potato-menu-has-vertical > a {
+    /*background: transparent url(/images/icons/fammini/arrow_down.gif) right no-repeat;*/
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAENSURBVDjLpZM/SwNREMTnxBRpFYmctaKCfwrBSCrRLuL3iEW6+EEUG8XvIVjYWNgJdhFjIXamv3s7u/ssrtO7hFy2fcOPmd03SYwR88xi1cPgpRdjjDB1mBquju+TMt1CFcDd0V7q4GilAwpnd2A0qCvcHRSdHUBqAYgOyaUGIBQAc4fkNSJIIGgGj4ZQx4EEAY3waPUiSC5FhLoOQkbQCJvioPQfnN2ctpuNJugKNUWYsMR/gO71yYPk8tRaboGmoCvS1RQ7/c1sq7f+OBUQcjkPGb9+xmOoF6ckCQb9pmj3rz6pKtPB5e5rmq7tmxk+hqO34e1or0yXTGrj9sXGs1Ib73efh1WaZN46/wI8JLfHaN24FwAAAABJRU5ErkJggg==) right no-repeat;
+}
+.potato-menu-has-horizontal > a {
+    /*background: transparent url(/images/icons/fammini/arrow_right.gif) right no-repeat;*/
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADvSURBVDjLY/z//z8DJYCJgUIwxAwImOWx22uSExvZBvz68cvm5/dfV5HFGEGxUHoiExwVf//8Zfjz+w/D719/GH79/A3UAMK/GH4CMYiWFJJk+PXrN8PN27cunWq/oA/SwwIzyUrYluHvP6AB//7A8e+/f4H4N8Pvf0D8Fyb2h+HLl696WllqJ69Nu2XOArMZpBCuGajoN1jxbwT9FyH36/dvkCt/w10Acvb+h3uxOhvoZzCbi4OLQVJSiuH1q9cMt2/cvXB7zj0beBgQAwwKtS2AFuwH2vwIqFmd5Fi40H/1BFDzQaBrdTFiYYTnBQAI58A33Wys0AAAAABJRU5ErkJggg==) right no-repeat;
+}
+.potato-menu-item ul {
+    /*
+    border-top:1px solid #444;
+    border-left:1px solid #444; */
+}

@@ -1,1 +1,4 @@
-config
+config/config.json
+node_modules
+__lib
+test

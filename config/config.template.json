@@ -1,0 +1,30 @@
+{
+  "app": {
+    "port": 8080,
+    "release": "prod",
+    "service_poll_interval": 5000,
+    "feed": "https://github.com/jupe/home.js/commits/master.atom",
+    "date": "2013-04-4T17:14:20.000Z"
+  },
+  "email": {
+    "from": "no-reply@gmail.com",
+    "host": "smtp.kolumbus.fi",
+    "ssl": false
+  },
+  "owfs": {
+    "enable": true,
+    "host": "127.0.0.1",
+    "port": 4304,
+    "simulate": true
+  },
+  "mongodb": {
+    "host": "localhost",
+    "database": "homejs",
+    "port": 27017,
+    "opts": {
+      "server": {
+        "auto_reconnect": true
+      }
+    }
+  }
+}
