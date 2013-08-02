@@ -1,1 +1,0 @@
-wget https://gist.github.com/adammw/3245130/raw/b4d18aed64600385f993153a7f473e9c4c58e4ec/v0.8.21/node-v0.8.21-linux-arm-armv6j-vfp-hard.tar.gz
