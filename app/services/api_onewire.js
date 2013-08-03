@@ -1,5 +1,5 @@
 var Client;
-if( require('../config/config').owfs.simulate )
+if( require('./../../config/config').owfs.simulate )
 {
     function simulator(){
     }

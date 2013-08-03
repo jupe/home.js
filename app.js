@@ -11,22 +11,30 @@
  * 
  * Module dependencies.
  */
-var express = require('express')
-  , Resource = require('express-resource')
-  , routes = require('./routes') 
+var 
+    //node.js modules:
+    express = require('express')
   , http = require('http')
-  , path = require('path')
-  , email = require('emailjs')
   , fs = require('fs')
-  , SessionStore = require("session-mongoose")(express)
-  , conf = require('./config').init()
-  , cronservice = require("./services/cron.js")
+  , path = require('path')
+  // 3rd party modules:
+  , Resource = require('express-resource')
+  , email = require('emailjs')
+  , colors = require('colors')
+  , SessionStore = require("session-mongoose")(express);
 
+var conf = require('./config').init()
+global.CFG = conf;  
+
+/** Load configurations and cronjob */
+var cronservice = require("./app/services/cron.js")
+  , Db = require("./app/resources/database");
+  
 var app = express();
 var cron = new cronservice();
 //cron.start();
-var Db = require("./resources/database");
-GLOBAL.db = new Db();
+
+global.db = new Db();
 
 // Change process title
 process.title = 'home.js';
@@ -38,7 +46,7 @@ app.configure(function(){
   
   app.set('port', conf.app.port);
   app.set('view engine', 'jade');
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/app/views');
   
   app.use(express.logger('dev'));
   app.use(express.compress());
@@ -87,61 +95,18 @@ app.use(function(err, req, res, next){
   //res.send(404);
   next();
 });
-app.get('/', routes.index);
-app.post('/login', routes.login);
-app.get('/logout', routes.logout);
-app.get('/routes', function(req,res){ res.json(app.routes)}); //print all possible routes
-var admin = require('./routes/admin');
-app.get('/admin/configure', admin.configure);
-app.put('/admin/configure/:configure', admin.update);
-app.get('/admin/configure/:configure.:format?', admin.get);
-app.get('/admin/upgrade.:format?', admin.versions);
-app.post('/admin/upgrade.:format?', admin.upgrade);
-app.post('/admin/reboot.:format?', admin.reboot);
-app.get('/admin/commit.:format?', admin.commit);
 
-//app.get('/devices/status', require('./resources/devices').status);
-var devices = require('./resources/devices');
-app.get('/devices/status.:format?', devices.status);
-app.get('/devices/tree.:format?', devices.tree);
-app.get('/devices/events.:format?', devices.events);
-app.get('/devices/:device/events.:format?', devices.events);
-app.post('/devices/:device/events.:format?', devices.newEvent);
-var devicesResource = app.resource('devices', devices);
-
-
-var data = require('./resources/data');
-var devicesResource = app.resource('data', data);
-
-app.get('/mailtest', function(req,res){
-    console.log("mailtest..");
-    var cfg = require('./config.json').email;
-    var server   = email.server.connect( cfg );
-    server.send( {
-        text: 'test',
-        from: cfg.from,
-        to: 'jussiva@gmail.com', // REQUIRED. This can be a comma delimited string just like a normal email to field. 
-        subject: 'Test Email', // REQUIRED.
-      }, function (err, message) {
-        if (err) {
-          // handle error
-          console.log(err);
-          res.send('There was an error sending the email');
-          return;
-        }
-        res.send(message);
-      });
+/**
+ * Mount all routes from "routes" -folder.
+ */
+fs.readdirSync(__dirname + '/app/routes').forEach(function(name){
+    var route = require('./app/routes/'+name);
+    if( route.disable ){}
+    else {
+      console.log('Init routes '+name .cyan);
+      route(app);
+    }
 });
-
-//app.resource('meters', require('./resources/meters'));
-app.resource('charts', require('./resources/charts'));
-app.resource('events', require('./resources/events'));
-app.resource('maps', require('./resources/maps'));
-app.resource('networks', require('./resources/networks'));
-app.resource('schedules', require('./resources/schedules'));
-app.resource('actions', require('./resources/actions'));
-app.resource('automations', require('./resources/automations'));
-app.resource('experts', require('./resources/experts'));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

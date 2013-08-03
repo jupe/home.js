@@ -23,7 +23,7 @@ exports.login = function (req, res) {
     res.json({success: true});
   } else {
     console.log("login fails!");
-    res.json(500, {success: false});
+    res.json(500, {error: 'login fails'});
   }
   /*db.users.findOne({ username: req.body.user.name }, function(err, user) {
     if (user && user.authenticate(req.body.user.password)) {

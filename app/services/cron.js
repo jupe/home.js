@@ -3,7 +3,6 @@ var   email = require('emailjs')
     , owservice = require("./onewire.js")
     , Db = require("../resources/database");
 db = new Db();
-var CFG = require('../config/config.json');
 
 var cronSession = {}
 var timeZone ="";

@@ -8,9 +8,9 @@ var util = require('util');
 var request = require('request');
 var FeedParser = require('feedparser');
 var Db = require("../resources/database");
-var conf = require('./../config/config.json');
+var conf = require('./../../config/config.json');
 db = new Db();
-nconf.use('file', { file: './config.json' });
+nconf.use('file', { file: './../../config/config.json' });
 nconf.load();
 
 

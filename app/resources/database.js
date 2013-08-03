@@ -204,7 +204,7 @@ var Configure = new Schema({
 
 // Constructor
 function Db(cfg) {
-   if(!cfg) cfg = require('../config/config.json').mongodb;
+   if(!cfg) cfg = require('./../../config/config.json').mongodb;
    //host = 'mongodb://localhost/nodeHomeAutomation';
    this.db = mongoose.createConnection(cfg.host, cfg.database, cfg.port, cfg.opts);
    this.db.on('error', function(){

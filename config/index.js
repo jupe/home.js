@@ -27,9 +27,9 @@ var configExists = function(){
     console.log('config exists');
     return true;
   } else if(fs.existsSync(__dirname+'/config.template.json') ) {
-    console.log('config not exists, but template exists');
+    console.debug('config not exists, but template exists');
     return false;
-  } console.log('config or template not exists');
+  } console.debug('config or template not exists');
 }
 
 var init = function(){

@@ -1,9 +1,10 @@
 var http = require('http');
-var Ow = require("./api_onewire");
-var CFG = require('../config/config');
 var httpjs = require('http-json-request');
-console.log(CFG.owfs);
-var ow = new Ow(CFG.owfs.host, CFG.owfs.port);
+
+var Ow = require("./api_onewire");
+
+
+var ow = new Ow(global.CFG.owfs.host, global.CFG.owfs.port);
 
 var Db = require("../resources/database");
 db = new Db();
@@ -134,7 +135,7 @@ OwService.prototype.ping = function(archives, period){
                         };
                         httpjs.postJSON( '/devices.json', device, function(error, data){
                             console.log(error);
-                            console.log(data);
+                            //console.log(data);
                             db.events.create( {
                                     msg: error?'OW device creation failed':'new ow-device detected with id: '+data.id,
                                     details: error?error:null, 
@@ -184,7 +185,7 @@ OwService.prototype.read = function(device, callback)
 }
 OwService.prototype.readAll = function(){
     console.log("readAll");
-    console.log(instance);
+    //console.log(instance);
     db.devices.find({protocol: 'ow', enable: true}, function(error, devs){
         if(error){
             console.log("getDevicesByProtocol::error");
