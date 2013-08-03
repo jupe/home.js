@@ -174,13 +174,21 @@ function drawChart()
     plotAccordingToChoices();
     
 }
+
+var charts = {
+  clean: function(){
+    console.log('Cleaning charts');
+  }
+}
+
+
 var hoardUuidCache = [];
 $(function() {
 
      // set new content
     w2ui['layout'].content('main',
       '<div class="chart-container" style="height: 100%; width: 100%">'+
-      '  <div id="chart" class="chart-placeholder" />'+
+      '  <div id="chart" class="chart-placeholder" style="height: 100%; width: 100%" />'+
       '</div>'
       );
       

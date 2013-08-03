@@ -25,20 +25,78 @@ var HomeJs = {
     timestamp: new Date(),
     Cache: {devices: [] },
     
-    putJSON: function(url, json, callback)
-    {
-      $.ajax({
-        type: "PUT",
-        url: url,
-        contentType : 'application/json',
-        data: JSON.stringify(json),
-        success: function () {
-            callback(null, 1);
-        },
-        error: function(){
-            callback('error');
-        }
-      });
+    /* JSON HTTP METHDOS POST, PUT, DELETE*/
+    postJSON: function(url, json, callback){
+        $.ajax({  
+          url: url,  
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",  
+          data: JSON.stringify(json),  
+          success: function(data, textStatus, xhr){              
+            callback(null, data);
+          },  
+          error: function(xhr, status, error){  
+            try{ data = JSON.parse(xhr.responseText);
+              callback(data);
+            } catch(e){
+              callback(xhr.responseText);
+            }
+          }  
+        });
+    },
+    putJSON: function(url, json, callback){
+        $.ajax({  
+          url: url,  
+          type: "PUT",
+          dataType: "json",
+          contentType: "application/json",  
+          data: JSON.stringify(json),  
+          success: function(data){              
+            callback(null, data);
+          },  
+          error: function(xhr, status, error){  
+            callback(status);
+          }  
+        });
+    },
+    getJSON: function(url, callback){
+        $.ajax({  
+          url: url,  
+          type: "GET",
+          contentType: "application/json",
+          success: function(data){              
+            callback(null, data);
+          },  
+          error: function(xhr, status, error){  
+            var msg = error;
+            try {
+              msg = JSON.parse( xhr.responseText);
+            }catch (e){}
+            callback(msg.message);
+          }  
+        });
+    },
+    deleteJSON: function(url, json, callback){
+        $.ajax({  
+          url: url,  
+          type: "DELETE",
+          contentType: "application/json",  
+          data: JSON.stringify(json),  
+          success: function(data){              
+            callback(null, data);
+          },  
+          error: function(xhr, status, error){  
+            callback(xhr.responseText);
+          }  
+        });
+    },
+    
+    login: function(uname, pwd, cb){
+      HomeJs.postJSON( '/login', {username: uname, password: pwd}, cb);
+    },
+    logout: function(cb){
+      HomeJs.getJSON( '/logout', cb);
     },
     
     enableAction: function(uuid, enable, callback)

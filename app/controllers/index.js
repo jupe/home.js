@@ -8,7 +8,7 @@
  
 exports.index = function(req, res){
   res.render('index', { 
-    user: req.session.user 
+    session: req.session.browser
   });
 }
 exports.newUser = function(req, res)
@@ -17,13 +17,22 @@ exports.newUser = function(req, res)
 }
 exports.login = function (req, res) {
   
-  if (req.body.record.username == 'admin' && req.body.record.password == 'admin') {
+  if (req.body.username == 'admin' && req.body.password == 'admin') {
     console.log("login success!");
-    req.session.user = 'admin';
-    res.json({success: true});
+    req.session.regenerate(function(){
+      
+      req.session.browser = {
+        user: {
+          ame: req.body.username,
+          group: 'admin'
+        }
+      };
+      console.log('Session generated');
+      res.json(req.session.browser);
+    });
   } else {
     console.log("login fails!");
-    res.json(500, {error: 'login fails'});
+    res.json(403, {error: 'login fails'});
   }
   /*db.users.findOne({ username: req.body.user.name }, function(err, user) {
     if (user && user.authenticate(req.body.user.password)) {
@@ -49,6 +58,8 @@ exports.login = function (req, res) {
   */
 }
 exports.logout = function (req, res) {
-  delete req.session.user;
-  res.redirect('/');
+  req.session.destroy(function() {
+    console.log('logout successfully');
+    res.json({});
+  });
 }
