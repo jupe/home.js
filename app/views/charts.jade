@@ -1,0 +1,75 @@
+extends layout
+
+block header
+   script(type='text/javascript', src='/javascripts/charts.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/binaryXHR.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFile.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdMultiFile.js')
+   
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFlotSupport.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFlot.js')
+   
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.selection.js')
+   //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.tooltip.js')
+   
+   script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.selection.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.threshold.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.time.min.js')
+   script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.resize.min.js')
+   style
+    .chart-container {
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        width: 100%;
+        height: 500px;
+        padding: 5px 15px 45px 15px;
+        //margin: 15px auto 30px auto;
+        border: 1px solid #ddd;
+        background: #fff;
+        background: linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+    }
+    .chart-placeholder {
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        line-height: 14px;
+        //float: left;
+        margin-left: auto;
+        margin-right: auto;
+    }
+   
+//block content
+//  div(class="chart-container")
+//   center
+//    input(type="radio", class="period", id="last2h", title="Last 2h", name="period", from=new Date(new Date().getTime()-(2*60*60*1000)), to=new Date(), checked="checked")
+//    input(type="radio", class="period", id="last6h", title="Last 6h", name="period", from=new Date(new Date().getTime()-(6*60*60*1000)), to=new Date())
+//    //label(for="today")="Today"
+//    input(type="radio", class="period", id="today", title="Today", name="period", from=new Date(new Date().getTime()-(24*60*60*1000)), to=new Date())
+//    //label(for="today")="Today"
+//    input(type="radio", class="period", id="week",  title="Week",  name="period", from=new Date(new Date().getTime()-(7*24*60*60*1000)), to=new Date())
+//    //label(for="week")="Week"
+//    input(type="radio", class="period", id="month", title="Month", name="period", from=new Date(new Date().getTime()-(30*24*60*60*1000)), to=new Date())
+//    //label(for="month")="Month"
+//    input(type="radio", class="period", id="year", title="Year", name="period", from=new Date(new Date().getTime()-(360*24*60*60*1000)), to=new Date())
+//    input(type="radio", class="period", id="twoyear", title="Two Year", name="period", from=new Date(new Date().getTime()-(2*365*24*60*60*1000)), to=new Date())
+//    input(type="radio", class="period", id="threeyear", title="Three Years", name="period", from=new Date(new Date().getTime()-(3*365*24*60*60*1000)), to=new Date())
+//    //label(for="year")="Year"
+//    div#resolution
+//  
+//   div(id="chart", class="chart-placeholder")
+//   p(id="choices", style="float:right; width:150px;")
+  

@@ -1,0 +1,55 @@
+{
+  "name": "home.js",
+  "description": "Home automation server",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jupe/home.js",
+  "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
+  "bugs" : {
+    "url" : "https://github.com/jupe/home.js/issues"
+  },
+  "repository": {
+        "type": "git",
+        "url": "https://github.com/jupe/home.js"
+  },
+  "licenses" : [
+      { "type" : "MIT"
+      , "url" : "https://github.com/jupe/home.js/blob/master/LICENSE"
+      }
+    ],
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "express-resource": "*",
+    "node-uuid": "*",
+    "owfs": "*",
+    "mongoose": "*",
+    "session-mongoose": "*",
+    "basic-auth-mongoose": "*",
+    "emailjs": "*",
+    "moment": "*",
+    "cron": "*",
+    "nconf": "*",
+    "hoard": "*",
+    "feedparser": "*",
+    "request": "*",
+    "http-json-request": "*",
+    "daemonize2": "*",
+    "optimist": "*",
+    "keypress": "0.2.1",
+    "winston": ">=0.7.2",
+    "colors": "*"
+  },
+  "devDependencies": {
+      "mocha": "*",
+      "chai": "*",
+      "request": "*"
+  },
+  "contributors": [
+    "Jussi Vatjus-Anttila <jussiva@gmail.com>"
+  ],
+  "scripts": {
+   "start": "node index --start",
+   "stop": "node index --stop",
+   "test": "mocha"
+  }
+}
