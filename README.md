@@ -3,6 +3,8 @@ home.js
 
 General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
 
+| *Tested against Node.js version* | 0.10 | 0.8 |
+
 [![Build Status](https://travis-ci.org/jupe/home.js.png?branch=w2ui)](https://travis-ci.org/jupe/home.js)
 
  * Supported OS: Linux/partially windows

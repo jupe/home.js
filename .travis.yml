@@ -8,4 +8,4 @@ services:
   
 branches:
   only:
-  - renewal
+  - master
