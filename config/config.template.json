@@ -4,7 +4,8 @@
     "release": "prod",
     "service_poll_interval": 5000,
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
-    "date": "2013-04-4T17:14:20.000Z"
+    "date": "2013-04-4T17:14:20.000Z",
+    "admin": "admin"
   },
   "email": {
     "from": "no-reply@gmail.com",

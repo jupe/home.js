@@ -40,7 +40,7 @@ exports.configure = function(req, res){
   });
 }
 exports.get = function(req, res){
-    console.log(req.params);
+  winston.log(req.params);
   autorize(req, res, function(req,res){
       if( ['app', 'mongodb', 'owfs', 'email'].indexOf( req.params.configure ) != -1 )
       {
@@ -52,7 +52,7 @@ exports.get = function(req, res){
 }
 
 exports.commit = function(req,res){
-    console.log('get commit details');
+    winston.log('get commit details');
     exec('git rev-parse HEAD', function(error, commit, stderr){
         exec('git show -s --format="%ci"', function(error, timestamp, stderr){
             res.json( {id: commit, timestamp: timestamp} );
@@ -65,12 +65,12 @@ exports.versions = function(req, res){
     request(url).pipe(new FeedParser())
       .on('error', function(error) {
         // always handle errors
-        console.log(error);
+        winston.log(error);
         res.send(403);
       })
       .on('end', function () {
        // do the next thing
-       console.log(new Date(conf.app.date) );
+       winston.log(new Date(conf.app.date) );
        if( new Date(conf.app.date) == 'Invalid Date' ||
            new Date(this.articles[0].date).getTime() >= 
            new Date(conf.app.date).getTime() ) {
@@ -85,23 +85,23 @@ exports.versions = function(req, res){
       });
 }
 var install = function(cb){
-    console.log('git fetch changes');
+    winston.log('git fetch changes');
     exec('git fetch --all', function(error, stdout, stderr){
         if( error ) {
-            console.log(error);
+            winston.log(error);
             cb(error);
         } else {
-            console.log('git reset master');
+            winston.log('git reset master');
             exec('git reset --hard origin/master', function(error, stdout, stderr){
                 if( error ) {
-                    console.log(error);
+                    winston.log(error);
                     cb(error);
                 } else {
-                    console.log('verify that all dependencies are installed');
+                    winston.log('verify that all dependencies are installed');
                     exec('npm install', function(error, stdout, stderr){
-                        console.log(error);
-                        console.log(stdout);
-                        console.log(stderr);
+                        winston.log(error);
+                        winston.log(stdout);
+                        winston.log(stderr);
                         cb(null, {success: true});
                     });
                     nconf.set('app:date', new Date() );
@@ -113,15 +113,15 @@ var install = function(cb){
     
     /*
     // Alternative style is to download package and unzip it, but git is easier to use
-    console.log("unzip "+archive+"...");
+    winston.log("unzip "+archive+"...");
     fs.createReadStream(archive)
         .pipe(unzip.Extract({ path: 'download' }))
         .on('error', function(err){
-            console.log('error');
-            console.log(err);
+            winston.log('error');
+            winston.log(err);
         })
         .on('close', function(){
-            console.log('closed');
+            winston.log('closed');
             exec('mv ./download/home.js-master ', function(error, stdout, stderr){
             cb(null, {success: true});
             });
@@ -135,7 +135,7 @@ exports.reboot = function(req, res){
     });
 }
 exports.upgrade = function(req, res){
-    console.log('upgrading..');
+    winston.log('upgrading..');
     autorize(req, res, function(req,res){
         install(function(e,o){
             if(e)res.send(500, e);
@@ -148,7 +148,7 @@ exports.upgrade = function(req, res){
             if( error ) {
                 res.send(500, error);
             } else {
-                console.log('package downloaded');
+                winston.log('package downloaded');
                 install('./download/master.zip', function(e,o){
                     if(e)res.send(500, e);
                     else res.json(o);
@@ -162,20 +162,20 @@ exports.update = function(req, res){
   autorize(req, res, function(req,res){
       if( ['app', 'mongodb', 'owfs', 'email'].indexOf( req.params.configure ) != -1 )
       {
-        console.log("update mongodb");
-        console.log(req.body);
+        winston.log("update mongodb");
+        winston.log(req.body);
         for( var key in req.body )
         {
-            console.log(key);
-            console.log(req.body[key]);
+            winston.log(key);
+            winston.log(req.body[key]);
             nconf.set(req.params.configure+':'+key, req.body[key] );
         }
         nconf.save(function (err) {
             if (err) {
-              console.error(err.message);
+              winston.error(err.message);
               return;
             }
-            console.log('Configuration saved successfully.');
+            winston.log('Configuration saved successfully.');
             res.json({ok: 1});
             
           });

@@ -81,7 +81,7 @@ global.db = new Db();
 process.title = 'home.js';
 
 //change current working directory (required for git pull)
-//process.chdir(require('path').dirname(require.main.filename)); 
+process.chdir(require('path').dirname(require.main.filename)); 
 
 app.configure(function(){
   
