@@ -35,7 +35,7 @@ var
     .default('f', false)
     .alias('f', 'fork')
     
-    .default('p', 8080)
+    .default('p', 3000)
     .alias('p', 'port')
     
     .default('d', false)
