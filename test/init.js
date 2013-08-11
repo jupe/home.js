@@ -28,11 +28,13 @@ describe('init', function() {
   it('argv', function(done) {
     request.get('http://localhost:3000/argv', 
       function(err, res, body){
-      body = JSON.parse(body);
-      assert.equal(body.start, true);
-      assert.equal(body.port, 3000);
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
+      body = JSON.parse(body);
+      assert.equal(body.start, true);
+      assert.equal(body.pidfile, 'app.pid');
+      assert.equal(body.port, 3000);
+      
       done();
     });
   });

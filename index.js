@@ -26,12 +26,13 @@ daemon = daemon.setup({
 
 
 //IF 80 port is used
+/*
 if( argv.p < 1000 ) {
   if (process.getuid() != 0) {
       console.log("Expected to run as root");
       process.exit(1);
   }
-}
+}*/
 
 daemon
     .on("starting", function() {

@@ -3,6 +3,8 @@ home.js
 
 General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
 
+[![Build Status](https://travis-ci.org/jupe/home.js.png?branch=w2ui)](https://travis-ci.org/jupe/home.js)
+
  * Supported OS: Linux/partially windows
  * Supported HW: Raspberry Pi & x86 based systems
 
@@ -48,19 +50,24 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
  * [emailjs](https://npmjs.org/package/emailjs)
  * [cron](https://npmjs.org/package/cron)
  * [hoard](https://github.com/cgbystrom/hoard)
+ * [winston](https://npmjs.org/package/winston)
+ * [keypress](https://npmjs.org/package/keypress)
+ * [optimist](https://npmjs.org/package/optimist)
+ * [daemonize2](https://npmjs.org/package/daemonize2)
 
 
 ## Front-end libraries
  * [jsTree](http://www.jstree.com)
  * [jsonform](https://github.com/joshfire/jsonform)
  * [flot](http://www.flotcharts.org/)
- * ..
+ * [w2ui](http://w2ui.com/)
+ * ...
 
 ## todo
-- [x] Moving sources from [code.google](https://code.google.com/p/node-home-automation/) to github
-- [ ] Move rest of wiki/pages
-- [ ] Get more participations
-- [X] Continue developing
+- [x] Reorganize folder structure
+- [x] basic test steps against API
+- [ ] nice GUI
+- [ ] 
 
 ## Contributors
 
