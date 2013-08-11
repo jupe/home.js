@@ -8,4 +8,4 @@ services:
   
 branches:
   only:
-  - w2ui
+  - renewal

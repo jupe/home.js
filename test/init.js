@@ -6,7 +6,7 @@ var exec=require('child_process').exec
 describe('init', function() {
   
   it('server start as daemon', function(done) {
-    exec('node index start',function(err,stdout,stderr){
+    exec('node index --start --pidfile app.pid',function(err,stdout,stderr){
       console.log('starting daemon');
       assert.typeOf(err, 'null');
       assert.equal(stderr, '');
@@ -40,7 +40,7 @@ describe('init', function() {
   
   it('server stop', function(done) {
     this.timeout(5000);
-    exec('node index stop',function(err,stdout,stderr){
+    exec('node index --stop --pidfile app.pid',function(err,stdout,stderr){
       assert.equal(err, null);
       assert.equal(stderr, '');
       done();
