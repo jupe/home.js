@@ -1,8 +1,0 @@
-* User authentication UI and session storing
-  *basic-auth-mongoose (installed and created database for users)
-  *session-mongoose  (installed and used)
-* Database schema for events
-  *sensor value (e.g. temperature) goes too low/high
-    -> email generate
-       how to indicate that email is already generated?
-*cron-service -editor GUI
