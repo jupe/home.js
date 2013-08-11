@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 
 var db;
 
-    '58':{ sec: {'0': [Value] } } ,
 /* Thinking how to replace hoard/rrdtool with mongodb.. not in use yet */
 var Value = new Schema({
   device: {type: Schema.Types.ObjectId, ref: 'devices'},

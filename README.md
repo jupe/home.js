@@ -1,23 +1,23 @@
 home.js
 =======
 
-General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave
+* IN PROGRESS! *
 
-| *Tested against Node.js version* | 0.10 | 0.8 |
+General (home) automation framework based on node.js and mongoDB. 
 
-[![Build Status](https://travis-ci.org/jupe/home.js.png?branch=w2ui)](https://travis-ci.org/jupe/home.js)
+The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version I'll implement onewire support for get temperatures and after that purpose is to get zwave support as well.
+
+Tested with node.js versions: 
+
+| 0.10      | 0.8      | 0.6 | 
+|  --- | --- |--- |
+
+[![Build Status](https://travis-ci.org/jupe/home.js.png?branch=master)](https://travis-ci.org/jupe/home.js)
 
  * Supported OS: Linux/partially windows
  * Supported HW: Raspberry Pi & x86 based systems
 
-![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/chart.summary.png)
-![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/configure.png)
-![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/devices.png)
-![Device Tree](https://raw.github.com/wiki/jupe/home.js/screenshots/devices_tree.png)
-![SW Architecture](https://raw.github.com/wiki/jupe/home.js/homejs.png)
-
-* [Slides](https://docs.google.com/presentation/d/170iVTeOct5t582AydG844MueAhtyf9o6j5V6DbciLRM/edit?usp=sharing)
-* [Discussion group](http://groups.google.com/group/node-home-automatino)
+* [Discussion group](http://groups.google.com/group/node-home-automation)
 
 ## Features
 Some of thease might be under develop
