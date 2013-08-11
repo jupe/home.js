@@ -10,9 +10,6 @@ DELETE  /items/:item       ->  destroy
 
 //RRD = require('rrd').RRD;
 
-//var Db = require("./database");
-//db = new Db();
-
 /*
 Will be moved to services folder
 var Zw = require("./api_zwave");

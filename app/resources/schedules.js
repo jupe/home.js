@@ -8,9 +8,6 @@ PUT     /items/:item       ->  update
 DELETE  /items/:item       ->  destroy
 */
 
-var Db = require("./database");
-db = new Db();
-
 exports.index = function(req, res){
   console.log('schedule index');
   console.log(req.params);
@@ -22,7 +19,7 @@ exports.index = function(req, res){
         break;
     case('json'):
         console.log("find schedules");
-        db.schedules.find(req.params.query, function(err, schedules){
+        db.schedule.find(req.params.query, function(err, schedules){
             res.json( schedules );
         });
         break;
@@ -39,7 +36,9 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   console.log('create schedule');
   console.log(req.params);
-  res.render(501, {user: req.session.user|'null'}); //Not Implemented
+  db.schedule.create( req.body, function(error, doc){
+    res.json(doc);
+  });
 };
 
 exports.show = function(req, res){
@@ -55,7 +54,7 @@ exports.show = function(req, res){
         break;
     case('json'):
         console.log("find schedules");
-        db.schedules.findOne({uuid: req.params.schedule}, function(err, schedule){
+        db.schedule.findOne({uuid: req.params.schedule}, function(err, schedule){
             res.json( schedule );
         });
         break;
@@ -75,7 +74,7 @@ exports.update = function(req, res){
   console.log('update schedule ');
   console.log(req.body);
   console.log(req.params);
-  db.schedules.update( {uuid: req.params.schedule}, req.body, function(err, ok){    
+  db.schedule.update( {uuid: req.params.schedule}, req.body, function(err, ok){    
     if( err ){
         res.send(403);
         console.log(err);

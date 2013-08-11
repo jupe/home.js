@@ -10,9 +10,6 @@ DELETE  /items/:item       ->  destroy
 
 var hoard = require("hoard");
 var fs = require("fs");
-var Db = require("./database");
-db = new Db();
-
 
 function event(uuid, type, msg, details){
     var data = {
@@ -26,9 +23,6 @@ function event(uuid, type, msg, details){
 
 exports.index = function (req, res) {
 	console.log('resource index');
-	console.log(req.params);
-	console.log(req.query);
-
 	switch (req.params.format) {
         case (undefined):
         case ('html'):
@@ -37,7 +31,7 @@ exports.index = function (req, res) {
             break;
         case ('json'):
             console.log("get json devices");
-            db.devices.find(req.query, function (error, results) {
+            db.device.find(req.query, function (error, results) {
                 if (error) {
                     console.log(error);
                     res.send(500, error);
@@ -68,7 +62,7 @@ exports.create = function (req, res) {
 	console.log('create device');
 	console.log(req.params);
 	console.log(req.body);
-	db.devices.create(req.body, function (error, device) {
+	db.device.create(req.body, function (error, device) {
 		if (error) {
             console.log("oooo");
             console.log(error);
@@ -119,7 +113,7 @@ exports.show = function (req, res, next) {
             break;
         case ('json'):
             console.log("get json devices");
-            db.devices.findOne({uuid: req.params.device}, function (error, results) {
+            db.device.findOne({uuid: req.params.device}, function (error, results) {
                 if (error) {
                     console.log(err);
                     res.json(err);
@@ -153,14 +147,14 @@ exports.events = function(req,res)
             res.render('devices.events.jade', {user: req.session.user});
             break;
         case ('json'):
-            db.devices.events.find( { uuid: req.params.device}, function(error, events){
+            db.device.events.find( { uuid: req.params.device}, function(error, events){
                 res.json(events);
             });
             break;
         case ('hoard'):
             console.log('get hoard');
             
-            db.devices.findOne( {uuid: req.params.device}, function(error, device){
+            db.device.findOne( {uuid: req.params.device}, function(error, device){
                 if( error ) { 
                     res.send(500, error);
                 } else if( device ) {
@@ -225,19 +219,19 @@ exports.newEvent = function(req,res)
         //if (stateOWid.test(owid)) {
         conditions = {protocol: 'ow', id: req.params.device}
         
-    db.devices.findOne(conditions, function(error, device){
+    db.device.findOne(conditions, function(error, device){
         if( error ){
             console.log(error);
             res.send(500, error);
         } else if(device){
             var event = req.body;
-            db.devices.update( {uuid: device.uuid}, {'lastAction': new Date()}, function(e,d){} );
+            db.device.update( {uuid: device.uuid}, {'lastAction': new Date()}, function(e,d){} );
             if( event.type == 'hoard' && device.hoard.enable)
             {   console.log('hoard data coming..');
                 try {
                 //[ [t,v] ]
                 console.log(event.values);
-                db.devices.update( {uuid: device.uuid}, {'ow.lastValue': event.values[0][1]}, function(e,d){} );
+                db.device.update( {uuid: device.uuid}, {'ow.lastValue': event.values[0][1]}, function(e,d){} );
                 
                 //var stamp = unixTime();
                 
@@ -256,7 +250,7 @@ exports.newEvent = function(req,res)
                 }
             } else {
                 event['device'] = device.uuid;
-                db.devices.events.create( event, function(error, event){
+                db.device.events.create( event, function(error, event){
                     if (error) {
                         console.log(error);
                         res.send(500, error);
@@ -283,7 +277,7 @@ exports.update = function (req, res) {
     {
         var json = req.body.event;
         json['device'] = req.params.device;
-        db.devices.events.create( json, function(error, ok){    
+        db.device.events.create( json, function(error, ok){    
             if (error) {
                 console.log(error);
                 res.send(500, error);
@@ -293,7 +287,7 @@ exports.update = function (req, res) {
         });
     } else
     {
-        db.devices.update( {uuid: req.params.device}, req.body, function(error, ok){    
+        db.device.update( {uuid: req.params.device}, req.body, function(error, ok){    
             if (error) {
                 console.log(error);
                 res.send(500, error);
@@ -307,8 +301,8 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 	console.log('destroy resource ');
 	console.log(req.params);
-    db.devices.events.remove( {uuid: req.params.device}, function(error, ok){});
-	db.devices.remove( {uuid: req.params.device}, function(error, ok){    
+    db.device.events.remove( {uuid: req.params.device}, function(error, ok){});
+	db.device.remove( {uuid: req.params.device}, function(error, ok){    
         if (error) {
             console.log(error);
             res.send(500, error);

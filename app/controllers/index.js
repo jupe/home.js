@@ -1,10 +1,6 @@
 /*
  * Default routes
  */
-
-//var Db = require("../resources/database");
-//db = new Db();
-
  
 exports.index = function(req, res){
   res.render('index', { 

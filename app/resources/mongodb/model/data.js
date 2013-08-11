@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-var DataSchema = require('../schema/data');
-var model = db.db.model('data', DataSchema);
+var schema = require('./../schema/data');
+var model = mongoose.model('data', schema);
 
 function push(timestamp, value, cb)
 {
-
   console.log('push');
   model.findOne( {'metadata.date': DataSchema.toDate(timestamp)}, function(error, doc){
     if( error) {
@@ -46,5 +45,5 @@ function push(timestamp, value, cb)
 }
 
 
-module.exports.model = model;
+module.exports = model;
 module.exports.push = push;

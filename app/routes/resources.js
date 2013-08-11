@@ -1,14 +1,14 @@
 module.exports = function(app){
   
-  //app.resource('meters', require('./resources/meters'));
-  app.resource('charts', require('./../resources/charts'));
-  app.resource('events', require('./../resources/events'));
-  app.resource('maps', require('./../resources/maps'));
-  app.resource('networks', require('./../resources/networks'));
-  app.resource('schedules', require('./../resources/schedules'));
-  app.resource('actions', require('./../resources/actions'));
-  app.resource('automations', require('./../resources/automations'));
-  app.resource('experts', require('./../resources/experts'));
+  //app.resource('meter', require('./resources/meters'));
+  app.resource('chart', require('./../resources/charts'));
+  app.resource('event', require('./../resources/events'));
+  app.resource('map', require('./../resources/maps'));
+  app.resource('network', require('./../resources/networks'));
+  app.resource('schedule', require('./../resources/schedules'));
+  app.resource('action', require('./../resources/actions'));
+  app.resource('automation', require('./../resources/automations'));
+  app.resource('expert', require('./../resources/experts'));
   
 }
-module.exports.disable = true;
+module.exports.disable = false;

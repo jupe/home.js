@@ -7,8 +7,6 @@ GET     /events/:item/edit  ->  edit
 PUT     /events/:item       ->  update
 DELETE  /events/:item       ->  destroy
 */
-var Db = require("./database");
-db = new Db();
 
 exports.index = function(req, res){
   console.log('events index');
@@ -20,7 +18,8 @@ exports.index = function(req, res){
             break;
         case ('json'):
             console.log("get json events");
-            db.events.find(req.query, function (error, results) {
+            console.log(db);
+            db.event.find(req.query, function (error, results) {
                 if (error) {
                     console.log(error);
                     res.send(500, error);
@@ -45,7 +44,9 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   console.log('create events');
   console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
+  db.event.create( req.body, function(error, doc){
+    res.json(doc);
+  });
 };
 
 exports.show = function(req, res){

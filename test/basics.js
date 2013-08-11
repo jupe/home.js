@@ -15,25 +15,35 @@ describe('init', function() {
   });
   
   
-  it('frontpage', function(done) {
-    request.get('http://localhost:3000', 
+  it('/device.json', function(done) {
+    request.get('http://localhost:3000/device.json', 
       function(err, res, body){
+      body = JSON.parse(body);
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'array');
       done();
     });
   });
   
-  it('argv', function(done) {
-    request.get('http://localhost:3000/argv', 
+  it('/event.json', function(done) {
+    request.get('http://localhost:3000/event.json', 
       function(err, res, body){
+      body = JSON.parse(body);
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'array');
+      done();
+    });
+  });
+  
+  it('/schedule.json', function(done) {
+    request.get('http://localhost:3000/schedule.json', 
+      function(err, res, body){
       body = JSON.parse(body);
-      assert.equal(body.start, true);
-      assert.equal(body.pidfile, 'app.pid');
-      assert.equal(body.port, 3000);
-      
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'array');
       done();
     });
   });

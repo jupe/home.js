@@ -6,7 +6,6 @@
  *   Code license: GNU GPL v2
  *
  ************************************************************/
-
  /*
  * 
  * Module dependencies.
@@ -20,6 +19,7 @@ var
   , cluster = require('cluster')
   
   // 3rd party modules:
+  , mongoose = require('mongoose')
   , Resource = require('express-resource')
   , email = require('emailjs')
   , colors = require('colors')
@@ -65,17 +65,27 @@ if( argv.d ) {
 }
 winston.info('Initializing..');
 global.CFG = config.init(argv);
-global.winston = CFG;
+global.winston = winston;
 
 /** Load configurations and cronjob */
 var cronservice = require("./app/services/cron.js")
   , Db = require("./app/resources/database");
   
 var app = express();
-var cron = new cronservice();
-//cron.start();
+/*var cron = {stop: function(){}}
+*/
 
-global.db = new Db();
+mongoose.connect('mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, { server: { auto_reconnect: true }});
+mongoose.connection.on('error', function(error){
+  console.error("Failed to connect mongodb");
+});
+mongoose.connection.on('connected', function(){
+ console.log("Connect mongodb success");
+ global.db = new Db(); 
+ global.cron = new cronservice();
+ //cron.start();
+});
+
 
 // Change process title
 process.title = 'home.js';

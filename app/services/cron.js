@@ -1,18 +1,14 @@
 var   email = require('emailjs')
     , cronJob = require('cron').CronJob
-    , owservice = require("./onewire.js")
-    , Db = require("../resources/database");
-db = new Db();
+    , owservice = require("./onewire.js");
 
 var cronSession = {}
 var timeZone ="";
 
-var ow;
-
 function CronService() {
     
     //Create ow service schedule and actions
-    ow = new owservice(db);
+    ow = new owservice();
 }
 
 function event(type, msg, uuid, details){

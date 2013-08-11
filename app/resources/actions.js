@@ -8,9 +8,6 @@ PUT     /items/:item       ->  update
 DELETE  /items/:item       ->  destroy
 */
 
-var Db = require("./database");
-db = new Db();
-
 exports.index = function(req, res){
   console.log('actions index');
   console.log(req.params);

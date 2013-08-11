@@ -7,8 +7,6 @@ GET     /items/:item/edit  ->  edit
 PUT     /items/:item       ->  update
 DELETE  /items/:item       ->  destroy
 */
-var dataDB = require('./mongodb/model/data');
-
 setTimeout( function(){
   dataDB.push(new Date(), 3.2, function(err, data){
     if(err)console.log(err);

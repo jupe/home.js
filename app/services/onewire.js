@@ -1,20 +1,17 @@
 var http = require('http');
 var httpjs = require('http-json-request');
 
-var Ow = require("./api_onewire");
-
-
-var ow = new Ow(global.CFG.owfs.host, global.CFG.owfs.port);
-
-var Db = require("../resources/database");
-db = new Db();
-
 httpjs.defaultHost( CFG.app.host );
 httpjs.defaultPort( CFG.app.port );
 
+
+var Ow = require("./api_onewire");
+var ow = new Ow(CFG.owfs.host, CFG.owfs.port);
+
+
 function findOwid(id, cb)
 {
-    db.devices.findOne( {id: id, protocol: 'ow'}, function(error, data){
+    db.device.findOne( {id: id, protocol: 'ow'}, function(error, data){
         if(error){
             cb(error);
         } else if( data )
@@ -29,28 +26,28 @@ function isNumber (o) {
   return ! isNaN (o-0) && o != null;
 }
 var instance;
-function OwService(db) {
+function OwService() {
     instance=this;
     
     //create ping action if it not exists
-    db.actions.findOne({name: 'owPing'}, function(err, found){
+    db.action.findOne({name: 'owPing'}, function(err, found){
         if( err ){
             console.log(err);
         } if( !found ) {
             var newAct = { name: 'owPing', type: 'script', script: 'ow.ping();' }
-            db.actions.create( newAct, function(err, action){
+            db.action.create( newAct, function(err, action){
                 if( err ){
                     console.log(err);
                 } else {
                     console.log('Created owPing action');
                     
-                    db.schedules.findOne({name: 'owPing'}, function(err, found){
+                    db.schedule.findOne({name: 'owPing'}, function(err, found){
                         if( err ){
                             console.log(err);
                         } if( !found )
                         {
                             var schedule = { name: 'owPing', cron: '0 * * * * *', actions: [ action.uuid]};
-                            db.schedules.create( schedule, function(err,ok){
+                            db.schedule.create( schedule, function(err,ok){
                                 if( err ){
                                     console.log(err);
                                 } else {
@@ -66,24 +63,24 @@ function OwService(db) {
     });
     
     //create measure action if it not exists
-    db.actions.findOne({name: 'owReadAll'}, function(err, found){
+    db.action.findOne({name: 'owReadAll'}, function(err, found){
         if( err ){
             console.log(err);
         } if( !found ) {
             var newAct = { name: 'owReadAll', type: 'script', script: 'ow.readAll();' }
-            db.actions.create( newAct, function(err,action){
+            db.action.create( newAct, function(err,action){
                 if( err ){
                     console.log(err);
                 } else {
                     console.log('Created owReadAll action');
                     
-                    db.schedules.findOne({name: 'owReadAll'}, function(err, found){
+                    db.schedule.findOne({name: 'owReadAll'}, function(err, found){
                         if( err ){
                             console.log(err);
                         } if( !found )
                         {
                             var schedule = { name: 'owReadAll', cron: '0 */5 * * * *', actions: [ action.uuid]};
-                            db.schedules.create( schedule, function(err,ok){
+                            db.schedule.create( schedule, function(err,ok){
                                 if( err ){
                                     console.log(err);
                                 } else {
@@ -136,7 +133,7 @@ OwService.prototype.ping = function(archives, period){
                         httpjs.postJSON( '/devices.json', device, function(error, data){
                             console.log(error);
                             //console.log(data);
-                            db.events.create( {
+                            db.event.create( {
                                     msg: error?'OW device creation failed':'new ow-device detected with id: '+data.id,
                                     details: error?error:null, 
                                     type: error?'fatal':'general',
@@ -195,8 +192,8 @@ OwService.prototype.readAll = function(){
             for(var i=0;i<devs.length;i++){
                instance.read( devs[i], function(error, device){
                     if( error ){
-                        db.devices.update( {uuid: device.uuid}, {enable: false}, function(){});
-                        db.events.create( {
+                        db.device.update( {uuid: device.uuid}, {enable: false}, function(){});
+                        db.event.create( {
                             msg: 'OW read fail ('+device.id+'). Sensor Disabled. Check connection! ',
                             details: error, 
                             type: 'fatal',

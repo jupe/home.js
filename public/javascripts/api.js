@@ -101,47 +101,47 @@ var HomeJs = {
     
     enableAction: function(uuid, enable, callback)
     {
-      HomeJs.putJSON('/actions/'+uuid+'.json', {enable: enable }, callback);
+      HomeJs.putJSON('/action/'+uuid+'.json', {enable: enable }, callback);
     },
     getAction: function(uuid, callback)
     {
-      $.getJSON('/actions/'+uuid+'.json', callback);
+      $.getJSON('/action/'+uuid+'.json', callback);
     },
     saveAction: function(uuid, action, callback)
     {
-      HomeJs.putJSON('/actions/'+uuid+'/', action, callback);
+      HomeJs.putJSON('/action/'+uuid+'/', action, callback);
     },
     getActions: function(filters, callback)
     {
-      $.getJSON('/actions.json', callback);
+      $.getJSON('/action.json', callback);
     },
     
     
     enableSchedule: function(uuid, enable, callback)
     {
-      HomeJs.putJSON('/schedules/'+uuid+'.json', {enable: enable }, callback);
+      HomeJs.putJSON('/schedule/'+uuid+'.json', {enable: enable }, callback);
     },
     getSchedule: function(uuid, callback)
     {
-      $.getJSON('/schedules/'+uuid+'.json', callback);
+      $.getJSON('/schedule/'+uuid+'.json', callback);
     },
     saveSchedule: function(uuid, action, callback)
     {
-      HomeJs.putJSON('/schedules/'+uuid+'/', action, callback);
+      HomeJs.putJSON('/schedule/'+uuid+'/', action, callback);
     },
     getSchedules: function(filters, callback)
     {
-      $.getJSON('/schedules.json', callback);
+      $.getJSON('/schedule.json', callback);
     },
     
     
     getEvents: function(filters, callback)
     {
-      $.getJSON('/events.json', callback);
+      $.getJSON('/event.json', callback);
     },
     
     getDevices: function(query, cb){
-        var url = "/devices.json";
+        var url = "/device.json";
         if( typeof(query) == 'object'){
           url +='?';
           $.each(query, function(key, item){
@@ -158,7 +158,7 @@ var HomeJs = {
      
      getDeviceHoard: function(uuid, period, callback)
      {
-      var url = '/devices/'+uuid+'/events.hoard?';
+      var url = '/device/'+uuid+'/events.hoard?';
       url += 'from='+period.from;
       url += '&to='+period.to;
       $.getJSON(url, callback);
