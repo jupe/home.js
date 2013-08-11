@@ -352,10 +352,9 @@ var Configure = new Schema({
 });
 
 // Constructor
-function Db(cfg) {
-   if(!cfg) cfg = require('../config.json').mongodb;
-   //host = 'mongodb://localhost/nodeHomeAutomation';
-   this.db = mongoose.createConnection(cfg.host, cfg.database, cfg.port, cfg.opts);
+function Db() {
+   //host = 'mongodb://localhost/homejs';
+   this.db = mongoose.createConnection(CFG.mongodb.host, CFG.mongodb.database, CFG.mongodb.port, CFG.mongodb.opts);
    this.db.on('error', function(){
      console.error("Failed to connect mongodb");
    });

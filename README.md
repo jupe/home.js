@@ -1,13 +1,15 @@
+* IN PROGRESS! *
+
 home.js
 =======
 
-* IN PROGRESS! *
-
 General (home) automation framework based on node.js and mongoDB. 
 
-The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version I'll implement onewire support for get temperatures and after that purpose is to get zwave support as well.
+The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version will support onewire for get temperatures and then purpose is to get also zwave support.
 
-Tested with node.js versions: 
+## Test
+
+Tested against node.js versions: 
 
 | 0.10      | 0.8      | 0.6 | 
 |  --- | --- |--- |
