@@ -116,7 +116,7 @@ function initSchedule( schedule ){
 }
 
 CronService.prototype.start = function(){
-    
+    console.log('Start cron service' .cyan);
     setInterval( function(){ // loop all schedules every 5 second and activate/deactivate if needed..
         db.schedules.find({}, function(err, schedules){
             if( err ) {

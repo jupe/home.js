@@ -17,25 +17,29 @@ var copyFileSync = function(srcFile, destFile) {
   return fs.closeSync(fdw);
 };
 
-var resetConf = function(){
-  copyFileSync(__dirname+'/config.template.json', __dirname+'/config.json');
+var resetConf = function(cfgfile){
+  copyFileSync(__dirname+'/config.template.json', cfgfile);
 }
 
-var configExists = function(){
-
-  if( fs.existsSync(__dirname+'/config.json') ){
-    console.log('config exists');
-    return true;
+var configExists = function(file){
+  if( fs.existsSync(file) ){
+    return 'ok';
   } else if(fs.existsSync(__dirname+'/config.template.json') ) {
-    console.debug('config not exists, but template exists');
+    return 'template';
+  } else {
+    console.error( ('config or template not exists').red);
     return false;
-  } console.debug('config or template not exists');
+  }
 }
 
-var init = function(){
-  switch( configExists()) {
-    case(true): break;
-    case(false): resetConf(); break;
+var init = function(cliarg){
+  var cfgfile = __dirname+'/config.json';
+  if(cliarg.config) cfgfile = cliarg.config;
+  switch( configExists(cfgfile)) {
+    case('ok'): break;
+    case('template'): 
+      console.log('generate config from template..' .cyan);
+      resetConf(cfgfile); break;
     default:
           console.error('config file (config.template.json) missing.');
           process.exit(0);

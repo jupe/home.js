@@ -6,8 +6,8 @@
  *   Code license: GNU GPL v2
  *
  ************************************************************/
- 
-/*
+
+ /*
  * 
  * Module dependencies.
  */
@@ -17,14 +17,55 @@ var
   , http = require('http')
   , fs = require('fs')
   , path = require('path')
+  , cluster = require('cluster')
+  
   // 3rd party modules:
   , Resource = require('express-resource')
   , email = require('emailjs')
   , colors = require('colors')
+  , config = require('./config')
+  , winston = require('winston')
+  //, winstonExpress = require('winston-express')
+  , cli = require('optimist')
+    .usage('Usage: npm start]')
+    
+    .boolean(['f', 'd'])
+    
+    //.demand(['x','y'])
+    .default('f', false)
+    .alias('f', 'fork')
+    
+    .default('p', 8080)
+    .alias('p', 'port')
+    
+    .default('d', false)
+    .alias('d', 'start')
+    
+  , argv = cli.argv
   , SessionStore = require("session-mongoose")(express);
+  
+if( argv.help || argv.h ){
+  cli.showHelp();
+  process.exit();
+}
 
-var conf = require('./config').init()
-global.CFG = conf;  
+if (cluster.isMaster && argv.fork) {
+    var cpus = require('os').cpus().length;
+    for (var i = 0; i < cpus; i++) {
+        cluster.fork();
+    }
+    return;
+}
+
+if( argv.d ) {
+  winston.add(winston.transports.File, 
+      { filename: __dirname + '/log/homejs.log',
+        colorize: false
+      }).remove(winston.transports.Console);
+}
+winston.info('Initializing..');
+global.CFG = config.init(argv);
+global.winston = CFG;
 
 /** Load configurations and cronjob */
 var cronservice = require("./app/services/cron.js")
@@ -40,15 +81,24 @@ global.db = new Db();
 process.title = 'home.js';
 
 //change current working directory (required for git pull)
-process.chdir(require('path').dirname(require.main.filename)); 
+//process.chdir(require('path').dirname(require.main.filename)); 
 
 app.configure(function(){
   
-  app.set('port', conf.app.port);
+  app.set('port', CFG.app.port);
   app.set('view engine', 'jade');
   app.set('views', __dirname + '/app/views');
   
-  app.use(express.logger('dev'));
+  //winstonExpress(app, winston);
+  
+  // enable web server logging; pipe those log messages through winston
+  var winstonStream = {
+      write: function(message, encoding){
+          winston.info(message);
+      }
+  };
+  app.use(express.logger({stream:winstonStream, format: ':remote-addr - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time' }));
+  //app.use(express.logger('dev'));
   app.use(express.compress());
   
   //app.use(express.staticCache());
@@ -91,23 +141,62 @@ app.use(function(err, req, res, next){
       status: err.status || 500
     , error: err
   });*/
-  console.log(err);
+  winston.error(err);
   //res.send(404);
   next();
 });
-
+app.get( '/argv', function( req, res){
+  res.json(argv);
+});
+app.get( '/shutdown', function(req, res, next){
+  if( req.query.secret === 'secret' ){
+    res.json({shutdown: 'on progress'});
+    setTimeout( process.exit, 1000);
+  } else next();
+});
 /**
  * Mount all routes from "routes" -folder.
  */
 fs.readdirSync(__dirname + '/app/routes').forEach(function(name){
-    var route = require('./app/routes/'+name);
-    if( route.disable ){}
-    else {
-      console.log('Init routes '+name .cyan);
-      route(app);
-    }
+  var route = require('./app/routes/'+name);
+  if( route.disable ){}
+  else {
+    winston.info('Init routes '+name .cyan);
+    route(app);
+  }
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+process.on('uncaughtException', function(err) {
+  if(err.errno === 'EADDRINUSE'){
+    winston.error( ('Sorry, port '+app.get('port')+' is already in use').red);
+  } else {
+    winston.error('uncaughtException');
+    winston.error(err);
+  }
+  process.exit(1);
+});
+
+// Windows doesn't use POSIX signals
+if (process.platform === "win32" && argv.d === false) {
+  const keypress = require("keypress");
+  keypress(process.stdin);
+  process.stdin.resume();
+  process.stdin.setRawMode(true);
+  process.stdin.setEncoding("utf8");
+  process.stdin.on("keypress", function(char, key) {
+    if (key && key.ctrl && key.name == "c") {
+        // Behave like a SIGUSR2
+        process.emit("SIGINT");
+    }
+  });
+}
+process.on('exit', function() {
+  winston.log('About to exit.');
+});
+process.on('SIGINT', function() {
+  cron.stop();
+  process.exit();
+});
+app.listen(app.get('port'), function(){
+  winston.log("home.js server listening on port " + app.get('port'));
 });

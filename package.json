@@ -32,12 +32,22 @@
     "hoard": "*",
     "feedparser": "*",
     "request": "*",
-    "http-json-request": "*"
+    "http-json-request": "*",
+    "daemonize2": "*",
+    "optimist": "*",
+    "keypress": "0.2.1",
+    "winston": ">=0.7.2"
+  },
+  "devDependencies": {
+      "mocha": "*",
+      "chai": "*",
+      "request": "*"
   },
   "contributors": [
     "Jussi Vatjus-Anttila <jussiva@gmail.com>"
   ],
   "scripts": {
-   "start": "node-dev app.js"
+   "start": "node . start",
+   "test": "mocha"
   }
 }
