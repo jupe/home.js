@@ -73,7 +73,7 @@ var Db = require("./app/lib/database");
 
 /* Create database connection */
 mongoose.connect(  'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, 
-                  { server: { auto_reconnect: true }} );
+                  CFG.mongodb.opts );
 mongoose.connection.on('error', function(error){
   console.error("Failed to connect mongodb");
 });

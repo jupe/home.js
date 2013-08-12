@@ -246,13 +246,11 @@ describe('basics', function() {
       assert.typeOf(body, 'array');
       assert.equal(body.length, 2);
       
-      var id = 0;
-      if(body[1].name === "owPing" ) {
-        id = 1;
-      }
-      assert.equal(body[id%2].name, "owPing");
-      assert.equal(body[id%2].script, "ow.ping();");
-      assert.equal(body[id%2].type, "script");
+      var id = body[0].name === "owPing" ? 0:1;
+      
+      assert.equal(body[id].name, "owPing");
+      assert.equal(body[id].script, "ow.ping();");
+      assert.equal(body[id].type, "script");
 
       assert.equal(body[(id+1)%2].name, "owReadAll");
       assert.equal(body[(id+1)%2].script, "ow.readAll();");

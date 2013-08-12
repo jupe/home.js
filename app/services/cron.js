@@ -17,7 +17,7 @@ var CronService = function() {
   var timeZone ="";
   
   var configurations = {
-    interval: CFG.app.service_poll_interval
+    interval: CFG.app.service.cron.poll_interval
   }
 
   function event(type, msg, uuid, details){

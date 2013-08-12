@@ -27,11 +27,15 @@ exports.show = function(req, res){
   });
 }
 exports.create = function(req, res){
-  db.user.store( req.body, function(error, doc){
+  db.user.findOrCreate({name: req.body.name}, req.body, function(error, doc, _new){
     if(error){
       res.json(404, {error: error});
     } else {
-      res.json(doc);
+      /*if(_new){
+        res.json(404, {error: error});
+      } else {*/
+        res.json(doc);
+      //}
     }
   });
 }
