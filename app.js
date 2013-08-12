@@ -68,12 +68,10 @@ global.CFG = config.init(argv);
 global.winston = winston;
 
 /** Load configurations and cronjob */
-var Db = require("./app/resources/database");
-  
 var app = express();
-/*var cron = {stop: function(){}}
-*/
+var Db = require("./app/lib/database");
 
+/* Create database connection */
 mongoose.connect(  'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, 
                   { server: { auto_reconnect: true }} );
 mongoose.connection.on('error', function(error){
@@ -81,17 +79,21 @@ mongoose.connection.on('error', function(error){
 });
 mongoose.connection.on('connected', function(){
  console.log("Connect mongodb success");
+ // Register db models and other db related stuff
  var db = new Db(); 
+
  global.db = db;
  app.set('db', db);
  global.service = {};
  fs.readdirSync(__dirname + '/app/services').forEach(function(file){
-    var serv = require('./app/services/'+file);
-    var name = file.substr(0, file.length-3);
-    if( serv.disable ){}
-    else {
-      winston.info('Init service '+name .cyan);
-      global.service[name] = new serv(app);
+    if( file.indexOf('.js')>= 0 ) {
+      var serv = require('./app/services/'+file);
+      var name = file.substr(0, file.length-3);
+      if( serv.disable ){}
+      else {
+        winston.info('Init service '+name .cyan);
+        global.service[name] = new serv(app);
+      }
     }
   });
  
@@ -180,12 +182,14 @@ app.get( '/shutdown', function(req, res, next){
 /**
  * Mount all routes from "routes" -folder.
  */
-fs.readdirSync(__dirname + '/app/routes').forEach(function(name){
-  var route = require('./app/routes/'+name);
-  if( route.disable ){}
-  else {
-    winston.info('Init routes '+name .cyan);
-    route(app);
+fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
+  if( file.indexOf('.js') >= 0 ) {
+    var route = require('./app/routes/'+file);
+    if( route.disable ){}
+    else {
+      winston.info('Init routes '+file .cyan);
+      route(app);
+    }
   }
 });
 

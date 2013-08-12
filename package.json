@@ -50,6 +50,6 @@
   "scripts": {
    "start": "node index --start",
    "stop": "node index --stop",
-   "test": "mocha"
+   "test": "mocha -R list"
   }
 }

@@ -30,68 +30,38 @@ function OwService() {
     instance=this;
     
     //create ping action if it not exists
-    db.action.findOne({name: 'owPing'}, function(err, found){
-        if( err ){
-            console.log(err);
-        } if( !found ) {
-            var newAct = { name: 'owPing', type: 'script', script: 'ow.ping();' }
-            db.action.create( newAct, function(err, action){
-                if( err ){
-                    console.log(err);
-                } else {
-                    console.log('Created owPing action');
-                    
-                    db.schedule.findOne({name: 'owPing'}, function(err, found){
-                        if( err ){
-                            console.log(err);
-                        } if( !found )
-                        {
-                            var schedule = { name: 'owPing', cron: '0 * * * * *', actions: [ action.uuid]};
-                            db.schedule.create( schedule, function(err,ok){
-                                if( err ){
-                                    console.log(err);
-                                } else {
-                                    console.log('Created owPing schedule');
-                                }
-                            });
-                        }
-                    });
-                    
-                }
-            });
-        }
+    db.action.findOrCreate({name: 'owPing'}, { name: 'owPing', type: 'script', script: 'ow.ping();' }, 
+    function(err, action, _new){
+      if( err ){
+          console.log(err);
+      } else {
+        if(_new)console.log('Created owPing action');
+        db.schedule.findOrCreate({name: 'owPing'}, { name: 'owPing', cron: '0 * * * * *', actions: [ action.uuid]}, function(err,doc, _new){
+            if( err ){
+              console.log(err);
+            } else if(_new){
+              console.log('Created owPing schedule');
+            }
+        });
+          
+      }
     });
     
     //create measure action if it not exists
-    db.action.findOne({name: 'owReadAll'}, function(err, found){
-        if( err ){
+    db.action.findOrCreate({name: 'owReadAll'}, { name: 'owReadAll', type: 'script', script: 'ow.readAll();' }, function(err, action, _new){
+      if( err ){
+          console.log(err);
+      } else {
+        if(_new)console.log('Created owReadAll action');
+        db.schedule.findOrCreate({name: 'owReadAll'}, { name: 'owReadAll', cron: '0 */5 * * * *', actions: [ action.uuid]}, 
+        function(err, found, _new){          
+          if( err ){
             console.log(err);
-        } if( !found ) {
-            var newAct = { name: 'owReadAll', type: 'script', script: 'ow.readAll();' }
-            db.action.create( newAct, function(err,action){
-                if( err ){
-                    console.log(err);
-                } else {
-                    console.log('Created owReadAll action');
-                    
-                    db.schedule.findOne({name: 'owReadAll'}, function(err, found){
-                        if( err ){
-                            console.log(err);
-                        } if( !found )
-                        {
-                            var schedule = { name: 'owReadAll', cron: '0 */5 * * * *', actions: [ action.uuid]};
-                            db.schedule.create( schedule, function(err,ok){
-                                if( err ){
-                                    console.log(err);
-                                } else {
-                                    console.log('Created owReadAll schedule');
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
+          } else if(_new){
+            console.log('Created owReadAll schedule');
+          }
+        });
+      }
     });
     
 }

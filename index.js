@@ -1,10 +1,14 @@
 var daemon = require("daemonize2")
    , cli = require('optimist')
     .usage('Usage: [start|stop|kill|restart|reload|status] {options}')
-    .boolean(['start', 'stop', 'restart', 'status'])
+    .boolean(['start', 'stop', 's', 'restart', 'status'])
     .default('pidfile', '')
     .default('d', false)
     .alias('d', 'start')
+    
+    .default('s', false)
+    .alias('s', 'silent')
+    
    , argv = cli.argv;
 
 var pidfile = "/var/run/homejs.pid";
@@ -36,25 +40,25 @@ if( argv.p < 1000 ) {
 
 daemon
     .on("starting", function() {
-        console.log("Starting daemon...");
+        if(!argv.silent)console.log("Starting daemon...");
     })
     .on("started", function(pid) {
-        console.log("Daemon started. PID: " + pid);
+        if(!argv.silent)console.log("Daemon started. PID: " + pid);
     })
     .on("stopping", function() {
-        console.log("Stopping daemon...");
+        if(!argv.silent)console.log("Stopping daemon...");
     })
     .on("stopped", function(pid) {
-        console.log("Daemon stopped.");
+        if(!argv.silent)console.log("Daemon stopped.");
     })
     .on("running", function(pid) {
-        console.log("Daemon already running. PID: " + pid);
+        if(!argv.silent)console.log("Daemon already running. PID: " + pid);
     })
     .on("notrunning", function() {
-        console.log("Daemon is not running");
+        if(!argv.silent)console.log("Daemon is not running");
     })
     .on("error", function(err) {
-        console.log("Daemon failed to start:  " + err.message);
+        if(!argv.silent)console.log("Daemon failed to start:  " + err.message);
     });
 
 
@@ -68,10 +72,11 @@ else if(argv.restart){
 } else if(argv.reload) daemon.sendSignal("SIGUSR1");
 else if(argv.status){
   var pid = daemon.status();
-  if (pid)
-      console.log("Daemon running. PID: " + pid);
-  else
-      console.log("Daemon is not running.");
+  if (pid){
+      if(!argv.silent)console.log("Daemon running. PID: " + pid);
+  } else {
+      if(!argv.silent)console.log("Daemon is not running.");
+  }
 } else {
   cli.showHelp();
 }
