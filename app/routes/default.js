@@ -1,5 +1,5 @@
 module.exports = function(app){
-  var defaults = require('./../controllers');
+  var defaults = require('./../controllers/defaults');
   app.get('/', defaults.index);
   app.post('/login', defaults.login);
   app.get('/logout', defaults.logout);

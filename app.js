@@ -75,15 +75,18 @@ var app = express();
 /*var cron = {stop: function(){}}
 */
 
-mongoose.connect('mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, { server: { auto_reconnect: true }});
+mongoose.connect(  'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, 
+                  { server: { auto_reconnect: true }} );
 mongoose.connection.on('error', function(error){
   console.error("Failed to connect mongodb");
 });
 mongoose.connection.on('connected', function(){
  console.log("Connect mongodb success");
- global.db = new Db(); 
- global.cron = new cronservice();
- //cron.start();
+ var db = new Db(); 
+ global.db = db;
+ app.set('db', db);
+ global.service = {};
+ global.service.cron = new cronservice();
 });
 
 
@@ -107,8 +110,8 @@ app.configure(function(){
           winston.info(message);
       }
   };
-  app.use(express.logger({stream:winstonStream, format: ':remote-addr - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time' }));
-  //app.use(express.logger('dev'));
+  //app.use(express.logger({stream:winstonStream, format: ':remote-addr - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time' }));
+  app.use(express.logger('dev'));
   app.use(express.compress());
   
   //app.use(express.staticCache());
@@ -130,7 +133,9 @@ app.configure(function(){
     //store: store,
     cookie: { maxAge: 900000 } // expire session in 15 min or 900 seconds
   }));
+  app.use( require('./app/middleware/authentication') );
   app.use(app.router);
+  
 });
 
 app.configure('development', function(){
@@ -204,7 +209,7 @@ process.on('exit', function() {
   winston.log('About to exit.');
 });
 process.on('SIGINT', function() {
-  cron.stop();
+  service.cron.stop();
   process.exit();
 });
 app.listen(app.get('port'), function(){

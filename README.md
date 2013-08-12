@@ -1,6 +1,6 @@
 * IN PROGRESS! *
 
-home.js
+[home.js](http://jupe.github.io/home.js/)
 =======
 
 General (home) automation framework based on node.js and mongoDB. 

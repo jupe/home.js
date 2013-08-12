@@ -21,7 +21,7 @@ exports.index = function(req, res){
         break;
     case('json'):
         console.log("find actions");
-        db.actions.find(req.params.query, function(err, actions){
+        db.action.find(req.params.query, function(err, actions){
             res.json( actions );
         });
         break;
@@ -51,7 +51,7 @@ exports.show = function(req, res){
         break;
     case('json'):
         console.log("find actions");
-        db.actions.findOne({uuid: req.params.action}, function(err, action){
+        db.action.findOne({uuid: req.params.action}, function(err, action){
             res.json( action );
         });
         break;
@@ -69,7 +69,7 @@ exports.update = function(req, res){
   console.log('update action ');
   console.log(req.body);
   console.log(req.params);
-  db.actions.update( {uuid: req.params.action}, req.body, function(err, ok){    
+  db.action.update( {uuid: req.params.action}, req.body, function(err, ok){    
     console.log(ok);
     if( err ){
         console.log(err);

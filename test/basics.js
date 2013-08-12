@@ -44,10 +44,28 @@ describe('init', function() {
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf(body, 'array');
+      assert.equal(body.length, 2);
       done();
     });
   });
   
+  it('/action.json', function(done) {
+    request.get('http://localhost:3000/action.json', 
+      function(err, res, body){
+      body = JSON.parse(body);
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'array');
+      assert.equal(body.length, 2);
+      assert.equal(body[0].name, "owPing");
+      assert.equal(body[0].script, "ow.ping();");
+      assert.equal(body[0].type, "script");
+      assert.equal(body[1].name, "owReadAll");
+      assert.equal(body[1].script, "ow.readAll();");
+      assert.equal(body[1].type, "script");
+      done();
+    });
+  });
   
   it('server stop', function(done) {
     this.timeout(5000);
