@@ -71,15 +71,13 @@ exports.edit = function(req, res){
 };
 
 exports.update = function(req, res){
-  console.log('update schedule ');
-  console.log(req.body);
-  console.log(req.params);
-  db.schedule.update( {uuid: req.params.schedule}, req.body, function(err, ok){    
+  console.log('update schedule');
+  db.schedule.findOneAndUpdate( {uuid: req.params.schedule}, req.body, function(err, doc){    
     if( err ){
         res.send(403);
         console.log(err);
     } else {
-        res.json({ok: ok});
+        res.json(doc);
     }
   });
 };

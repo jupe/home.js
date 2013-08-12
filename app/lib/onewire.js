@@ -100,10 +100,10 @@ OwService.prototype.ping = function(archives, period){
                                 period: period
                             }
                         };
-                        httpjs.postJSON( '/devices.json', device, function(error, data){
+                        httpjs.postJSON( '/device.json', device, function(error, data){
                             console.log(error);
                             //console.log(data);
-                            db.event.create( {
+                            db.event.store( {
                                     msg: error?'OW device creation failed':'new ow-device detected with id: '+data.id,
                                     details: error?error:null, 
                                     type: error?'fatal':'general',
@@ -135,7 +135,7 @@ OwService.prototype.read = function(device, callback)
                 var unixStamp = parseInt(new Date().getTime() / 1000);
                 for(var i=0;i<device.hoard.archives.length;i++)
                     values.push( [unixStamp, result] ); //because all hoard-archives need to be update
-                httpjs.postJSON( '/devices/'+device.uuid+"/events.json", 
+                httpjs.postJSON( '/device/'+device.uuid+"/events.json", 
                               { values: values, type: 'hoard' }, callback);
             }
             else{ 
@@ -153,36 +153,34 @@ OwService.prototype.read = function(device, callback)
 OwService.prototype.readAll = function(){
     console.log("readAll");
     //console.log(instance);
-    db.devices.find({protocol: 'ow', enable: true}, function(error, devs){
-        if(error){
+    db.device.find({protocol: 'ow', enable: true}, function(error, devs){
+        if( error ) {
             console.log("getDevicesByProtocol::error");
             console.log(error);
-        }
-        else {
-            for(var i=0;i<devs.length;i++){
-               instance.read( devs[i], function(error, device){
-                    if( error ){
-                        db.device.update( {uuid: device.uuid}, {enable: false}, function(){});
-                        db.event.create( {
-                            msg: 'OW read fail ('+device.id+'). Sensor Disabled. Check connection! ',
-                            details: error, 
-                            type: 'fatal',
-                            source: {
-                                component: 'onewire-service',
-                                uuid: device.uuid,
-                            }
-                        }, function(){});
-                    }
-               });
-       
-                //var cmd = "-t C N:"+ result;
-                //console.log(cmd);
-                //rrd.rrdExec( "update",  cmd, function(err){
-                //    if(err){
-                //        console.log(err);
-                //    }
-                //    else console.log("update success");
-                //});
+        } else {
+            for(var i=0;i<devs.length;i++) {
+                instance.read( devs[i], function(error, device){
+                  if( error ){
+                    db.device.update( {uuid: device.uuid}, {enable: false}, function(){});
+                    db.event.store( {
+                        msg: 'OW read fail ('+device.id+'). Sensor Disabled. Check connection! ',
+                        details: error, 
+                        type: 'fatal',
+                        source: {
+                            component: 'onewire-service',
+                            uuid: device.uuid,
+                        }
+                    }, function(){});
+                  }
+                });
+              //var cmd = "-t C N:"+ result;
+              //console.log(cmd);
+              //rrd.rrdExec( "update",  cmd, function(err){
+              //    if(err){
+              //        console.log(err);
+              //    }
+              //    else console.log("update success");
+              //});
             }
         }
     });

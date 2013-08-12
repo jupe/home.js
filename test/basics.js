@@ -19,7 +19,7 @@ describe('init', function() {
 });
 
 describe('basics', function() {  
-
+  var schedules = [];
   it('[POST] /login (fail)', function(done) {
     var options = {
       uri: 'http://localhost:3000/login',
@@ -81,6 +81,31 @@ describe('basics', function() {
     });
   });
   
+  it('[GET] /action.json (success)', function(done) {
+    request.get ({json: true, url: 'http://localhost:3000/action.json'},
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      assert.equal(body.length, 2); //only defaults: owReadAll and owPing
+      done();
+    });
+  });
+  
+  it('[GET] /schedule.json (success)', function(done) {
+    request.get ({json: true, url: 'http://localhost:3000/schedule.json'},
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      schedules = body;
+      assert.equal(err, null);
+      assert.equal(body.length, 2); //only defaults: owReadAll and owPing
+      
+      assert.equal(body[0].enable, false);
+      assert.equal(body[1].enable, false);
+      
+      
+      done();
+    });
+  });
   
   it('[GET] /service/cron (success)', function(done) {
     request.get ({json: true, url: 'http://localhost:3000/service/cron'},
@@ -123,23 +148,6 @@ describe('basics', function() {
     });
   });
   
-  it('[POST] /user (success)', function(done) {
-    var options = {
-      uri: 'http://localhost:3000/user',
-      method: 'POST',
-      json: {
-        "name": "jupe",
-        "email": "jussiva@gmail.com"
-      }
-    };
-    request(options,
-      function(err, res, body){
-      assert.equal(err, null);
-      assert.equal(res.statusCode, 200);
-      done();
-    });
-  });
-  
   it('[POST] /login   (already logged in)', function(done) {
     var options = {
       uri: 'http://localhost:3000/login',
@@ -169,6 +177,65 @@ describe('basics', function() {
       done();
     });
   });
+  
+  it('[POST] /user (success)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/user',
+      method: 'POST',
+      json: {
+        "name": "jupe",
+        "email": "jussiva@gmail.com"
+      }
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  
+  it('[GET] /service/cron', function(done) {
+    request.get({json: true, url: 'http://localhost:3000/service/cron'},
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      assert.equal(res.body.cron.active, true);
+      assert.equal(res.body.services.length, 0);
+      done();
+    });
+  });
+  
+  it('[PUT] /schedule/[owPing].json (success)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/schedule/'+schedules[0].uuid+'.json',
+      method: 'PUT',
+      json: {"enable": "true"}
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      assert.typeOf(body, 'object'); //only defaults: owReadAll and owPing
+      assert.equal(body.enable, true);
+      
+      done();
+    });
+  });
+  
+  it('[GET] /schedule/[owPing].json (success)', function(done) {
+    request.get ({json: true, url: 'http://localhost:3000/schedule/'+schedules[0].uuid+'.json'},
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      assert.typeOf(body, 'object'); //only defaults: owReadAll and owPing
+      
+      assert.equal(body.enable, true);
+      
+      done();
+    });
+  });
+  
   
   it('[GET] /service/cron/stop', function(done) {
     var options = {
