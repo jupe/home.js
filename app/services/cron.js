@@ -1,6 +1,6 @@
 var   email = require('emailjs')
     , cronJob = require('cron').CronJob
-    , owservice = require("./onewire.js");
+    , owservice = require("./../lib/onewire.js");
 
 
 
@@ -164,6 +164,7 @@ var CronService = function() {
     return self.configurations;
   }
 
+  /* MODULE API */
   return {
     start: start,
     stop: stop,

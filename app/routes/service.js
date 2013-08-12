@@ -1,8 +1,9 @@
 module.exports = function(app){
-  var admin = require('./../controllers/service');
+  var service = require('./../controllers/service');
   var auth = require('./../middleware/authentication').Middleware;
 
-  app.post('/service/:service/:operation', auth.isAdmin, admin.service);
-  app.get('/service/:service', admin.serviceStatus);
+  app.get('/service:format?', service.index);
+  app.post('/service/:service/:operation', auth.isAdmin, service.operation);
+  app.get('/service/:service', service.status);
 }
 module.exports.disable = false;

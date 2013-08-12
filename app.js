@@ -68,8 +68,7 @@ global.CFG = config.init(argv);
 global.winston = winston;
 
 /** Load configurations and cronjob */
-var cronservice = require("./app/services/cron.js")
-  , Db = require("./app/resources/database");
+var Db = require("./app/resources/database");
   
 var app = express();
 /*var cron = {stop: function(){}}
@@ -86,7 +85,16 @@ mongoose.connection.on('connected', function(){
  global.db = db;
  app.set('db', db);
  global.service = {};
- global.service.cron = new cronservice();
+ fs.readdirSync(__dirname + '/app/services').forEach(function(file){
+    var serv = require('./app/services/'+file);
+    var name = file.substr(0, file.length-3);
+    if( serv.disable ){}
+    else {
+      winston.info('Init service '+name .cyan);
+      global.service[name] = new serv(app);
+    }
+  });
+ 
 });
 
 
@@ -209,7 +217,12 @@ process.on('exit', function() {
   winston.log('About to exit.');
 });
 process.on('SIGINT', function() {
-  service.cron.stop();
+  for(var key in service){
+    console.log(service[key]);
+    if( service[key].stop ) {
+      service[key].stop();
+    }
+  }
   process.exit();
 });
 app.listen(app.get('port'), function(){

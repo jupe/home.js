@@ -1,21 +1,17 @@
 
-var autorize = function(req,res,next)
-{
-  /*
-  if( !req.session.user )
-  {
-    res.send(403, 'restricted location');
-    return;
+exports.index = function(req, res){
+  switch( req.params.format ){
+    case( 'json' ):
+    default: 
+      var json = [];
+      for(var key in service ){
+        json.push({name: key, href: '/service/'+key});
+      }
+      res.json(json);
   }
-  if( req.session.user.groups.index('admin') == -1 )
-  {
-    res.send(403, 'restricted location');
-    return;
-  }*/
-  next(req,res);
 }
- 
-exports.service = function(req, res){
+exports.operation = function(req, res){
+  //authorization zone
   if( service[req.params.service] ) {
     if( service[req.params.service][req.params.operation] ) {
       res.json( service[req.params.service][req.params.operation](req.query) );
@@ -26,7 +22,7 @@ exports.service = function(req, res){
     res.json(404, {error: 'service not found'});
   }
 }
-exports.serviceStatus = function(req, res){
+exports.status = function(req, res){
   if( service[req.params.service] ) {
     if( service[req.params.service].status ) {
       res.json( service[req.params.service].status(req.query) );
