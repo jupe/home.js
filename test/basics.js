@@ -14,11 +14,69 @@ describe('init', function() {
     })
   });
   
+  it('/login   (fail)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/login',
+      method: 'POST',
+      json: {
+        "username": "admin",
+        "password": "aadmin"
+      }
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 403);
+      done();
+    });
+  });
+  
+  it('/login   (success)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/login',
+      method: 'POST',
+      json: {
+        "username": "admin",
+        "password": "admin"
+      }
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  
+  it('/login   (already logged in)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/login',
+      method: 'POST',
+      json: {
+        "username": "admin",
+        "password": "admin"
+      }
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  
+  it('/logout', function(done) {
+    request.get({url: 'http://localhost:3000/logout', json:true}, 
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
   
   it('/device.json', function(done) {
-    request.get('http://localhost:3000/device.json', 
+    request.get({url: 'http://localhost:3000/device.json', json:true}, 
       function(err, res, body){
-      body = JSON.parse(body);
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf(body, 'array');
@@ -27,9 +85,8 @@ describe('init', function() {
   });
   
   it('/event.json', function(done) {
-    request.get('http://localhost:3000/event.json', 
+    request.get({url: 'http://localhost:3000/event.json', json:true}, 
       function(err, res, body){
-      body = JSON.parse(body);
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf(body, 'array');
@@ -38,9 +95,9 @@ describe('init', function() {
   });
   
   it('/schedule.json', function(done) {
-    request.get('http://localhost:3000/schedule.json', 
+    request.get({url: 'http://localhost:3000/schedule.json', json:true}, 
       function(err, res, body){
-      body = JSON.parse(body);
+      
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf(body, 'array');
