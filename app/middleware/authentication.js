@@ -1,3 +1,13 @@
+var Middleware = {
+  isAdmin: function(req, res, next){
+    if( req.isValidGroup('admin') ) {
+      next();
+      return;
+    }
+    console.log('access denied');
+    res.accessDenied();
+  }
+}
 function Authentication(req, res, next) {
   
   var validateUser = function(validUser){
@@ -5,13 +15,14 @@ function Authentication(req, res, next) {
     if( req.session.user.name === valildUser ) return true;
     return false;
   }
+  
   var isLoggedUser = function(){
     if( !req.session.user ) return false;
     if( typeof(req.session.user.name)=='string') return true;
     if( typeof(req.session.user.groups)=='object') return true;
     return false;
   }
-  function createSession(req)
+  function createSession(req, cb)
   {
     //Special admin user for this application.
     // Regenerate session when signing in
@@ -20,9 +31,11 @@ function Authentication(req, res, next) {
       req.session.login = true;
       req.session.user = {
         timestamp: new Date(),
-        name: req.body.name
+        name: req.body.name,
+        groups: ['admin']
       }
       console.log('Session regenerated');
+      cb();
     });
   }
   var login = function(req,res, next){
@@ -32,8 +45,9 @@ function Authentication(req, res, next) {
     } else {
       if( req.body.username == 'admin' && req.body.password == 'admin' ) {
         console.log('login success');
-        createSession(req);
-        res.json({login: 'success'});
+        createSession(req, function(){
+          res.json({login: 'success'});
+        });
       } else {
         console.log('login denied');
         res.accessDenied();
@@ -54,7 +68,6 @@ function Authentication(req, res, next) {
   }
   var validateGroup = function( validGroup ){
     if( !req.session.user ) return false;
-    
     //admin group
     if( req.session.user.name == 'admin' ) return true;
     if( req.session.user.groups.indexOf('admin')>=0) return true;
@@ -152,10 +165,12 @@ function Authentication(req, res, next) {
   req.login = login;
   req.logout = logout;
   req.isLoggedUser = isLoggedUser;
+  
   req.isValidUser = validateUser;
   req.isValidGroup = validateGroup;
   req.isValidUserOrGroup = validateUserOrGroup;
   next();
 }
 
-module.exports = exports = Authentication;
+module.exports  = Authentication;
+module.exports.Middleware = Middleware;

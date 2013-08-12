@@ -2,6 +2,8 @@ var exec=require('child_process').exec
   , assert = require('chai').assert
   , request = require("request");
 
+  var request = request.defaults({jar: true})
+
 describe('init', function() {
   
   it('server start as daemon', function(done) {
@@ -27,6 +29,30 @@ describe('init', function() {
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 403);
+      done();
+    });
+  });
+  
+  it('/service/cron', function(done) {
+    request.get ({json: true, url: 'http://localhost:3000/service/cron'},
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      assert.equal(body.cron.active, false);
+      assert.equal(body.services.length, 0);
+      done();
+    });
+  });
+  
+  it('/service/cron/start', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/service/cron/start',
+      method: 'POST'
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(res.statusCode, 403);
+      assert.equal(err, null);
       done();
     });
   });
@@ -65,11 +91,50 @@ describe('init', function() {
     });
   });
   
+  it('/service/cron/start', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/service/cron/start',
+      method: 'POST'
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      done();
+    });
+  });
+  
+  it('/service/cron/stop', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/service/cron/stop',
+      method: 'GET'
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(res.statusCode, 200);
+      assert.equal(err, null);
+      done();
+    });
+  });
+  
   it('/logout', function(done) {
     request.get({url: 'http://localhost:3000/logout', json:true}, 
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  
+  it('/service/cron/start (denied)', function(done) {
+    var options = {
+      uri: 'http://localhost:3000/service/cron/start',
+      method: 'POST'
+    };
+    request(options,
+      function(err, res, body){
+      assert.equal(res.statusCode, 403);
+      assert.equal(err, null);
       done();
     });
   });
