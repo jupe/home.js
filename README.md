@@ -61,10 +61,12 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 
 
 ## Front-end libraries
+ * [Backbone](http://www.backbonejs.org)
+ * [requirejs](http://www.requirejs.org)
+ * [w2ui](http://w2ui.com/)
  * [jsTree](http://www.jstree.com)
  * [jsonform](https://github.com/joshfire/jsonform)
  * [flot](http://www.flotcharts.org/)
- * [w2ui](http://w2ui.com/)
  * ...
 
 ## todo
