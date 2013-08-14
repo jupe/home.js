@@ -12,17 +12,24 @@ define([
   var ProjectsView = Backbone.View.extend({
     el: $("#page"),
     initialize: function(){
-      this.usersCollection = new UsersCollection;  
+      
     },
     render: function(){
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(usersTemplate);
       
-      
-      var usersListView = new UsersListView({ collection: this.usersCollection}); 
-      
-      usersListView.render(); 
+      console.log('Create usersListView');
+      this.usersCollection = new UsersCollection;
+      var self = this;
+      this.usersCollection.fetch({
+        success: function() {
+            var usersListView = new UsersListView({ collection: self.usersCollection}); 
+            
+            console.log('Rendering it');
+            usersListView.render();
+        }
+      });      
 
       // add the sidebar 
       //var sidebarView = new SidebarView();

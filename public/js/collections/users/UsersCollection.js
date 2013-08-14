@@ -9,14 +9,14 @@ define([
     model: UserModel,
     url: "/user.json",
     initialize: function(){
-      this.fetch({
+      /*this.fetch({
         success: function() {
           console.log("Users loaded successful");
         },
         error: function(){
           console.log('There was some error in loading and processing the users');
         }
-      });
+      });*/
     }
 
   });
