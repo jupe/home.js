@@ -2,12 +2,12 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/sidebar/SidebarView',
+  //'views/sidebar/SidebarView',
   'models/user/UserModel',
   'collections/users/UsersCollection',
   'views/users/UsersListView',
   'text!templates/users/usersTemplate.html'
-], function($, _, Backbone, SidebarView, UserModel, UsersCollection, UsersListView, usersTemplate){
+], function($, _, Backbone, /*SidebarView, */UserModel, UsersCollection, UsersListView, usersTemplate){
 
   var ProjectsView = Backbone.View.extend({
     el: $("#page"),

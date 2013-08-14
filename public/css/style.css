@@ -4,7 +4,7 @@
    Author: 
    ========================================================================== */
 body {
-  background: #ebebeb;
+  background: #30367E;
 }
 
 #container {
@@ -12,10 +12,15 @@ body {
   margin: auto;
   min-height: 600px;
   background: #fff;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
 }
 #menu {
   background: #444;
-  height: 30px; color: #fff; text-align: right;
+  height: 30px; 
+  color: #fff; 
+  text-align: right;
 }
 #menu ul {
   list-style: none;
@@ -38,6 +43,8 @@ body {
 }
 #logo {
    padding: 20px;
+   text-align: center;
+   font-family:lucida sans unicode,lucida grande,sans-serif;
 }
 h1{
   padding: 0;
@@ -52,7 +59,7 @@ h1{
 }
 
 #page  {
-  width: 960px;
+  width: 920px;
 }
 
  #page .main {

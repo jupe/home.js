@@ -1,66 +1,5 @@
-body {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color:#333
-}
 
-p {
-    padding: 10px;
-}
-
-#wrapper {
-    margin: 0 auto;
-    width: 1000px;
-}
-/*
-#headerwrap {
-    width: 1000px;
-    float: left;
-    margin: 0 auto;
-}
-*/
-
-#header {
-    height: 50px;
-    background: rgb(209, 196, 193);
-    /*background: #FF6633; */
-    border-radius: 10px;
-    border: 1px solid rgb(109, 109, 109);
-    /* #eb521f; */
-    margin: 5px;
-}
-/*
-#contentwrap {
-    width: 1000;
-    float: left;
-    margin: 0 auto;
-}*/
-
-#content {
-    background: #FFFFFF;
-    border-radius: 10px;
-    border: 1px solid #ebebeb;
-    margin: 10px;
-}
-/*
-#footerwrap {
-    width: 1000px;
-    float: left;
-    margin: 0 auto;
-    clear: both;
-}
-*/
-#footer {
-    height: 40px;
-    background: #33FF66;
-    border-radius: 10px;
-    border: 1px solid #1feb52;
-    margin: 5px;
-}
-
-/* Button
------------------------------------------------------------------------------*/
-.button {
+.stylebutton {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -80,12 +19,12 @@ p {
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #ffffff;
-}.button:hover {
+}.stylebutton:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#dfdfdf;
-}.button:active {
+}.stylebutton:active {
 	position:relative;
 	top:1px;
 }

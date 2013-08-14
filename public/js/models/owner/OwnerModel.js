@@ -13,7 +13,7 @@ define([
   			this.query = options.query; 
   		},
 
-		url : function() {
+      url : function() {
 	        return 'https://api.github.com/users/' + this.query;
 	    },
 	    

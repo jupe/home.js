@@ -6,6 +6,20 @@ var Middleware = {
     }
     console.log('access denied');
     res.accessDenied();
+  },
+  session: function(req, res){
+    if( req.session.login ) {
+      res.json(req.session);
+    } else {
+      res.json({});
+    }
+  },
+  me: function(req, res){
+    if( req.session.login ) {
+      res.redirect('/user/'+req.session.user.name+'.json');
+    } else {
+      res.send(404);
+    }
   }
 }
 function Authentication(req, res, next) {
@@ -31,7 +45,7 @@ function Authentication(req, res, next) {
       req.session.login = true;
       req.session.user = {
         timestamp: new Date(),
-        name: req.body.name,
+        name: req.body.username,
         groups: ['admin']
       }
       console.log('Session regenerated');
@@ -52,6 +66,7 @@ function Authentication(req, res, next) {
         console.log('login denied');
         res.accessDenied();
       }
+
     }
   }
   var logout = function(req,res, next){

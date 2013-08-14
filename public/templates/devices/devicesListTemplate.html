@@ -1,0 +1,5 @@
+<ul>
+  <% _.each(devices, function(device){ %>
+   <li><a href="#/device/<%= device.get("uuid") %>"><%= device.get("name") %></a></li> 
+  <% }); %>
+</ul>

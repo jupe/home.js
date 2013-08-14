@@ -5,6 +5,8 @@ module.exports = function(app){
   var auth =  require('./../middleware/authentication').Middleware;
   
   /* USER ROUTES */
+  app.get('/user/me.:format?', auth.me);
+  app.get('/session.:format?', auth.session);
   app.get('/user.:format?', user.index);
   app.get('/user/:user.:format?', user.show);
   // restriction area

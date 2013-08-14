@@ -1,0 +1,12 @@
+<% _.each(links, function(link){ %>
+  <div class="ad">
+    <div class="pic">
+      <a href="<%= link.site_url %>"><img src="<%= link.image_url %>" width="100" /></a>
+    </div>
+    <div class="info">
+      <h4><%= link.title %></h4>
+      <p><%= link.description %></p>
+    </div>
+  </div>
+<% }); %>
+
