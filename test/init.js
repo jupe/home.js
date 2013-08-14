@@ -5,12 +5,13 @@ var exec=require('child_process').exec
 describe('init', function() {
   
   it('server start as daemon', function(done) {
+    this.timeout(5000);
     exec('node index --start --silent --pidfile app.pid',function(err,stdout,stderr){
       console.log('starting daemon');
       assert.typeOf(err, 'null');
       assert.equal(stderr, '');
       console.log(stdout);
-      done();
+      setTimeout(done, 2000);
     })
   });
   
@@ -44,7 +45,7 @@ describe('init', function() {
     exec('node index --stop --silent --pidfile app.pid',function(err,stdout,stderr){
       assert.equal(err, null);
       assert.equal(stderr, '');
-      done();
+      setTimeout(done, 2000);
     });
   });
 });  

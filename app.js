@@ -228,7 +228,7 @@ process.on('SIGINT', function() {
       service[key].stop();
     }
   }
-  process.exit();
+  process.exit(1);
 });
 app.listen(app.get('port'), function(){
   winston.log("home.js server listening on port " + app.get('port'));
