@@ -122,12 +122,12 @@ app.configure(function(){
   };
   //app.use(express.logger({stream:winstonStream, format: ':remote-addr - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time' }));
   app.use(express.logger('dev'));
-  app.use(express.compress());
+  //app.use(express.compress());
   
   //app.use(express.staticCache());
   
   //these files shouldn't never change
-  app.use(express.static(__dirname + '/public', {maxAge: 86400000})); 
+  app.use(express.static(__dirname + '/public'/*, {maxAge: 86400000}*/)); 
   
   
   app.use(express.favicon());
@@ -141,7 +141,7 @@ app.configure(function(){
   });*/
   app.use(express.session({
     //store: store,
-    cookie: { maxAge: 900000 } // expire session in 15 min or 900 seconds
+    /*cookie: { maxAge: 900000 }*/ // expire session in 15 min or 900 seconds
   }));
   app.use( require('./app/middleware/authentication') );
   app.use(app.router);
@@ -166,6 +166,7 @@ app.use(function(err, req, res, next){
       status: err.status || 500
     , error: err
   });*/
+  //res.send(err.status || 500);
   winston.error(err);
   //res.send(404);
   next();

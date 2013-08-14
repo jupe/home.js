@@ -1,37 +1,20 @@
 doctype 5
+//[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]
+//[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]
+//[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]
+//[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]
 html
   head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="viewport", content="width=device-width,initial-scale=1")
     title="home.js"
     
+    link(rel="stylesheet", href="css/styles.css")
+    script(data-main="js/main", src="/js/libs/require/require.js")
     
-    link(rel='stylesheet', href='/javascripts/vendor/w2ui/1.2/w2ui-1.2.min.css')
-    script(type='text/javascript', src='/javascripts/vendor/jquery/1.9.1/jquery-1.9.1.min.js')
-    script(type='text/javascript', src='/javascripts/vendor/w2ui/1.2/w2ui-1.2.min.js')
-    
-    script(type='text/javascript', src='/javascripts/api.js')
-    script(type='text/javascript', src='/javascripts/layout.js')
-    
-    script(type='text/javascript', src='/javascripts/vendor/moment/moment.min.js')
-    
-    
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/binaryXHR.js')
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFile.js')
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdMultiFile.js')
+    //link(rel='stylesheet', href='/js/libs/w2ui/1.2/w2ui-1.2.min.css')
 
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFlotSupport.js')
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/lib/rrdFlot.js')
-
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.js')
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.selection.js')
-    //script(type='text/javascript', src='/javascripts/vendor/rrd/flot/jquery.flot.tooltip.js')
-
-    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.min.js')
-    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.selection.min.js')
-    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.threshold.min.js')
-    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.time.min.js')
-    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.resize.min.js')
-
-    
     -if (typeof(session) !== 'undefined' )
       -if(session!=undefined)
        script(type='text/javascript')
@@ -44,4 +27,22 @@ html
         var session = undefined;
     block header
   body
-    div(id="layout", style="width: 95%; height: 640px;")
+    div(id="container")
+     div(id="logo")
+      h1="Modular Backbone"
+  
+
+     div(class="menu navbar")
+      div(class="navbar-inner")
+       ul(class="nav")
+         li
+          a(href="#")="Home"
+         li 
+          a(href="#/schedules")="Schedules"
+         li 
+          a(href="#/users")="Users"
+
+     div(id="page")
+      Loading....
+  
+     div(id="footer")

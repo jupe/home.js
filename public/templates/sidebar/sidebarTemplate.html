@@ -1,0 +1,12 @@
+<% _.each(ads, function(ad){ %>
+  <div class="ad">
+    <div class="pic">
+      <a href="<%= ad.site_url %>"><img src="<%= ad.image_url %>" width="150" /></a>
+    </div>
+    <div class="info">
+      <h4><%= ad.title %></h4>
+      <p><%= ad.description %></p>
+    </div>
+  </div>
+<% }); %>
+
