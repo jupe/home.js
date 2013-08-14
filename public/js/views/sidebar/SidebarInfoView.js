@@ -17,7 +17,7 @@ define([
                           title : "Home.js",
                           description: "Home.js is general purpose home automation framework." };
 
-      var node_ad = {  site_url : "http://http://nodejs.org/" ,
+      var node_ad = {  site_url : "http://nodejs.org/" ,
                           image_url : "http://nodejs.org/images/logo.png",
                           title : "Node.js",
                           description: "Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications." };

@@ -82,8 +82,21 @@ h1{
     padding: 10px;
     margin: 0px;
     width: 400px;
-    height: 300px;
-    background-color:#FFF;
+    height: 600px;
+    float: left;
+  }
+  
+  #page .sidebar .ads {
+    display: block;
+    position:relative;
+    top: 0px;
+    left: 0px;
+    padding: 10px;
+    margin: 0px;
+    width: 400px;
+    height: 600px;
+    background-color:#583434;
+    -webkit-border-radius: 10px;
     float: left;
   }
 
