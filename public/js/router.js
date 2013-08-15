@@ -6,6 +6,7 @@ define([
   'views/home/HomeView',
   'views/home/AdminView',
   'views/home/InfoView',
+  'views/events/EventView',
   'views/users/UsersView',
   'views/contributors/ContributorsView',
   'views/devices/DeviceView',
@@ -14,6 +15,7 @@ define([
     HomeView, 
     AdminView, 
     InfoView, 
+    EventView,
     UsersView, 
     ContributorsView, 
     DevicesView, 
@@ -28,6 +30,8 @@ define([
       'device': 'showDevices',
       'device/:uuid': 'showDevice',
       
+      'event': 'showEvents',
+      'event/:uuid': 'showEvent',
       'admin': 'showAdmin',
       'info': 'showInfo',
       // Default
@@ -38,6 +42,13 @@ define([
   var initialize = function(){
 
     var app_router = new AppRouter;
+    
+    app_router.on('route:showEvents', function (actions) {
+     
+       // We have no matching route, lets display the home page 
+        var eventView = new EventView();
+        eventView.render();
+    });
     
     app_router.on('route:showAdmin', function (actions) {
      

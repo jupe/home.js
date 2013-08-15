@@ -9,29 +9,23 @@ DELETE  /events/:item       ->  destroy
 */
 
 exports.index = function(req, res){
-  console.log('events index');
-  console.log(req.params);
   switch (req.params.format) {
-        case (undefined):
-        case ('html'):
-            res.render('events', {user: req.session.user});
-            break;
-        case ('json'):
-            console.log("get json events");
-            console.log(db);
-            db.event.find(req.query, function (error, results) {
-                if (error) {
-                    console.log(error);
-                    res.send(500, error);
-                } else {
-                    console.log(results.length);
-                    res.json(results);
-                }
-            });
-            break;
-        default:
-            res.render(501, {user: req.session.user}); //Not Implemented
-            break;
+    case (undefined):
+    case ('html'):
+        res.render('events', {user: req.session.user});
+        break;
+    case ('json'):
+        db.event.find(req.query, function (error, results) {
+            if (error) {
+              res.json(500, {error: error});
+            } else {
+              res.json(results);
+            }
+        });
+        break;
+    default:
+        res.render(501, {user: req.session.user}); //Not Implemented
+        break;
 	}
 };
 
@@ -45,14 +39,24 @@ exports.create = function(req, res){
   console.log('create events');
   console.log(req.params);
   db.event.create( req.body, function(error, doc){
-    res.json(doc);
+    if (error) {
+      res.json(500, {error: error});
+    } else {
+      res.json(doc);
+    }
   });
 };
 
 exports.show = function(req, res){
   console.log('show events ');
   console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
+  db.event.find( {uuid: req.params.uuid}, function(error, doc){
+    if (error) {
+      res.json(500, {error: error});
+    } else {
+      res.json(doc);
+    }
+  });
 };
 
 exports.edit = function(req, res){
