@@ -117,7 +117,7 @@ app.configure(function(){
   // enable web server logging; pipe those log messages through winston
   var winstonStream = {
       write: function(message, encoding){
-          winston.info(message);
+        winston.info(message);
       }
   };
   //app.use(express.logger({stream:winstonStream, format: ':remote-addr - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time' }));

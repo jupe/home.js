@@ -9,8 +9,7 @@ define([
     el: $(".sidebar"),
 
     render: function(){
-
-      var that = this;
+      console.log('render SidebarInfoView');
 
       var homejs_ad = {  site_url : "http://www.github.com/jupe/home.js" ,
                           image_url : "./imgs/homejs.png",

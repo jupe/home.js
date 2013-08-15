@@ -1,0 +1,29 @@
+#device-grid {
+  height: 155px;
+  width: 540px;
+  overflow: hidden;
+}
+
+.slickPager {
+  width: 540px;
+}
+
+.alignRight {
+  text-align: right;
+}
+/* Common for all grids*/
+.slick-cell input, .slick-cell select {
+  height: 20px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+.slick-cell.alignRight input {
+  text-align: right;
+}
+
+.slick-pager .slick-pager-settings {
+  display: none;
+}

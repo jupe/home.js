@@ -22,28 +22,25 @@ function event(uuid, type, msg, details){
 }
 
 exports.index = function (req, res) {
-	console.log('resource index');
 	switch (req.params.format) {
-        case (undefined):
-        case ('html'):
-            //res.render('devices', {});
-            res.render('devices', {query: req.query, user: req.session.user}); //Not Implemented
-            break;
-        case ('json'):
-            console.log("get json devices");
-            db.device.find(req.query, function (error, results) {
-                if (error) {
-                    console.log(error);
-                    res.send(500, error);
-                } else {
-                    console.log(results.length);
-                    res.json(results);
-                }
-            });
-            break;
-        default:
-            res.render(501, {user: req.session.user}); //Not Implemented
-            break;
+    case (undefined):
+    case ('html'):
+        //res.render('devices', {});
+        res.render('devices', {query: req.query, user: req.session.user}); //Not Implemented
+        break;
+    case ('json'):
+        db.device.find(req.query, function (error, results) {
+          if (error) {
+              console.log(error);
+              res.send(500, error);
+          } else {
+              res.json(results);
+          }
+        });
+        break;
+    default:
+        res.render(501, {user: req.session.user}); //Not Implemented
+        break;
 	}
 };
 exports.tree = function (req, res) {
@@ -105,7 +102,6 @@ exports.create = function (req, res) {
 exports.show = function (req, res, next) {
 	console.log('show device');
 	console.log(req.params);
-    //console.log(db.devices);
 	switch (req.params.format) {
         case (undefined):
         case ('html'):

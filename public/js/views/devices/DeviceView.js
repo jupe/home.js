@@ -5,29 +5,31 @@ define([
   //'views/sidebar/SidebarView',
   'models/device/DeviceModel',
   'collections/devices/DevicesCollection',
-  'views/devices/DeviceListView',
+  'views/devices/DeviceGridView',
   'text!templates/devices/devicesTemplate.html'
-], function($, _, Backbone, /*SidebarView, */DeviceModel, DevicesCollection, DevicesListView, devicesTemplate){
+], function($, _, Backbone, /*SidebarView, */DeviceModel, DevicesCollection, DevicesGridView, devicesTemplate){
 
-  var DevicesView = Backbone.View.extend({
+  var DeviceView = Backbone.View.extend({
     el: $("#page"),
     initialize: function(){
-      
+      console.log('Initialize deviceView');
     },
     render: function(){
+      console.log('render deviceView');
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(devicesTemplate);
       
-      console.log('Create deviceListView');
+      
       this.devicesCollection = new DevicesCollection;
       var self = this;
       this.devicesCollection.fetch({
         success: function() {
-            var devicesListView = new DevicesListView({ collection: self.devicesCollection}); 
-            
-            console.log('Rendering it');
-            devicesListView.render();
+            var devicesGridView = new DevicesGridView({ 
+              pager: $('#device-pager'),
+              collection: self.devicesCollection
+            }); 
+            devicesGridView.render();
         }
       });      
 
@@ -38,5 +40,5 @@ define([
     }
   });
 
-  return DevicesView;
+  return DeviceView;
 });

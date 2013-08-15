@@ -8,7 +8,16 @@ require.config({
     jquery: 'libs/jquery/jquery-min',
     underscore: 'libs/underscore/underscore-min',
     backbone: 'libs/backbone/backbone-min',
-    templates: '../templates'
+    templates: '../templates',
+    
+    'jquery.event.drag' : 'libs/SlickGrid/lib/jquery.event.drag-2.2',
+    'jquery.ui.sortable': 'libs/SlickGrid/lib/jquery-ui-1.8.16.custom.min',
+    'slickgrid.core'    : 'libs/slickgrid/slick.core',
+    'slickgrid.grid'    : 'libs/slickgrid/slick.grid',
+    'slickgrid.pager'   : 'libs/slickgrid/controls/slick.pager',
+    'slickback'         : 'libs/backbone/slickback.min',
+    
+    
   }
 
 });

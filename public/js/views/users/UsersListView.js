@@ -13,7 +13,7 @@ define([
     el: $("#users-list"),
 
     render: function(){
-      
+      console.log('render UsersListView');
       var data = {
         users: this.collection.models,
         _: _ 

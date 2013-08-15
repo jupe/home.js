@@ -1,4 +1,4 @@
-// Filename: views/devices/list
+// Filename: views/events/list
 define([
   'jquery',
   'underscore',
@@ -13,9 +13,9 @@ define([
     el: $("#event-list"),
 
     render: function(){
-      
+      console.log('render eventsListView');
       var data = {
-        devices: this.collection.models,
+        events: this.collection.models,
         _: _ 
       };
 

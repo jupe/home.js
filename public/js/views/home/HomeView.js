@@ -10,7 +10,7 @@ define([
     el: $("#page"),
 
     render: function(){
-      
+      console.log('render homeView');
       $('.menu li').removeClass('active');
       $('.menu li a[href="#"]').parent().addClass('active');
       this.$el.html(homeTemplate);

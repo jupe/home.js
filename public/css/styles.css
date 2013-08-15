@@ -2,3 +2,10 @@
 @import url('bootstrap.css'); 
 @import url('onoffswitch.css'); 
 @import url('button.css'); 
+@import url('slickgrid.css'); 
+
+@import url('../js/libs/SlickGrid/slick.grid.css'); 
+@import url('../js/libs/SlickGrid/controls/slick.pager.css'); 
+@import url('../js/libs/SlickGrid/controls/slick.columnpicker.css'); 
+@import url('../js/libs/SlickGrid/slick-default-theme.css'); 
+@import url('../js/libs/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom'); 

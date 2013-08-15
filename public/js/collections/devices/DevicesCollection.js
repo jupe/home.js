@@ -8,8 +8,6 @@ define([
   var DeviceCollection = Backbone.Collection.extend({
     model: DeviceModel,
     url: "/device.json",
-    //initialize: function(){}
-
   });
  
   return DeviceCollection;

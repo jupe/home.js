@@ -10,7 +10,7 @@ define([
     el: $("#page"),
 
     render: function(){
-      
+      console.log('render infoView');
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(infoTemplate);

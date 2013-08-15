@@ -14,16 +14,16 @@ define([
     el: $("#page"),
 
     initialize:function() {
-
+      this.collection = new ContributorsCollection([]); 
+    },
+    
+    load: function(){
       var that = this;
 
       var onDataHandler = function(collection) {
           that.render();
       }
-
-      that.collection = new ContributorsCollection([]); 
-      that.collection.fetch({ success : onDataHandler, dataType: "jsonp" });
-
+      this.collection.fetch({ success : onDataHandler, dataType: "jsonp" });
     },
 
     render: function(){

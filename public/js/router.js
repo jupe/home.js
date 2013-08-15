@@ -6,6 +6,9 @@ define([
   'views/home/HomeView',
   'views/home/AdminView',
   'views/home/InfoView',
+  'views/automation/AutomationView',
+  //'views/automation/schedule/ScheduleView',
+  //'views/automation/action/ActionView',
   'views/events/EventView',
   'views/users/UsersView',
   'views/contributors/ContributorsView',
@@ -15,25 +18,29 @@ define([
     HomeView, 
     AdminView, 
     InfoView, 
+    AutomationView, //ScheduleView, ActionView,
     EventView,
     UsersView, 
     ContributorsView, 
-    DevicesView, 
+    DeviceView, 
     FooterView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
-      'user': 'showUsers',
-      'contributor': 'showContributors',
-      
       'device': 'showDevices',
       'device/:uuid': 'showDevice',
+      
+      'automation': 'showAutomation',
       
       'event': 'showEvents',
       'event/:uuid': 'showEvent',
       'admin': 'showAdmin',
+      'user': 'showUsers',
+      
       'info': 'showInfo',
+      'contributor': 'showContributors',
+      
       // Default
       '*action': 'defaultAction'
     }
@@ -41,25 +48,41 @@ define([
   
   var initialize = function(){
 
+    console.log('initialize router');
     var app_router = new AppRouter;
+    
+    console.log('Create route events');
+    var eventView = new EventView();
+    var automationView = new AutomationView();
+    var adminView = new AdminView();
+    var usersView = new UsersView();
+    var infoView = new InfoView();
+    var homeView = new HomeView();
+    var deviceView = new DeviceView();
+    var contributorsView = new ContributorsView();
+    
+    app_router.on('route:showAutomation', function (actions) {
+     
+       // We have no matching route, lets display the home page 
+        automationView.render();
+    });
     
     app_router.on('route:showEvents', function (actions) {
      
        // We have no matching route, lets display the home page 
-        var eventView = new EventView();
         eventView.render();
     });
     
     app_router.on('route:showAdmin', function (actions) {
      
        // We have no matching route, lets display the home page 
-        var adminView = new AdminView();
+        
         adminView.render();
     });
     app_router.on('route:showUsers', function(){
    
         // Call render on the module we loaded in via the dependency array
-        var usersView = new UsersView();
+        
         usersView.render();
     });
   
@@ -67,28 +90,29 @@ define([
     
         // Like above, call render but know that this view has nested sub views which 
         // handle loading and displaying data from the GitHub API  
-        var contributorsView = new ContributorsView();
+        
+        contributorsView.load();
     });
     
     app_router.on('route:showDevices', function () {
     
         // Like above, call render but know that this view has nested sub views which 
         // handle loading and displaying data from the GitHub API  
-        var devicesView = new DevicesView();
-        devicesView.render();
+        
+        deviceView.render();
     });
     
     app_router.on('route:showInfo', function (actions) {
      
        // We have no matching route, lets display the home page 
-        var infoView = new InfoView();
+        
         infoView.render();
     });
 
     app_router.on('route:defaultAction', function (actions) {
      
        // We have no matching route, lets display the home page 
-        var homeView = new HomeView();
+        
         homeView.render();
     });
 
@@ -99,6 +123,10 @@ define([
     var footerView = new FooterView();
 
     Backbone.history.start();
+    
+    Backbone.history.on('route', function () {
+      console.log('routing..');
+    });
   };
   return { 
     initialize: initialize

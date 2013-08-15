@@ -9,7 +9,7 @@ define([
     el: $(".sidebar"),
 
     render: function(){
-
+      console.log('render SidebarAdminView');
       var that = this;
       var data = { links: []};
       data.links.push( {  site_url : "/#/user" ,

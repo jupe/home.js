@@ -3,10 +3,10 @@ define([
   'underscore',
   'backbone',
   'models/event/EventModel'
-], function($, _, Backbone, DeviceModel){
+], function($, _, Backbone, EventModel){
 
   var EventCollection = Backbone.Collection.extend({
-    model: DeviceModel,
+    model: EventModel,
     url: "/event.json",
     //initialize: function(){}
 

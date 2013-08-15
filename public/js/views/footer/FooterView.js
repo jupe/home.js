@@ -25,7 +25,7 @@ define([
     },
 
     render: function(){
-
+      console.log('render footerView');
       var data = {
         owner: this.model.toJSON(),
         _: _ 

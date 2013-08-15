@@ -15,11 +15,11 @@ define([
       
     },
     render: function(){
+      console.log('render usersView');
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(usersTemplate);
       
-      console.log('Create usersListView');
       this.usersCollection = new UsersCollection;
       var self = this;
       this.usersCollection.fetch({

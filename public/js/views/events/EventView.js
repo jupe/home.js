@@ -12,21 +12,18 @@ define([
   var EventsView = Backbone.View.extend({
     el: $("#page"),
     initialize: function(){
-      
     },
     render: function(){
+      console.log('render eventsView');
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(eventTemplate);
       
-      console.log('Create eventsListView');
       this.eventsCollection = new EventsCollection;
       var self = this;
       this.eventsCollection.fetch({
         success: function() {
             var eventsListView = new EventsListView({ collection: self.eventsCollection}); 
-            
-            console.log('Rendering it');
             eventsListView.render();
         }
       });      
