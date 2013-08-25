@@ -146,6 +146,7 @@ var CronService = function() {
       return status();
   }
   var stop = function(){
+      console.log('Stop cron service' .cyan);
       statusnow.cron.active = false
       statusnow.cron.time = new Date();
       if(self.timer) self.timer.stop();

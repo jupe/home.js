@@ -223,7 +223,6 @@ process.on('exit', function() {
 });
 process.on('SIGINT', function() {
   for(var key in service){
-    console.log(service[key]);
     if( service[key].stop ) {
       service[key].stop();
     }

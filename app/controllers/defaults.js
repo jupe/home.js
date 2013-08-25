@@ -17,5 +17,7 @@ exports.login = function (req, res) {
   req.login(req, res);
 }*/
 exports.logout = function (req, res) {
-  req.logout(req, res);
+  req.logout(req, function(err, ok){
+    res.json({ok: ok})
+  });
 }

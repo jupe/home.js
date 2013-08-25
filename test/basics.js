@@ -2,7 +2,8 @@ var exec=require('child_process').exec
   , assert = require('chai').assert
   , request = require("request").defaults({jar: true});
 
-var apiurl = 'http://localhost:3000/api/v0';
+var appurl = 'http://localhost:3000';
+var apiurl = appurl+'/api/v0';
 
 
 
@@ -256,7 +257,7 @@ describe('basics', function() {
   });
   
   it('[GET] /logout', function(done) {
-    request.get({url: apiurl+'/logout', json:true}, 
+    request.get({url: appurl+'/logout', json:true}, 
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
@@ -267,7 +268,8 @@ describe('basics', function() {
   it('[POST] /service/cron/start (denied)', function(done) {
     var options = {
       uri: apiurl+'/service/cron/start',
-      method: 'POST'
+      method: 'POST',
+      json: {}
     };
     request(options,
       function(err, res, body){
