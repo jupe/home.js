@@ -4,6 +4,8 @@
 *IN PROGRESS!*
 
 [![Build Status](https://travis-ci.org/jupe/home.js.png?branch=master)](https://travis-ci.org/jupe/home.js)
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/jupe/)
+[![endorse](https://api.coderwall.com/jupe/endorsecount.png)](https://coderwall.com/jupe)
 
 
 # Overview
