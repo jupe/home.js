@@ -4,62 +4,84 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Home.js by jupe</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/jupe/home.js">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/jupe/home.js/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/jupe/home.js/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1 class="header">Home.js</h1>
-        <p class="header">Node for Home Automation</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/jupe/home.js/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/jupe/home.js/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/jupe/home.js">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/jupe">jupe</a></p>
-
-
-      </header>
       <section>
-        <h1>home.js</h1>
+        <div id="title">
+          <h1>Home.js</h1>
+          <p>Node for Home Automation</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/jupe">jupe</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<p>General home automation framework based on node.js and mongodb. First supported protocols will be onewire (owfs) and zwave</p>
+        <h1>
+<a name="homejs" class="anchor" href="#homejs"><span class="octicon octicon-link"></span></a><a href="http://jupe.github.io/home.js/">home.js</a>
+</h1>
+
+<p><em>IN PROGRESS!</em></p>
+
+<p><a href="https://travis-ci.org/jupe/home.js"><img src="https://travis-ci.org/jupe/home.js.png?branch=master" alt="Build Status"></a></p>
+
+<h1>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h1>
+
+<p>General (home) automation framework based on node.js and mongoDB. </p>
+
+<p>The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version will support onewire for get temperatures and then purpose is to get also zwave support.</p>
 
 <ul>
-<li>Supported OS: Linux/partially windows</li>
-<li>Supported HW: Raspberry Pi &amp; x86 based systems</li>
-</ul><p><img src="https://raw.github.com/wiki/jupe/home.js/screenshots/chart.summary.png" alt="Device Tree"><img src="https://raw.github.com/wiki/jupe/home.js/screenshots/configure.png" alt="Device Tree"><img src="https://raw.github.com/wiki/jupe/home.js/screenshots/devices.png" alt="Device Tree"><img src="https://raw.github.com/wiki/jupe/home.js/screenshots/devices_tree.png" alt="Device Tree"><img src="https://raw.github.com/wiki/jupe/home.js/homejs.png" alt="SW Architecture"></p>
+<li><a href="http://groups.google.com/group/node-home-automation">Discussion group</a></li>
+</ul><h2>
+<a name="features-planned" class="anchor" href="#features-planned"><span class="octicon octicon-link"></span></a>Features (planned)</h2>
 
 <ul>
-<li><a href="https://docs.google.com/presentation/d/170iVTeOct5t582AydG844MueAhtyf9o6j5V6DbciLRM/edit?usp=sharing">Slides</a></li>
-<li><a href="http://groups.google.com/group/node-home-automatino">Discussion group</a></li>
-</ul><h2>Features</h2>
-
-<p>Some of thease might be under develop</p>
-
-<ul>
-<li>Upgrade application directly from web UI</li>
+<li>Upgrade directly from web UI</li>
+<li>Users and groups + authentication</li>
 <li>node.js based server with flexible db (mongodb)</li>
-<li>HTTP html/json RESTful API</li>
-<li>onewire</li>
-<li>zwave (not implemented yet)</li>
-<li>schedules scripts (<a href="https://npmjs.org/package/cron">cron</a>)</li>
+<li>HTTP RESTful API</li>
+<li>single-page front-end (really fast)</li>
+<li>schedules scripts</li>
 <li>action scripts</li>
-<li>Email alerts (e.g. if temperature goes over limits)</li>
-</ul><h2>Installation</h2>
+<li>Email alerts (e.g. if temperature goes over limits) </li>
+<li>Supported hardware:
+
+<ul>
+<li>onewire</li>
+<li>zwave</li>
+<li>...</li>
+</ul>
+</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>See <a href="https://github.com/jupe/home.js/blob/master/INSTALL.md">INSTALL</a> file.</p>
 
-<h2>Dependencies</h2>
+<h2>
+<a name="dependencies" class="anchor" href="#dependencies"><span class="octicon octicon-link"></span></a>Dependencies</h2>
 
 <ul>
 <li><a href="www.nodejs.org">nodejs</a></li>
@@ -68,11 +90,12 @@
 <a href="www.owfs.org">owfs</a>  (will be optional dependency)
 
 <ul>
-<li>limitations: owfs support only linux.</li>
+<li>limitations: owfs support only Linux.</li>
 <li>I've thinking to start using some other onewire library</li>
 </ul>
 </li>
-</ul><h2>Used node modules</h2>
+</ul><h2>
+<a name="used-node-modules" class="anchor" href="#used-node-modules"><span class="octicon octicon-link"></span></a>Used node modules</h2>
 
 <ul>
 <li><a href="http://expressjs.com/">express</a></li>
@@ -84,33 +107,73 @@
 <li><a href="https://npmjs.org/package/emailjs">emailjs</a></li>
 <li><a href="https://npmjs.org/package/cron">cron</a></li>
 <li><a href="https://github.com/cgbystrom/hoard">hoard</a></li>
-</ul><h2>Front-end libraries</h2>
+<li><a href="https://npmjs.org/package/winston">winston</a></li>
+<li><a href="https://npmjs.org/package/keypress">keypress</a></li>
+<li><a href="https://npmjs.org/package/optimist">optimist</a></li>
+<li><a href="https://npmjs.org/package/daemonize2">daemonize2</a></li>
+</ul><h2>
+<a name="front-end-libraries" class="anchor" href="#front-end-libraries"><span class="octicon octicon-link"></span></a>Front-end libraries</h2>
 
 <ul>
+<li><a href="http://www.backbonejs.org">Backbone</a></li>
+<li><a href="http://www.requirejs.org">requirejs</a></li>
+<li><a href="http://w2ui.com/">w2ui</a></li>
 <li><a href="http://www.jstree.com">jsTree</a></li>
 <li><a href="https://github.com/joshfire/jsonform">jsonform</a></li>
 <li><a href="http://www.flotcharts.org/">flot</a></li>
-<li>..</li>
-</ul><h2>todo</h2>
+<li>...</li>
+</ul><h2>
+<a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h2>
+
+<p>API Tested against node.js versions</p>
+
+<table>
+<thead><tr>
+<th>0.10</th>
+<th>0.8</th>
+<th>0.6</th>
+</tr></thead>
+<tbody></tbody>
+</table><h2>
+<a name="hw-requirements" class="anchor" href="#hw-requirements"><span class="octicon octicon-link"></span></a>HW requirements</h2>
 
 <ul>
-<li>[x] Moving sources from <a href="https://code.google.com/p/node-home-automation/">code.google</a> to github</li>
-<li>[ ] Move rest of wiki/pages</li>
-<li>[ ] Get more participations</li>
-<li>[X] Continue developing</li>
-</ul><h2>License</h2>
+<li>Supported OS: Linux/partially windows</li>
+<li>Supported HW: Raspberry Pi &amp; x86 based systems </li>
+</ul><h2>
+<a name="to-do" class="anchor" href="#to-do"><span class="octicon octicon-link"></span></a>To do</h2>
 
-<p>Released under the MIT License</p>
+<ul>
+<li>[x] Reorganize folder structure</li>
+<li>[x] basic test steps against API</li>
+<li>[ ] nice GUI</li>
+<li>[ ] more functionality </li>
+</ul><h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
-<p>See <a href="https://github.com/jupe/home.js/blob/master/LICENSE">LICENSE</a> file.</p>
+<ul>
+<li><a href="jva">Jussi Vatjus-Anttila</a></li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p>Copyright (c) 2013 Jussi Vatjus-Anttila</p>
+<p>Released under the MIT License.
+See <a href="https://github.com/jupe/home.js/blob/master/LICENSE">LICENSE</a> file.</p>
+
+<p>Copyright © 2013 by Jussi Vatjus-Anttila.</p>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-42872086-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
