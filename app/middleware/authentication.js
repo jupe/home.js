@@ -54,23 +54,6 @@ function Authentication(req, res, next) {
       cb();
     });
   }
-  /*
-  var login = function(req,res, next){
-    console.log('login in progress');
-    if( req.session.login ) {
-      res.json({note: 'You are already logged in'});
-    } else {
-      if( req.body.username == 'admin' && req.body.password == 'admin' ) {
-        console.log('login success');
-        createSession(req, function(){
-          res.json({login: 'success'});
-        });
-      } else {
-        console.log('login denied');
-        res.accessDenied();
-      }
-    }
-  }*/
   var logout = function(req, next){
     console.log('logout in progress');
     if( req.session.login ) {
