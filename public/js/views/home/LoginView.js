@@ -16,35 +16,43 @@ define([
       this.session = false;
     },
     events: {
-      'submit form': 'submit'
+      'submit form': 'login',
+      'submit #logout': 'logout'
     },
-    
-    submit: function(e){
+    logout: function(e){
       e.preventDefault();
-      console.log('login..');      
+      $.getJSON('/api/v0/logout', function(data){
+      });
+    },
+    login: function(e){
+      e.preventDefault();
       var form = $(e.target);
       var self = this;
-      var auth = {
+      var url = '/api/v0/login';
+      console.log('Loggin in... ');
+      var formValues = {
         name: form.find('#username').val(),
         password: form.find('#password').val()
       }
-      console.log(auth);
-      var model = this.usersCollection.find( function(model){ return model.get('name') === auth.name} );
-      if( model ) {
-        console.log('username exists, check pwd');
-        this.usersCollection.create( auth, {
-          success: function(model, response){
-            console.log('login success');
-            self.session = response;
-            self.$el.remove('#login');
-          }, error: function(model, response){
-            console.log(response);
-            console.log('login fail');
+      console.log(formValues);
+      //var model = this.usersCollection.find( function(model){ return model.get('name') === auth.name} );
+      $.ajax({
+          url:url,
+          type:'POST',
+          dataType:"json",
+          data: formValues,
+          success:function (data) {
+            console.log(["Login request details: ", data]);
+            if(data.error) {  // If there is an error, show the error messages
+              //$('.alert-error').text(data.error.text).show();
+            }
+            else { // If not, send them back to the home page
+              self.session = data;
+              self.$el.remove('#login');
+              window.location.replace('#');
+            }
           }
-        });
-      } else {
-        console.log('invalid username');
-      }
+      });
     },
 
     render: function(){

@@ -9,7 +9,7 @@ module.exports = function(app, apiurl){
   app.get(apiurl+'/session.:format?', auth.session);
   app.get(apiurl+'/user.:format?', user.index);
   app.get(apiurl+'/user/:user.:format?', user.show);
-  app.put(apiurl+'/user/:user.:format?', user.login);
+  app.post(apiurl+'/login', user.login);
   // restriction area
   app.post(apiurl+'/user', auth.isAdmin, user.create);
   app.put(apiurl+'/user/:user', auth.isAdmin, user.update);

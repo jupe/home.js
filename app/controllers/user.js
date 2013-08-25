@@ -29,7 +29,7 @@ exports.show = function(req, res){
   });
 }
 exports.login = function(req, res, next){
-  console.log(req.body);
+  
   db.group.find( {users: req.body.name}, function( error, groups){
     if( error ){
       console.log('unknown error');
@@ -57,7 +57,7 @@ exports.login = function(req, res, next){
             }
           });
         } else {
-          next();
+          res.json(403, {note: 'pwd not match'});
         }
       });
     }

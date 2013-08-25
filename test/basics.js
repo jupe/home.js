@@ -25,10 +25,10 @@ describe('init', function() {
 
 describe('basics', function() {  
   var schedules = [];
-  it('[PUT] /user (login:fail)', function(done) {
+  it('[POST] /login (login:fail)', function(done) {
     var options = {
-      uri: apiurl+'/user/admin',
-      method: 'PUT',
+      uri: apiurl+'/login',
+      method: 'POST',
       json: {
         "name": "admin",
         "password": "aadmin"
@@ -136,10 +136,10 @@ describe('basics', function() {
     });
   });
   
-  it('[PUT] /user (login-success)', function(done) {
+  it('[POST] /login (login-success)', function(done) {
     var options = {
-      uri: apiurl+'/user/admin',
-      method: 'PUT',
+      uri: apiurl+'/login',
+      method: 'POST',
       json: {
         "name": "admin",
         "password": "admin"
@@ -153,10 +153,10 @@ describe('basics', function() {
     });
   });
   
-  it('[PUT] /user   (login:already logged in)', function(done) {
+  it('[POST] /login   (login:already logged in)', function(done) {
     var options = {
-      uri: apiurl+'/user/admin',
-      method: 'PUT',
+      uri: apiurl+'/login',
+      method: 'POST',
       json: {
         "name": "admin",
         "password": "admin"
@@ -257,7 +257,7 @@ describe('basics', function() {
   });
   
   it('[GET] /logout', function(done) {
-    request.get({url: appurl+'/logout', json:true}, 
+    request.get({url: apiurl+'/logout', json:true}, 
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
