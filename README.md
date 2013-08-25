@@ -3,34 +3,31 @@
 [home.js](http://jupe.github.io/home.js/)
 =======
 
+[![Build Status](https://travis-ci.org/jupe/home.js.png?branch=master)](https://travis-ci.org/jupe/home.js)
+
+* auto-gen TOC:
+{:toc}
+
+# Overview
+
 General (home) automation framework based on node.js and mongoDB. 
 
 The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version will support onewire for get temperatures and then purpose is to get also zwave support.
 
-## Test
-
-Tested against node.js versions: 
-
-| 0.10      | 0.8      | 0.6 | 
-|  --- | --- |--- |
-
-[![Build Status](https://travis-ci.org/jupe/home.js.png?branch=master)](https://travis-ci.org/jupe/home.js)
-
- * Supported OS: Linux/partially windows
- * Supported HW: Raspberry Pi & x86 based systems
-
 * [Discussion group](http://groups.google.com/group/node-home-automation)
 
-## Features
-Some of thease might be under develop
- * Upgrade application directly from web UI
+## Features (planned)
+ * Upgrade directly from web UI
  * node.js based server with flexible db (mongodb)
- * HTTP html/json RESTful API
- * onewire
- * zwave (not implemented yet)
- * schedules scripts ([cron](https://npmjs.org/package/cron))
+ * HTTP RESTful API
+ * single-page front-end (really fast)
+ * schedules scripts
  * action scripts
- * Email alerts (e.g. if temperature goes over limits)
+ * Email alerts (e.g. if temperature goes over limits) 
+ * Supported hardware:
+  * onewire
+  * zwave
+  * ...
 
 ## Installation
 
@@ -40,7 +37,7 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 * [nodejs](www.nodejs.org)
 * [mongodb](mongodb.org)
 * [owfs](www.owfs.org)  (will be optional dependency)
- * limitations: owfs support only linux.
+ * limitations: owfs support only Linux.
   * I've thinking to start using some other onewire library
 
 
@@ -69,21 +66,31 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
  * [flot](http://www.flotcharts.org/)
  * ...
 
-## todo
+## Test
+
+Tested against node.js versions: 
+
+| 0.10      | 0.8      | 0.6 | 
+|  --- | --- |--- |
+
+## HW requirements
+
+ * Supported OS: Linux/partially windows
+ * Supported HW: Raspberry Pi & x86 based systems 
+ 
+## To do
 - [x] Reorganize folder structure
 - [x] basic test steps against API
-- [ ] nice GUI
-- [ ] 
+- [.] nice GUI
+- [.] more functionality 
 
 ## Contributors
 
-* [Jussi Vatjus-Anttila][jva]
+* [Jussi Vatjus-Anttila](jva)
 
 ## License
 
-
-Released under the MIT License
-
+Released under the MIT License.
 See [LICENSE](https://github.com/jupe/home.js/blob/master/LICENSE) file.
 
-Copyright (c) 2013 Jussi Vatjus-Anttila
+Copyright © 2013 by Jussi Vatjus-Anttila.
