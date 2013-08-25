@@ -14,9 +14,6 @@ exports.index = function(req, res){
   switch( req.params.format )
   {
     case(undefined):
-    case('html'):
-        res.render('schedules', {user: req.session.user|'null'});
-        break;
     case('json'):
         console.log("find schedules");
         db.schedule.find(req.params.query, function(err, schedules){
@@ -47,11 +44,6 @@ exports.show = function(req, res){
   switch( req.params.format )
   {
     case(undefined):
-    case('html'):
-        //res.render('schedules_show', {uuid: req.params.schedule});
-        //res.render(501);
-        res.redirect("/schedules", {user: req.session.user|'null'});
-        break;
     case('json'):
         console.log("find schedules");
         db.schedule.findOne({uuid: req.params.schedule}, function(err, schedule){

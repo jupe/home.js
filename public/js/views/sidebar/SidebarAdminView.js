@@ -13,12 +13,12 @@ define([
       var that = this;
       var data = { links: []};
       data.links.push( {  site_url : "/#/user" ,
-                          image_url : "./imgs/user.png",
+                          /*image_url : "./imgs/user.png",*/
                           title : "User",
                           description: "Handle users" } );
 
       data.links.push( {  site_url : "/#/group" ,
-                          image_url : "./imgs/group.png",
+                          /*image_url : "./imgs/group.png",*/
                           title : "Group",
                           description: "Handle groups" } );
 

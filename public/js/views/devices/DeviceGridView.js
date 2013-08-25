@@ -3,15 +3,15 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'slickgrid.core',
-  'slickgrid.grid',
-  'slickgrid.pager',
-  'slickback',
   // Pull in the Collection module from above,
   'models/device/DeviceModel',
   'collections/devices/DevicesCollection',
-  'text!templates/devices/devicesGridTemplate.html'
-], function($, _, Backbone, sc,sg,sp,sb, DeviceModel, DevicesCollection, devicesGridTemplate){
+  'text!templates/devices/devicesGridTemplate.html',
+  'slickgrid.core',
+  'slickgrid.grid',
+  'slickgrid.pager',
+  'slickback'
+], function($, _, Backbone, DeviceModel, DevicesCollection, devicesGridTemplate){
   var DeviceListView = Backbone.View.extend({
     el: $("#device-list"),
     
@@ -19,11 +19,17 @@ define([
       
       this.deviceColumns = [
         {
+          id:       'device_enable',
+          name:     'Enable',
+          field:    'enable',
+          width:    50,
+        },
+        {
           id:       'device_id',
           name:     'Device',
           field:    'uuid',
           sortable: true,
-          width:    120
+          width:    250
         },
         {
           id:       'device_name',
@@ -32,6 +38,12 @@ define([
           width:    150,
           editable: true,
           editor:   Slickback.TextCellEditor
+        },
+        {
+          id:       'device_type',
+          name:     'Type',
+          field:    'type',
+          width:    150,
         }
       ];
     
@@ -51,10 +63,18 @@ define([
       var compiledTemplate = _.template( devicesGridTemplate, {_: _} );
       $("#device-list").html( compiledTemplate );
       
-      var collection = this.collection;
+      var grid = new Slick.Grid("#device-grid", this.collection, this.deviceColumns, this.gridOptions);
+      var pager = new Slick.Controls.Pager(this.collection,grid,this.pager);
       
-      var grid = new Slick.Grid("#device-grid", collection, this.deviceColumns, this.gridOptions);
-      //var pager = new Slick.Controls.Pager(collection,grid,this.pager);
+      this.collection.onRowCountChanged.subscribe(function() {
+        grid.updateRowCount();
+        grid.render();
+      }); 
+
+      this.collection.onRowsChanged.subscribe(function() {
+        grid.invalidateAllRows();
+        grid.render();
+      });
     }
   });
   return DeviceListView;

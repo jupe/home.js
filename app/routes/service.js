@@ -1,9 +1,9 @@
-module.exports = function(app){
+module.exports = function(app, apiurl){
   var service = require('./../controllers/service');
   var auth = require('./../middleware/authentication').Middleware;
 
-  app.get('/service:format?', service.index);
-  app.post('/service/:service/:operation', auth.isAdmin, service.operation);
-  app.get('/service/:service', service.status);
+  app.get(apiurl+'/service:format?', service.index);
+  app.post(apiurl+'/service/:service/:operation', auth.isAdmin, service.operation);
+  app.get(apiurl+'/service/:service', service.status);
 }
 module.exports.disable = false;

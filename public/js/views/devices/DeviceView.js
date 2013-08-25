@@ -2,17 +2,17 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  //'views/sidebar/SidebarView',
   'models/device/DeviceModel',
   'collections/devices/DevicesCollection',
   'views/devices/DeviceGridView',
   'text!templates/devices/devicesTemplate.html'
-], function($, _, Backbone, /*SidebarView, */DeviceModel, DevicesCollection, DevicesGridView, devicesTemplate){
+], function($, _, Backbone, DeviceModel, DevicesCollection, DevicesGridView, devicesTemplate){
 
   var DeviceView = Backbone.View.extend({
     el: $("#page"),
     initialize: function(){
       console.log('Initialize deviceView');
+      this.devicesCollection = new DevicesCollection;
     },
     render: function(){
       console.log('render deviceView');
@@ -20,8 +20,6 @@ define([
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(devicesTemplate);
       
-      
-      this.devicesCollection = new DevicesCollection;
       var self = this;
       this.devicesCollection.fetch({
         success: function() {

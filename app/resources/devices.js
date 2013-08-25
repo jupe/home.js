@@ -24,10 +24,6 @@ function event(uuid, type, msg, details){
 exports.index = function (req, res) {
 	switch (req.params.format) {
     case (undefined):
-    case ('html'):
-        //res.render('devices', {});
-        res.render('devices', {query: req.query, user: req.session.user}); //Not Implemented
-        break;
     case ('json'):
         db.device.find(req.query, function (error, results) {
           if (error) {
@@ -104,9 +100,6 @@ exports.show = function (req, res, next) {
 	console.log(req.params);
 	switch (req.params.format) {
         case (undefined):
-        case ('html'):
-            res.render('devices.show.jade', {uuid: req.params.device, user: req.session.user});
-            break;
         case ('json'):
             console.log("get json devices");
             db.device.findOne({uuid: req.params.device}, function (error, results) {
@@ -139,9 +132,6 @@ exports.events = function(req,res)
     console.log(req.body);
     switch (req.params.format) {
         case (undefined):
-        case ('html'):
-            res.render('devices.events.jade', {user: req.session.user});
-            break;
         case ('json'):
             db.device.events.find( { uuid: req.params.device}, function(error, events){
                 res.json(events);

@@ -22,10 +22,12 @@ function Db() {
   });
   
   /* Create if not exists already*/
-  self.user.store( {name: 'admin'}, function(error, doc){});
-  self.group.store( {name: 'admin', users: ['admin']}, function(error, doc){});
-  self.group.store( {name: 'default', users: ['admin']}, function(error, doc){});
-   
+  var nullFunc = function(err, doc){}
+  self.user.store( {name: 'admin', password: 'admin'}, nullFunc);
+  self.group.store( {name: 'admin', users: ['admin']}, nullFunc);
+  self.group.store( {name: 'default', users: ['admin']}, nullFunc);
+  self.event.store( {type: 'info', source: {type: 'service', name: 'home.js'}, msg: 'startup'}, nullFunc);
+  
   //this.actionModel.create( {uuid: '0', name: 'test', script: 'console.log("test")'}, function(e,d){}); 
   //this.scheduleModel.create( { uuid: '0', enable: true, name: 'scheduler updater', actions: ['0'], cron: '*/10 * * * *' }, function(e,d){});
   /*

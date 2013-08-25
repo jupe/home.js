@@ -1,5 +1,13 @@
-<ul>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Groups</th>
+  </tr>
   <% _.each(users, function(user){ %>
-   <li><a href='<%= user.get("url") %>'><%= user.get("name") %></a></li> 
+    <tr>
+    <td><a href='#/user/<%= user.get("name") %>'><%= user.get("name") %></a></td>
+    <td></td>
+    <!-- <td><a href='#/group/<%= user.get("group") %>'><%= user.get("group") %></a></td> -->
+   </tr>
   <% }); %>
-</ul>
+</table>

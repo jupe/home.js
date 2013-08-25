@@ -9,12 +9,14 @@ exports.index = function(req, res){
   }
 }
 exports.show = function(req, res){
+  console.log('show user');
   db.group.find( {users: req.params.user}, function( error, groups){
     db.user.findOne( {name: req.params.user}, function(error, user){
       if(error){
         res.json(404, {error: error});
       } else if(user) {
         user = user.toObject();
+        delete user.password;
         user.group = [];
         for(var i in groups){
           user.group.push(groups[i].name);
@@ -25,6 +27,42 @@ exports.show = function(req, res){
       }
     });
   });
+}
+exports.login = function(req, res, next){
+  console.log(req.body);
+  db.group.find( {users: req.body.name}, function( error, groups){
+    if( error ){
+      console.log('unknown error');
+      res.json(403, {error: error});
+    } else {
+      db.user.findOne({name: req.body.name}, function( error, doc){
+        if( error ){
+          console.log('unknown error2');
+          res.json(404, {error: error});
+        } else if( doc ) {
+          var user = doc.toObject();
+          user.group = [];
+          for(var i in groups){
+            user.group.push(groups[i].name);
+          }
+          doc.comparePassword( req.body.password, function(ok){
+            if(ok){
+              console.log('pwd valid' .green);
+              req.createSession( user, function(msg){
+                res.json(user);
+              });
+            } else {
+              console.log('pwd invalid'.red);
+              res.json(403, {note: 'pwd not match'});
+            }
+          });
+        } else {
+          next();
+        }
+      });
+    }
+  });
+  
 }
 exports.create = function(req, res){
   db.user.findOrCreate({name: req.body.name}, req.body, function(error, doc, _new){

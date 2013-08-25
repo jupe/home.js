@@ -2,12 +2,16 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/event/EventModel'
+  'models/event/EventModel',
+  'slickgrid.core',
+  'slickgrid.grid',
+  'slickgrid.pager',
+  'slickback'
 ], function($, _, Backbone, EventModel){
 
-  var EventCollection = Backbone.Collection.extend({
+  var EventCollection = Slickback.PaginatedCollection.extend({
     model: EventModel,
-    url: "/event.json",
+    url: "/api/v0/event",
     //initialize: function(){}
 
   });

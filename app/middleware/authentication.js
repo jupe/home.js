@@ -36,22 +36,25 @@ function Authentication(req, res, next) {
     if( typeof(req.session.user.groups)=='object') return true;
     return false;
   }
-  function createSession(req, cb)
+  function createSession( user, cb)
   {
     //Special admin user for this application.
     // Regenerate session when signing in
     // to prevent fixation
+    var req = this;
+    console.log(user);
     req.session.regenerate(function(){
       req.session.login = true;
       req.session.user = {
         timestamp: new Date(),
-        name: req.body.username,
-        groups: ['admin']
+        name: user.name,
+        group: user.group
       }
       console.log('Session regenerated');
       cb();
     });
   }
+  /*
   var login = function(req,res, next){
     console.log('login in progress');
     if( req.session.login ) {
@@ -66,28 +69,27 @@ function Authentication(req, res, next) {
         console.log('login denied');
         res.accessDenied();
       }
-
     }
-  }
-  var logout = function(req,res, next){
+  }*/
+  var logout = function(req, next){
     console.log('logout in progress');
     if( req.session.login ) {
       req.session.login = false;
       req.session.destroy(function() {
         console.log('logout successfully');
-        res.json({logout: 'success'});
+        next(null, 'ok');
       });
     } else {
-      res.json({note: 'you didnt were logged in'});
+      next(null, 'you didnt were logged in');
     }
   }
   var validateGroup = function( validGroup ){
     if( !req.session.user ) return false;
     //admin group
-    if( req.session.user.name == 'admin' ) return true;
+    if( req.session.user.name === 'admin' ) return true;
     if( req.session.user.groups.indexOf('admin')>=0) return true;
     
-    if( typeof(validGroup) == 'string') {
+    if( typeof(validGroup) === 'string') {
       if( req.session.user.groups.indexOf(validGroup)>=0 ) return true;
     } else {
       var i;
@@ -177,9 +179,10 @@ function Authentication(req, res, next) {
   res.notSupported = renderNotSupported;
   
   /* Request helper functions*/
-  req.login = login;
-  req.logout = logout;
+  //req.login = login;
+  req.createSession = createSession;
   req.isLoggedUser = isLoggedUser;
+  req.logout = logout;
   
   req.isValidUser = validateUser;
   req.isValidGroup = validateGroup;

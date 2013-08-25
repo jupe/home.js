@@ -2,6 +2,9 @@ var exec=require('child_process').exec
   , assert = require('chai').assert
   , request = require("request");
 
+var appurl = 'http://localhost:3000';
+var apiurl = appurl+'/api/v0';  
+
 describe('init', function() {
   
   it('server start as daemon', function(done) {
@@ -17,7 +20,7 @@ describe('init', function() {
   
   
   it('frontpage', function(done) {
-    request.get('http://localhost:3000', 
+    request.get(appurl, 
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
@@ -26,7 +29,7 @@ describe('init', function() {
   });
   
   it('argv', function(done) {
-    request.get('http://localhost:3000/argv', 
+    request.get(appurl+'/argv', 
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);

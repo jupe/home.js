@@ -3,6 +3,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'views/home/LoginView',
   'views/home/HomeView',
   'views/home/AdminView',
   'views/home/InfoView',
@@ -15,6 +16,7 @@ define([
   'views/devices/DeviceView',
   'views/footer/FooterView'
 ], function($, _, Backbone, 
+    LoginView,
     HomeView, 
     AdminView, 
     InfoView, 
@@ -27,9 +29,13 @@ define([
   
   var AppRouter = Backbone.Router.extend({
     routes: {
-      // Define some URL routes
+      
+      // Define URL routes
+      'login': 'login',
+      
       'device': 'showDevices',
       'device/:uuid': 'showDevice',
+      
       
       'automation': 'showAutomation',
       
@@ -51,6 +57,8 @@ define([
     console.log('initialize router');
     var app_router = new AppRouter;
     
+    window.homejs = window.homejs?window.homejs:{Router: app_router}; 
+    
     console.log('Create route events');
     var eventView = new EventView();
     var automationView = new AutomationView();
@@ -59,7 +67,12 @@ define([
     var infoView = new InfoView();
     var homeView = new HomeView();
     var deviceView = new DeviceView();
+    var loginView = new LoginView();
     var contributorsView = new ContributorsView();
+    
+    app_router.on('route:login', function (actions) {
+      loginView.render();
+    });
     
     app_router.on('route:showAutomation', function (actions) {
      
@@ -124,8 +137,8 @@ define([
 
     Backbone.history.start();
     
-    Backbone.history.on('route', function () {
-      console.log('routing..');
+    Backbone.history.on('route', function (route, fname, arg) {
+      console.log('routing-->'+fname);
     });
   };
   return { 

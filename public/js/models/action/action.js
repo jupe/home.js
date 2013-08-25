@@ -21,7 +21,7 @@ var Action = Backbone.Model.extend({
 
 var LibAction = Backbone.Collection.extend({
   model: Action,
-  url: "/action.json",
+  url: "/api/v0/action.json",
   initialize: function(){
     this.fetch({
       success: function() {

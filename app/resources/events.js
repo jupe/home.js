@@ -11,9 +11,6 @@ DELETE  /events/:item       ->  destroy
 exports.index = function(req, res){
   switch (req.params.format) {
     case (undefined):
-    case ('html'):
-        res.render('events', {user: req.session.user});
-        break;
     case ('json'):
         db.event.find(req.query, function (error, results) {
             if (error) {
@@ -67,12 +64,24 @@ exports.edit = function(req, res){
 
 exports.update = function(req, res){
   console.log('update event ');
-  console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
+  db.event.findAndUpdate( { uuid: req.params.event}, function(error, doc){
+    if (error) {
+      res.json(500, {error: error});
+    } else {
+      res.json(doc);
+    }
+  });
 };
 
 exports.destroy = function(req, res){
   console.log('destroy event ');
-  console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
+  db.event.remove({ uuid: req.params.event}, function(error, ok){
+    if (error) {
+      res.json(500, {error: error});
+    } else if(ok){
+      res.json({});
+    }else {
+      res.json(303, {});
+    }
+  });
 };

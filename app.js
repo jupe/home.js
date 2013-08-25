@@ -189,7 +189,7 @@ fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
     if( route.disable ){}
     else {
       winston.info('Init routes '+file .cyan);
-      route(app);
+      route(app, '/api/v0');
     }
   }
 });

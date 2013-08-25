@@ -1,12 +1,10 @@
-* IN PROGRESS! *
-
 [home.js](http://jupe.github.io/home.js/)
 =======
 
+*IN PROGRESS!*
+
 [![Build Status](https://travis-ci.org/jupe/home.js.png?branch=master)](https://travis-ci.org/jupe/home.js)
 
-* auto-gen TOC:
-{:toc}
 
 # Overview
 
@@ -18,6 +16,7 @@ The aim is to provide a framework for home automation that can be used for examp
 
 ## Features (planned)
  * Upgrade directly from web UI
+ * Users and groups + authentication
  * node.js based server with flexible db (mongodb)
  * HTTP RESTful API
  * single-page front-end (really fast)
@@ -68,7 +67,7 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 
 ## Test
 
-Tested against node.js versions: 
+API Tested against node.js versions
 
 | 0.10      | 0.8      | 0.6 | 
 |  --- | --- |--- |
@@ -81,8 +80,8 @@ Tested against node.js versions:
 ## To do
 - [x] Reorganize folder structure
 - [x] basic test steps against API
-- [.] nice GUI
-- [.] more functionality 
+- [ ] nice GUI
+- [ ] more functionality 
 
 ## Contributors
 

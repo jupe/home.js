@@ -2,16 +2,17 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  //'views/sidebar/SidebarView',
   'models/event/EventModel',
   'collections/events/EventsCollection',
-  'views/events/EventsListView',
+  'views/events/EventsGridView',
   'text!templates/events/eventTemplate.html'
-], function($, _, Backbone, /*SidebarView, */EventModel, EventsCollection, EventsListView, eventTemplate){
+], function($, _, Backbone, EventModel, EventsCollection, EventsGridView, eventTemplate){
 
   var EventsView = Backbone.View.extend({
     el: $("#page"),
     initialize: function(){
+      console.log('Initialize eventsView');
+      this.eventsCollection = new EventsCollection;
     },
     render: function(){
       console.log('render eventsView');
@@ -19,12 +20,14 @@ define([
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(eventTemplate);
       
-      this.eventsCollection = new EventsCollection;
       var self = this;
       this.eventsCollection.fetch({
         success: function() {
-            var eventsListView = new EventsListView({ collection: self.eventsCollection}); 
-            eventsListView.render();
+            var eventsGridView = new EventsGridView({ 
+              pager: $('#event-pager'),
+              collection: self.eventsCollection
+            }); 
+            eventsGridView.render();
         }
       });      
 

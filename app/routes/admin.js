@@ -1,12 +1,12 @@
-module.exports = function(app){
+module.exports = function(app, apiurl){
   var admin = require('./../controllers/admin');
   
-  app.get('/admin/configure', admin.configure);
-  app.put('/admin/configure/:configure', admin.update);
-  app.get('/admin/configure/:configure.:format?', admin.get);
-  app.get('/admin/upgrade.:format?', admin.versions);
-  app.post('/admin/upgrade.:format?', admin.upgrade);
-  app.post('/admin/reboot.:format?', admin.reboot);
-  app.get('/admin/commit.:format?', admin.commit);
+  app.get(apiurl+'/admin/configure', admin.configure);
+  app.put(apiurl+'/admin/configure/:configure', admin.update);
+  app.get(apiurl+'/admin/configure/:configure.:format?', admin.get);
+  app.get(apiurl+'/admin/upgrade.:format?', admin.versions);
+  app.post(apiurl+'/admin/upgrade.:format?', admin.upgrade);
+  app.post(apiurl+'/admin/reboot.:format?', admin.reboot);
+  app.get(apiurl+'/admin/commit.:format?', admin.commit);
 }
 module.exports.disable = false;

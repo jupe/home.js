@@ -7,7 +7,7 @@ define([
 
   var UserCollection = Backbone.Collection.extend({
     model: UserModel,
-    url: "/user.json",
+    url: "/api/v0/user",
     initialize: function(){
       /*this.fetch({
         success: function() {

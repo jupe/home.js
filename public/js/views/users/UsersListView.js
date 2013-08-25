@@ -10,8 +10,9 @@ define([
 
 ], function($, _, Backbone, UserModel, UsersCollection, usersListTemplate){
   var UserListView = Backbone.View.extend({
-    el: $("#users-list"),
-
+    el: $("#user-list"),
+    initialization: function(){
+    },
     render: function(){
       console.log('render UsersListView');
       var data = {
@@ -20,7 +21,7 @@ define([
       };
 
       var compiledTemplate = _.template( usersListTemplate, data );
-      $("#users-list").html( compiledTemplate ); 
+      $("#user-list").html( compiledTemplate ); 
     }
   });
   return UserListView;
