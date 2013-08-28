@@ -13,11 +13,11 @@ define([
   'slickback'
 ], function($, _, Backbone, EventModel, EventsCollection, eventsGridTemplate){
   var EventListView = Backbone.View.extend({
-    el: $("#event-list"),
+    el: "#event-list",
     initialize: function(initializationOpts){
       
       this.eventColumns = [
-        /*{
+        {
           id:       'event_uuid',
           name:     'Uuid',
           field:    'uuid',
@@ -28,7 +28,7 @@ define([
           name:     'Date',
           field:    'created.timestamp',
           width:    150,
-        },*/
+        },
         {
           id:       'event_msg',
           name:     'Msg',
@@ -47,10 +47,10 @@ define([
       console.log('render eventListView');
 
       var compiledTemplate = _.template( eventsGridTemplate, {_: _} );
-      $("#event-list").html( compiledTemplate );
-      
+      this.$el.html( compiledTemplate );
+      /* [{uuid: '2345', 'created.timestamp': 'aset', msg: 'test'}] */
       var grid = new Slick.Grid("#event-grid", this.collection, this.eventColumns, this.gridOptions);
-      var pager = new Slick.Controls.Pager(this.collection,grid,this.pager);
+      var pager = new Slick.Controls.Pager(this.collection, grid, this.pager);
       
       this.collection.onRowCountChanged.subscribe(function() {
         grid.updateRowCount();

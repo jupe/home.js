@@ -5,7 +5,7 @@ define([
   
   var DeviceModel = Backbone.Model.extend({
 
-    idAttribute: "uuid",
+    idAttribute: "uuid"
     /*initialize: function() {  },
 
     allowedToEdit: function(account) {

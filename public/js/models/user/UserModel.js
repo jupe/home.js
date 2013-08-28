@@ -1,11 +1,18 @@
 define([
   'underscore',
-  'backbone'
-], function(_, Backbone) {
+  'backbone',
+  'backbone.forms',
+], function(_, Backbone, Form) {
   
   var UserModel = Backbone.Model.extend({
 
     idAttribute: "name",
+    schema: {
+      name:       'Text',
+      //email:      { validators: ['required', 'email'] },
+      password:   'Password',
+      //notes:      { type: 'List', itemType: 'Text' }
+    }
     /*initialize: function() {  },
 
     allowedToEdit: function(account) {

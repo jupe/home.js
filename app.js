@@ -188,7 +188,8 @@ fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
     var route = require('./app/routes/'+file);
     if( route.disable ){}
     else {
-      winston.info('Init routes '+file .cyan);
+      var name = file.substr(0, file.length-3);
+      winston.info('Init routes '+name .cyan);
       route(app, '/api/v0');
     }
   }

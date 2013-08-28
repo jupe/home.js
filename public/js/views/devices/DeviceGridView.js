@@ -13,7 +13,7 @@ define([
   'slickback'
 ], function($, _, Backbone, DeviceModel, DevicesCollection, devicesGridTemplate){
   var DeviceListView = Backbone.View.extend({
-    el: $("#device-list"),
+    el: "#device-list",
     
     initialize: function(initializationOpts){
       
@@ -46,14 +46,11 @@ define([
           width:    150,
         }
       ];
-    
       this.pager  = initializationOpts.pager;
       this.gridOptions = _.extend({},{
         editable:         true,
         formatterFactory: Slickback.BackboneModelFormatterFactory
       }, initializationOpts.grid);
-
-      
 
     },
 

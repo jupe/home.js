@@ -12,9 +12,10 @@ define([
   //'views/automation/action/ActionView',
   'views/events/EventView',
   'views/users/UsersView',
+  'views/users/UserEditView',
   'views/contributors/ContributorsView',
   'views/devices/DeviceView',
-  'views/footer/FooterView'
+  'views/footer/FooterView',
 ], function($, _, Backbone, 
     LoginView,
     HomeView, 
@@ -22,7 +23,7 @@ define([
     InfoView, 
     AutomationView, //ScheduleView, ActionView,
     EventView,
-    UsersView, 
+    UsersView,UserEditView,
     ContributorsView, 
     DeviceView, 
     FooterView) {
@@ -43,6 +44,7 @@ define([
       'event/:uuid': 'showEvent',
       'admin': 'showAdmin',
       'user': 'showUsers',
+      'user/:name': 'editUser',
       
       'info': 'showInfo',
       'contributor': 'showContributors',
@@ -97,6 +99,12 @@ define([
         // Call render on the module we loaded in via the dependency array
         
         usersView.render();
+    });
+     app_router.on('route:editUser', function(){
+   
+        // Call render on the module we loaded in via the dependency array
+        var editView = new UserEditView();
+        editView.render();
     });
   
     app_router.on('route:showContributors', function () {

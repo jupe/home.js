@@ -9,7 +9,7 @@ define([
 ], function($, _, Backbone, EventModel, EventsCollection, EventsGridView, eventTemplate){
 
   var EventsView = Backbone.View.extend({
-    el: $("#page"),
+    el: "#page",
     initialize: function(){
       console.log('Initialize eventsView');
       this.eventsCollection = new EventsCollection;
@@ -29,7 +29,7 @@ define([
             }); 
             eventsGridView.render();
         }
-      });      
+      });
 
       // add the sidebar 
       //var sidebarView = new SidebarView();
