@@ -40,13 +40,89 @@ var TimeSeries = function(dir){
         callback(err);
     });
   }
+  var firstDayOfWeek = function(week, year) { 
+      if (typeof year !== 'undefined') {
+        year = (new Date()).getFullYear();
+    }
+
+    var date       = firstWeekOfYear(year),
+        weekTime   = weeksToMilliseconds(week),
+        targetTime = date.getTime() + weekTime - 86400000;
+
+    var result = new Date(targetTime)
+
+    return result; 
+  }
+  var lastDayOfWeek = function(week, year) { 
+      var first = firstDayOfWeek(week, year);
+      return first + (1000 * 60 * 60 * 24 * 7);
+  }
+  var weeksToMilliseconds = function(weeks) {
+     return 1000 * 60 * 60 * 24 * 7 * (weeks - 1);
+  }
+  var firstWeekOfYear = function(year) {
+    var date = new Date();
+    date = firstDayOfYear(date,year);
+    date = firstWeekday(date);
+    return date;
+  }
+  var firstDayOfYear = function(date, year) {
+      date.setYear(year);
+      date.setDate(1);
+      date.setMonth(0);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
+  }
+  /**
+   * Sets the given date as the first day of week of the first week of year.
+   */
+  var firstWeekday = function(firstOfJanuaryDate) {
+      // 0 correspond au dimanche et 6 correspond au samedi.
+      var FIRST_DAY_OF_WEEK = 1; // Monday, according to iso8601
+      var WEEK_LENGTH = 7; // 7 days per week
+      var day = firstOfJanuaryDate.getDay();
+      day = (day === 0) ? 7 : day; // make the days monday-sunday equals to 1-7 instead of 0-6
+      var dayOffset=-day+FIRST_DAY_OF_WEEK; // dayOffset will correct the date in order to get a Monday
+      if (WEEK_LENGTH-day+1<4) {
+          // the current week has not the minimum 4 days required by iso 8601 => add one week
+          dayOffset += WEEK_LENGTH;
+      }
+      return new Date(firstOfJanuaryDate.getTime()+dayOffset*24*60*60*1000);
+  }
+  
   var unixTime = function(date) {
-    if( date ) return parseInt(date.getTime() / 1000);
-    return parseInt(new Date().getTime() / 1000);
-  };
+    var type = typeof(date);
+    console.log(type);
+    if( type == 'undefined') {
+      return parseInt(new Date().getTime() / 1000);
+    } else if( type == 'string' ){
+      var parts = date.match(/(^\d{2})w(\d{1,2})/); //13w28  (year w week)
+      if( parts.length == 3 ) {
+        parts[1] = parseInt(parts[1]);
+        parts[2] = parseInt(parts[2]);
+        if( parts[1] < 90 ) { parts[1] += 2000; }
+        else parts[1] += 1900;
+        console.log('year: '+parts[1]+' week: '+parts[2]);
+        var stamp = firstDayOfWeek(parts[1], parts[2]);
+        return unixTime(stamp);
+      }
+    } else if( type == 'number' ){ 
+      return unixTime(new Date(date));
+    } else if( date.getTime ) return parseInt(date.getTime() / 1000);
+    else return parseInt(new Date().getTime() / 1000);
+  }
+  
   var fetch = function(cfg, callback) {
-    try{
-      hoard.fetch(getFile(cfg.uuid), unixTime(cfg.from), unixTime(cfg.to), 
+    
+    var from = unixTime(cfg.from);
+    var to = unixTime(cfg.to);
+    console.log("From: "+from+", to: "+to);
+    
+    try {
+      hoard.fetch(getFile(cfg.uuid), from, to, 
         function(err, timeInfo, values) {
           if (err) {
             callback(err);
@@ -97,12 +173,12 @@ db.update({uuid: '123', data: [[stamp, 123]]}, function(err) {
 }); 
 console.log( db.get('123') ); 
 */
-db.fetch({uuid: '123', from: new Date(Date.Now-10000), to: new Date()}, function(err, data){
+db.fetch({uuid: '123', from: '12w12'}, function(err, data){
   if(err) {
     console.log('error');
     console.log(err);
     
   }
-  else console.log(data);
+  else console.log(data.timeInfo);
 });
 
