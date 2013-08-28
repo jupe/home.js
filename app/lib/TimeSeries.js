@@ -36,6 +36,10 @@ var TimeSeries = function(dir){
     }
   }
   var update = function(cfg, callback){
+    var i;
+    for(i=0;i<cfg.data.length;i++){
+      cfg.data[i][0] = unixTime(cfg.data[i][0]);
+    }
     hoard.update(getFile(cfg.uuid), cfg.data, function(err) {
         callback(err);
     });
@@ -95,7 +99,6 @@ var TimeSeries = function(dir){
   
   var unixTime = function(date) {
     var type = typeof(date);
-    console.log(type);
     if( type == 'undefined') {
       return parseInt(new Date().getTime() / 1000);
     } else if( type == 'string' ){
@@ -105,8 +108,9 @@ var TimeSeries = function(dir){
         parts[2] = parseInt(parts[2]);
         if( parts[1] < 90 ) { parts[1] += 2000; }
         else parts[1] += 1900;
-        console.log('year: '+parts[1]+' week: '+parts[2]);
-        var stamp = firstDayOfWeek(parts[1], parts[2]);
+        
+        var stamp = firstDayOfWeek(parts[2], parts[1]);
+        //console.log('year: '+parts[1]+' week: '+parts[2]+' -> ' +stamp);
         return unixTime(stamp);
       }
     } else if( type == 'number' ){ 
@@ -114,27 +118,41 @@ var TimeSeries = function(dir){
     } else if( date.getTime ) return parseInt(date.getTime() / 1000);
     else return parseInt(new Date().getTime() / 1000);
   }
-  
+  var convertValues = function(timeInfo, values){
+    var stamp = new Date( timeInfo[0]*1000 ).getTime();
+    var interval = timeInfo[2]*1000;
+    var data = {};
+    for(var i=0;i<values.lenght;i++){
+      if( values[i] != 'null'){
+        data[stamp] = values[i];
+      }
+      stamp += interval;
+      
+    }
+    return data;
+  }
   var fetch = function(cfg, callback) {
     
     var from = unixTime(cfg.from);
     var to = unixTime(cfg.to);
-    console.log("From: "+from+", to: "+to);
-    
+    //console.log("From: "+from+", to: "+to);
     try {
       hoard.fetch(getFile(cfg.uuid), from, to, 
         function(err, timeInfo, values) {
           if (err) {
             callback(err);
           } else {
-            callback( null, 
-              { timeInfo: {
-                from: new Date(timeInfo[0]*1000), 
-                to: new Date(timeInfo[1]*1000), 
-                interval: timeInfo[2]*1000
-              }, 
-              values: values }
-            );
+            if( cfg.convert ) callback(null, convertValues( timeInfo, values));
+            else {
+              callback( null, 
+                { timeInfo: {
+                  from: new Date(timeInfo[0]*1000), 
+                  to: new Date(timeInfo[1]*1000), 
+                  interval: timeInfo[2]*1000
+                }, 
+                values: values }
+              );
+            }
           }
         }
       );
@@ -156,7 +174,7 @@ module.exports = TimeSeries;
 
 /* TEST */
 var db = new TimeSeries('./hoards');
-/*
+
 db.create( {uuid: '123', archives: 
                   [  [60*5,  12*24],     // meas/5min  1 days
                      [60*10, 12*24*7],  // meas/10min  7 days
@@ -167,18 +185,18 @@ db.create( {uuid: '123', archives:
   else console.log(obj);
 });
 
-db.update({uuid: '123', data: [[stamp, 123]]}, function(err) {
+db.update({uuid: '123', data: [[parseInt(new Date().getTime() / 1000), 123]]}, function(err) {
     if (err) throw err;
     console.log('Hoard file updated!');
 }); 
 console.log( db.get('123') ); 
-*/
-db.fetch({uuid: '123', from: '12w12'}, function(err, data){
+
+db.fetch({uuid: '123', from: '13w35', to: '13w36', convert: true}, function(err, data){
   if(err) {
     console.log('error');
     console.log(err);
     
   }
-  else console.log(data.timeInfo);
+  else console.log(data);
 });
 
