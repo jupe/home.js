@@ -47,8 +47,9 @@ var TimeSeries = function(config){
       callback({msg: 'already exists', filename: filename});
       return;
     }
+    
     try {
-      hoard.create(filename, cfg.archives, cfg.period, 0.5,  function(err) {
+      hoard.create(filename, cfg.archives, cfg.period, function(err) {
         if (err){
           callback(err);
         } else {
@@ -59,14 +60,10 @@ var TimeSeries = function(config){
       callback(e);
     }
   }
-  var update = function(cfg, callback){
+  var update = function(id, timestamp, value, callback){
     var i;
-    /*for(i=0;i<cfg.data.length;i++){
-      cfg.data[i][0] = unixTime(cfg.data[i][0]);
-    }*/
-    console.log(cfg);
     try {
-      hoard.update(getFile(cfg.id), cfg.data, function(err) {
+      hoard.update(getFile(id), value, timestamp, function(err) {
           callback(err);
       });
     } catch(e){
@@ -78,7 +75,6 @@ var TimeSeries = function(config){
     /*for(i=0;i<cfg.data.length;i++){
       cfg.data[i][0] = unixTime(cfg.data[i][0]);
     }*/
-    console.log(cfg);
     try {
       hoard.updateMany(getFile(cfg.id), cfg.data, function(err) {
         callback(err);
@@ -163,16 +159,20 @@ var TimeSeries = function(config){
     } else if( date.getTime ) return parseInt(date.getTime() / 1000);
     else return parseInt(new Date().getTime() / 1000);
   }
-  var convertValues = function(timeInfo, values){
+  var convertValues = function(cfg, timeInfo, values){
     var stamp = new Date( timeInfo[0]*1000 ).getTime();
     var interval = timeInfo[2]*1000;
-    var data = {};
-    for(var i=0;i<values.lenght;i++){
-      if( values[i] != 'null'){
-        data[stamp] = values[i];
-      }
-      stamp += interval;
+    var data = [];
+    for(var i=0;i<values.length;i++){
       
+      if( cfg.format == '[[time, value]]' || !cfg.format ) {
+        if( cfg.clean===true || typeof(cfg.clean) == 'undefined' ) {
+          if( values[i] != null){
+            data.push( [stamp, values[i]] );
+          }
+        } else data.push( [stamp, values[i]] );
+        stamp += interval;
+      }
     }
     return data;
   }
@@ -187,7 +187,7 @@ var TimeSeries = function(config){
           if (err) {
             callback(err);
           } else {
-            if( cfg.convert ) callback(null, convertValues( timeInfo, values));
+            if( cfg.convert ) callback(null, convertValues( cfg, timeInfo, values));
             else {
               callback( null, 
                 { timeInfo: {
@@ -221,12 +221,14 @@ module.exports = TimeSeries;
 
 
 /* TEST */
+var fs = require('fs');
 var assert = require('chai').assert;
 //var TimeSeries = require('TimeSeries');
-var db;
+
 describe('basic', function() {
   
-  
+  var db;
+  var unixStamp = parseInt(new Date().getTime()/1000);
   before( function(){
     db = new TimeSeries({dir: './hoards'});
     db.remove('123');
@@ -241,63 +243,86 @@ describe('basic', function() {
     assert.typeOf( db.update, 'Function');
     assert.typeOf( db.updateMany, 'Function');
     assert.typeOf( db.fetch, 'Function');
-    
+    done();
   });
   
   it('create', function(done) {
-    
     db.create( {id: '123', archives: 
               [  
                 [60,  60],     // 1min period 60min --> 60 points
               ], period: 0.5
     }, function(err, obj){
-        console.log('READY..');
-        assert.equal(err, null);
-        assert.equal(obj.id, '123');
-        assert.equal(obj.period, 0.5);
-        assert.equal(obj.archives, [60*5,  12*24*7]);
-        setTimeout( done, 1000);
-      });
+      assert.equal(err, null);
+      assert.equal(obj.filename, './hoards/123.hoard');
+      assert.equal(obj.cfg.id, '123');
+      assert.equal(obj.cfg.period, 0.5);
+      assert.equal(obj.cfg.archives.length, 1 );
+      assert.equal(obj.cfg.archives[0].length, 2 );
+      assert.equal(obj.cfg.archives[0][0], 60 );
+      assert.equal(obj.cfg.archives[0][1], 60 );
+      done();
+    });
   });
+  
+  it('info', function(done) {
+    db.info( '123', function(err, obj){
+      assert.equal(err, null);
+      assert.equal(obj.maxRetention, 3600);
+      assert.equal(obj.xFilesFactor, 0.5);
+      assert.equal(obj.archives.length, 1);
+      done();
+    });
+  });
+  
+  it('update', function(done) {
+    db.update( '123', unixStamp, 1234, function(err){
+      assert.equal(err, null);
+      assert.equal(err, null);
+      done();
+    });
+  });
+  
+  
+  it('fetch', function(done) {
+    db.fetch({  id: '123', 
+                from: ((unixStamp-1000)*1000), 
+                to: new Date(), 
+                convert: false
+              }, function(err, data){
+      assert.equal(err, null);
+      assert.typeOf(data, 'Object');
+      assert.equal(data.timeInfo.interval, 60000);
+      assert.equal(data.values.length, 17);
+      assert.equal(data.values[16], 1234);
+      done();
+    });
+  });
+  
+  
+  it('fetch-convert', function(done) {
+    db.fetch({  id: '123', 
+                from: ((unixStamp-60)*1000), 
+                to: new Date(), 
+                convert: true
+              }, function(err, data){
+      assert.equal(err, null);
+      console.log(data);
+      assert.typeOf(data, 'Array');
+      assert.equal(data.length, 1);
+      assert.equal(data[0][1], 1234);
+      console.log( new Date(unixStamp*1000) );
+      console.log( new Date(data[0][0]) );
+      assert.isTrue( data[0][0] > (unixStamp*1000-30000) );
+      assert.isTrue( data[0][0] < (unixStamp*1000+30000) );
+      done();
+    });
+  });
+  
+  
+  it('remove', function(done) {
+    db.remove('123');
+    assert.equal( fs.existsSync('./hoards/123.hoard'), false );
+    done();
+  });
+  
 });
-
-
-/*
-db.info('123', function(err, info){
-  if(err)console.log(err);
-  else console.log(info);
-}); 
-
-//db.remove('123');
-db.create( {id: '123', archives: 
-                  [  [60*5,  12*24*7],     // meas/5min  7 days --> 2016 points
-                     [60*10, 6*24*30],    // meas/10min  30 days --> 4320 points
-                     [60*60, 24*180],      // meas/1h    0.5 year --> 4320 points
-                     [60*60*3, 24*180]      // meas/3h    3 year --> 4320 points 
-                  ], period: 0.5 // xff The xfiles factor defines what part of a consolidation interval may be made up from *UNKNOWN* data while the consolidated value is still regarded as known. It is given as the ratio of allowed *UNKNOWN* PDPs to the number of PDPs in the interval. Thus, it ranges from 0 to 1 (exclusive).
-           }, function(err, obj){
-  if(err) {
-    console.log('error');
-    console.log(err);
-  }
-  else console.log(obj);
-});
-
-
-db.update({id: '123', data: [[parseInt(new Date().getTime() / 1000), 123]] }, function(err) {
-    if(err) {
-    console.log('error');
-    console.log(err);
-  }
-    console.log('Hoard file updated!');
-}); 
-//console.log( db.get('123') ); 
-
-db.fetch({id: '123', from: '13w35', to: '13w36', convert: false}, function(err, data){
-  if(err) {
-    console.log('error');
-    console.log(err);
-  }
-  else console.log(data);
-});
-*/
