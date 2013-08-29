@@ -1,0 +1,34 @@
+{
+  "name": "TimeSeries",
+  "description": "TimeSeries db",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jupe/home.js",
+  "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
+  "main": "lib/TimeSeries",
+  "bugs" : {
+    "url" : "https://github.com/jupe/home.js/issues"
+  },
+  "repository": {
+        "type": "git",
+        "url": "https://github.com/jupe/home.js"
+  },
+  "licenses" : [
+      { "type" : "MIT"
+      , "url" : "https://github.com/jupe/home.js/blob/master/LICENSE"
+      }
+    ],
+  "dependencies": {
+    "hoard": "*"
+  },
+  "devDependencies": {
+      "mocha": "*",
+      "chai": "*",
+      "request": "*"
+  },
+  "contributors": [
+    "Jussi Vatjus-Anttila <jussiva@gmail.com>"
+  ],
+  "scripts": {
+   "test": "mocha -R list"
+  }
+}
