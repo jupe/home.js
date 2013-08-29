@@ -1,18 +1,17 @@
 var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 var Schema = mongoose.Schema;
-
+/*
+  Contains alerts, admin messages and so on.
+  e.g. { type: alert, meta: {msg: 'Temperature is too high'}}
+*/
 var DeviceEvent = new Schema({
     uuid : {type: String}, 
     device :  { type: String, required: true },
-    type: {type: String, enum: ['measure', 'alert'], required: true, default: 'measure'},
-    created: {
-        timestamp: {type: Date, default: Date.now},
-    },
-    values: [{
-        unit: { type: String, enum: ['W', 'kWh', 'C', 'V','A'], required: true },
-        value: {type: Number, required: true}
-    }],
+    level: {type: String, enum: ['panic', 'alert', 'crit', 'err','warn','notice','info','debug'], required: true, default: 'notice'},
+    timestamp: {type: Date, default: Date.now},
+    flag: { type: String, enum: ['ack', 'nak', ''], default: '' },
+    msg: {type: String, required: true}
 }).pre('save', function (next) {
   
   if( this.type == 'measure' && this.values.length == 0 )

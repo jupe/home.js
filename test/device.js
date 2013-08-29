@@ -4,7 +4,7 @@ var exec=require('child_process').exec
 
 var appurl = 'http://localhost:3000';
 var apiurl = appurl+'/api/v0';
-
+var uuid;
 
 
 describe('init', function() {
@@ -21,7 +21,7 @@ describe('init', function() {
 });
 
 describe('device', function() {  
-  var uuid;
+  
   it('[GET] /device', function(done) {
     request.get({json: true, url: apiurl+'/device.json'},
       function(err, res, body){
@@ -76,7 +76,52 @@ describe('device', function() {
       done();
     });
   });
+});
+describe('device/event', function() {
+  it('[GET] /device/:device/event (success)', function(done) {
+    request({json: true, url: apiurl+'/device/'+uuid+'/event'}, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 1 );
+      assert.equal(body[0].level, 'notice');
+      assert.equal(body[0].msg, 'Created');
+      done();
+    });
+  });
   
+});
+describe('device/data', function() {  
+  it('[POST] /device/:device/data (success)', function(done) {
+    var options = {
+      uri: apiurl+'/device/'+uuid+'/data',
+      method: 'POST',
+      json: {
+        values: [{unit: 'C', value: 12}]
+      }
+    };
+    request(options, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Object' );
+      assert.equal( body.device, uuid );
+      done();
+    });
+  });
+  
+  it('[GET] /device/:device/data (success)', function(done) {
+    request({json: true, url: apiurl+'/device/'+uuid+'/data'}, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 1 );
+      assert.equal(body[0].device, uuid);
+      assert.typeOf(body[0].values, 'Array');
+      assert.equal(body[0].values.length, 1);
+      assert.equal(body[0].values[0].value, 12);
+      done();
+    });
+  });
 }); 
 
 describe('stop', function() {  

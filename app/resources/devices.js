@@ -71,6 +71,8 @@ exports.create = function (req, res) {
           }
           
       }*/
+      db['device.event'].store( {device: device.uuid, msg: 'Created'}, 
+                                function(error, events){});
       res.json(device);
     } else {
       res.send(400);
@@ -85,13 +87,14 @@ exports.show = function (req, res, next) {
         case (undefined):
         case ('json'):
             console.log("get json devices");
-            db.device.findOne({uuid: req.params.device}, function (error, results) {
+            db.device.findOne({uuid: req.params.device}, function (error, device) {
                 if (error) {
                     console.log(err);
                     res.json(err);
-                } else if(results) {
-                    var obj = results.toObject();
-                    db.devices.events.find( {device: results.uuid}, function(error, events){
+                } else if(device) {
+                    var obj = device.toObject();
+                    console.log(db);
+                    db['device.event'].find( {device: device.uuid}, function(error, events){
                         obj['events'] = events;
                         res.json(obj);
                     });
