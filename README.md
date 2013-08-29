@@ -12,23 +12,23 @@
 
 General (home) automation framework based on node.js and mongoDB. 
 
-The aim is to provide a framework for home automation that can be used for example to control the lights on when the motion detector can see the movement. At first version will support onewire for get temperatures and then purpose is to get also zwave support.
+The aim is to provide a general framework for home/build automation that can be used for example to control the lights on when the motion detector can see the movement.
 
 * [Discussion group](http://groups.google.com/group/node-home-automation)
 
 ## Features (planned)
  * Upgrade directly from web UI
  * Users and groups + authentication
- * node.js based server with flexible db (mongodb)
+ * node.js based server with flexible db (mongoDB)
  * HTTP RESTful API
  * single-page front-end (really fast)
  * schedules scripts
  * action scripts
- * Email alerts (e.g. if temperature goes over limits) 
+ * Email alerts (e.g. if temperature goes over limits)
  * Supported hardware:
   * onewire
+  * RESOLV VBus (heating system measurement)...
   * zwave
-  * ...
 
 ## Installation
 

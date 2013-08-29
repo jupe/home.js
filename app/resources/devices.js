@@ -18,7 +18,7 @@ function event(uuid, type, msg, details){
     }
     
     if(details) data.details = details;
-    db.events.create( data, function(){});
+    db.events.store( data, function(){});
 }
 
 exports.index = function (req, res) {
@@ -39,59 +39,42 @@ exports.index = function (req, res) {
         break;
 	}
 };
-exports.tree = function (req, res) {
-    res.render('devices.tree.jade', {user: req.session.user});
-}
-exports.status = function (req, res) {
-    res.render(501, {user: req.session.user});
-}
-exports.new = function (req, res) {
-	console.log('new resource');
-	console.log(req.params);
-	res.render(501, {user: req.session.user}); //Not Implemented
-};
-
 exports.create = function (req, res) {
 	console.log('create device');
 	console.log(req.params);
 	console.log(req.body);
-	db.device.create(req.body, function (error, device) {
+	db.device.store(req.body, function (error, device) {
 		if (error) {
-            console.log("oooo");
-            console.log(error);
-            res.send(500, error);
-        }
-		else if (device) {
-            if( req.body.hoard )
-            {
-                var filename = './hoards/'+device.uuid+'.hoard';
-                
-                console.log("Hoard: ");
-                console.log(req.body.hoard);
-                var archives = req.body.hoard.archives;
-                var period = req.body.hoard.period;
-                try {
-                hoard.create(filename, archives, period, function(err) {
-                    if (err){
-                        console.log(err);
-                        event(device.uuid, 'error', "Can't create hoard file", err)
-                    } else {
-                        db.devices.update( { uuid: device.uuid}, 
-                                           { 'hoard.file': filename }, function(){} );
-                        console.log('Hoard file created!');
-                        
-                    }
-                });
-                }catch(e){
-                    event(device.uuid, 'error', "Hoard throw error", e)
-                }
-                
-            }
-            res.json(device);
-        }
-		else {
-            res.send(500);
-        }
+        res.json(500, {error: error});
+    } else if (device) {
+      /*if( req.body.hoard ) {
+          var filename = './hoards/'+device.uuid+'.hoard';
+          
+          console.log("Hoard: ");
+          console.log(req.body.hoard);
+          var archives = req.body.hoard.archives;
+          var period = req.body.hoard.period;
+          try {
+          hoard.create(filename, archives, period, function(err) {
+              if (err){
+                  console.log(err);
+                  event(device.uuid, 'error', "Can't create hoard file", err)
+              } else {
+                  db.devices.update( { uuid: device.uuid}, 
+                                     { 'hoard.file': filename }, function(){} );
+                  console.log('Hoard file created!');
+                  
+              }
+          });
+          }catch(e){
+              event(device.uuid, 'error', "Hoard throw error", e)
+          }
+          
+      }*/
+      res.json(device);
+    } else {
+      res.send(400);
+    }
 	});
 };
 
@@ -124,6 +107,16 @@ exports.show = function (req, res, next) {
             break;
 	}
 };
+exports.event = function(req,res)
+{
+  db.device.events.findOne( { device: req.params.device, uuid: req.params.event}, function(error, event){
+    if( error ) { 
+        res.send(500, error);
+    } else {
+      res.json(event);
+    }
+  });
+}
 exports.events = function(req,res)
 {
     console.log("Device events");
@@ -133,7 +126,7 @@ exports.events = function(req,res)
     switch (req.params.format) {
         case (undefined):
         case ('json'):
-            db.device.events.find( { uuid: req.params.device}, function(error, events){
+            db.device.events.find( { device: req.params.device}, function(error, events){
                 res.json(events);
             });
             break;
@@ -236,7 +229,7 @@ exports.newEvent = function(req,res)
                 }
             } else {
                 event['device'] = device.uuid;
-                db.device.events.create( event, function(error, event){
+                db.device.events.store( event, function(error, event){
                     if (error) {
                         console.log(error);
                         res.send(500, error);
@@ -258,12 +251,19 @@ exports.edit = function (req, res) {
 
 exports.update = function (req, res) {
 	console.log('update device '+req.params.device);
-	console.log(req.body);
-    if( req.body.event )
+	db.device.findOneAndUpdate( {uuid: req.params.device}, req.body, function(error, doc){    
+      if (error) {
+        console.log(error);
+        res.send(500, error);
+      }
+      else if (doc) {res.json(doc);}
+      else {res.json(400, {error: 'Not found'});}
+  });
+    /*if( req.body.event )
     {
         var json = req.body.event;
         json['device'] = req.params.device;
-        db.device.events.create( json, function(error, ok){    
+        db.device.events.store( json, function(error, ok){    
             if (error) {
                 console.log(error);
                 res.send(500, error);
@@ -271,17 +271,9 @@ exports.update = function (req, res) {
             else if (ok) {res.send(200);}
             else {res.send(500);}
         });
-    } else
-    {
-        db.device.update( {uuid: req.params.device}, req.body, function(error, ok){    
-            if (error) {
-                console.log(error);
-                res.send(500, error);
-            }
-            else if (ok) {res.json(ok);}
-            else {res.send(500);}
-        });
     } 
+  */
+
 };
 
 exports.destroy = function (req, res) {
