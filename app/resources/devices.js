@@ -8,9 +8,6 @@ PUT     /items/:item       ->  update
 DELETE  /items/:item       ->  destroy
  */
 
-var hoard = require("hoard");
-var fs = require("fs");
-
 function event(uuid, type, msg, details){
     var data = {
         msg: msg, details: '', type: type,
@@ -93,11 +90,21 @@ exports.show = function (req, res, next) {
                     res.json(err);
                 } else if(device) {
                     var obj = device.toObject();
-                    console.log(db);
-                    db['device.event'].find( {device: device.uuid}, function(error, events){
-                        obj['events'] = events;
-                        res.json(obj);
-                    });
+                    if( req.query.fetch ){
+                      db['rule'].find( {device: device.uuid}, function(error, rules){
+                        obj.rules = rules;
+                        db['device.event'].find( {device: device.uuid}, function(error, events){
+                            obj.events = events;
+                            res.json(obj);
+                        });
+                      });
+                    } else {
+                      obj['@href'] = {
+                        'rules': '/device/'+device.uuid+'/rule',
+                        'event': '/device/'+device.uuid+'/event'
+                      }
+                       res.json(obj);
+                    }
                 } else {
                     console.log("NotFound");
                     res.send(404);
@@ -133,7 +140,7 @@ exports.events = function(req,res)
                 res.json(events);
             });
             break;
-        case ('hoard'):
+        /*case ('hoard'):
             console.log('get hoard');
             
             db.device.findOne( {uuid: req.params.device}, function(error, device){
@@ -174,13 +181,13 @@ exports.events = function(req,res)
                     res.send(404);
                 }
             });
-            
-            break;
+            break;*/
         default:
             res.render(501, {user: req.session.user}); //Not Implemented
             break;
 	}
 }
+/*
 function unixTime(date) {
   if( date ) return parseInt(date.getTime() / 1000);
   return parseInt(new Date().getTime() / 1000);
@@ -251,7 +258,7 @@ exports.edit = function (req, res) {
 	console.log(req.params);
 	res.render('devices.edit.jade', {uuid: req.params.device, user: req.session.user});
 }
-
+*/
 exports.update = function (req, res) {
 	console.log('update device '+req.params.device);
 	db.device.findOneAndUpdate( {uuid: req.params.device}, req.body, function(error, doc){    
@@ -282,13 +289,17 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 	console.log('destroy resource ');
 	console.log(req.params);
-    db.device.events.remove( {uuid: req.params.device}, function(error, ok){});
+  //Clean data, events and rules attached to this device !
+  db['device.event'].remove( {device: req.params.device}, function(error, ok){});
+  db['device.data'].remove( {device: req.params.device}, function(error, ok){});
+  db.rule.remove( {device: req.params.device}, function(error, ok){});
+  //Finally remove device itself
 	db.device.remove( {uuid: req.params.device}, function(error, ok){    
-        if (error) {
-            console.log(error);
-            res.send(500, error);
-        }
-		else if (ok) {res.send(200);}
-		else {res.send(404);}
+    if (error) {
+      console.log(error);
+      res.json(500, {error: error} );
+    }
+		else if (ok) {res.json(200, {});}
+		else {res.json(404, {error: 'not found'})}
     });
 };

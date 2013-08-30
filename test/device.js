@@ -5,7 +5,9 @@ var exec=require('child_process').exec
 var appurl = 'http://localhost:3000';
 var apiurl = appurl+'/api/v0';
 var uuid;
-
+var match = {
+  uuid: /[0-f,0-9]{8}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{12}/
+}
 
 describe('init', function() {
   it('server start as daemon', function(done) {
@@ -20,6 +22,7 @@ describe('init', function() {
   });
 });
 
+
 describe('device', function() {  
   
   it('[GET] /device', function(done) {
@@ -28,7 +31,9 @@ describe('device', function() {
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf( body, 'Array' );
+      if(body.length>0) uuid = body[0].uuid;
       assert.equal( body.length, 0 );
+      
       done();
     });
   });
@@ -48,7 +53,7 @@ describe('device', function() {
       assert.equal(res.statusCode, 200);
       assert.typeOf( body, 'Object' );
       uuid = body.uuid;
-      assert.isTrue( body.uuid.match(/[0-f,0-9]{8}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{12}/).length==1 );
+      assert.isTrue( body.uuid.match(match.uuid).length==1 );
       assert.equal(body.id, '28.C7DC7A030000');
       assert.equal(body.enable, true);
       assert.equal(body.name, 'test');
@@ -123,6 +128,120 @@ describe('device/data', function() {
     });
   });
 }); 
+
+
+describe('device/rule', function() {  
+  it('[GET] /device/:device/rule (success)', function(done) {
+    request({json: true, url: apiurl+'/device/'+uuid+'/rule'}, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 0 );
+      done();
+    });
+  });
+  it('[POST] /device/:device/rule (success)', function(done) {
+    var options = {
+      uri: apiurl+'/device/'+uuid+'/rule',
+      method: 'POST',
+      json: {
+        name:  'test',
+        conditions: [{
+          script: '1==1',
+          after: {
+            delay: 1
+          }
+        }],
+        actions: [ {action: '001122-33445'} ],
+      }
+    }
+    request(options, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Object' );
+      assert.equal( body.device, uuid );
+      assert.isTrue( body.uuid.match(match.uuid).length==1 );
+      assert.equal( body.name, 'test');
+      assert.equal( body.actions.length, 1);
+      assert.equal( body.conditions.length, 1);
+      assert.equal( body.conditions[0].script, '1==1');
+      assert.equal( body.conditions[0].before.delay, 0);
+      assert.equal( body.conditions[0].after.delay, 1);
+      done();
+    });
+    
+  });
+});
+
+describe('device', function() {  
+  it('[DELETE] /device/:device (success)', function(done) {
+    var options = {
+      uri: apiurl+'/device/'+uuid,
+      method: 'DELETE',
+      json: {}
+    }
+    request(options, function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  
+  it('[GET] /device', function(done) {
+    request.get({json: true, url: apiurl+'/device.json'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 0 );
+      done();
+    });
+  });
+  it('[GET] /device/:device (not found)', function(done) {
+    request.get({json: true, url: apiurl+'/device/'+uuid},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 404);
+      done();
+    });
+  });
+  it('[GET] /device/:device/rule (not found)', function(done) {
+    request.get({json: true, url: apiurl+'/device/'+uuid+'/rule'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+  });
+  it('[GET] /device/:device/event (dev not found)', function(done) {
+    request.get({json: true, url: apiurl+'/device/'+uuid+'/event'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 404);
+      done();
+    });
+  });
+  it('[GET] /device/:device/data (not found)', function(done) {
+    request.get({json: true, url: apiurl+'/device/'+uuid+'/data'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 0 );
+      done();
+    });
+  });
+  it('[GET] /rule (empty)', function(done) {
+    request.get({json: true, url: apiurl+'/rule'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf( body, 'Array' );
+      assert.equal( body.length, 0 );
+      done();
+    });
+  });
+});
 
 describe('stop', function() {  
   it('server stop', function(done) {

@@ -77,7 +77,35 @@ API Tested against node.js versions
 ## HW requirements
 
  * Supported OS: Linux/partially windows
- * Supported HW: Raspberry Pi & x86 based systems 
+ * Supported HW: Raspberry Pi & x86 based systems
+ 
+
+# API
+
+HTTP API /api/v0
+
+## REST Collections  
+
+ * user [HTTP] /user
+  * User collection
+ * group [HTTP] /group
+  * User groups
+ * event  [HTTP] /event
+  * System events
+ * action [HTTP] /action
+  * Action scripts
+ * schedule [HTTP] /schedule
+  * CRON schedules
+ * device [HTTP] /device
+  * device metadata
+ * device.event [HTTP] /device/:device/event  || /device/event
+  * device events
+ * device.data [HTTP] /device/:device/data  || /device/data
+  * Measure data
+ * rules [HTTP] /device/:device/rule  || /device/rule
+  * Immediately rules when data received. If rule(s) match, start execute action(s)
+  
+##  
  
 ## To do
 - [x] Reorganize folder structure

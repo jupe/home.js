@@ -12,10 +12,9 @@ exports.index = function (req, res) {
     case ('json'):
         db['device.data'].find(req.query, function (error, results) {
           if (error) {
-              console.log(error);
-              res.send(500, error);
+              res.json(500, {error: error});
           } else {
-              res.json(results);
+            res.json(results);
           }
         });
         break;

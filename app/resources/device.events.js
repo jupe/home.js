@@ -13,9 +13,13 @@ exports.index = function (req, res) {
         db['device.event'].find(req.query, function (error, results) {
           if (error) {
               console.log(error);
-              res.send(500, error);
+              res.json(500, {error: error});
           } else {
-              res.json(results);
+              if( results.length == 0) {
+                res.json(404, results);
+              } else {
+                res.json(results);
+              }
           }
         });
         break;

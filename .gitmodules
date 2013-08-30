@@ -1,0 +1,3 @@
+[submodule "hoard"]
+	path = app/lib/hoard
+	url = https://github.com/ciaranj/hoard

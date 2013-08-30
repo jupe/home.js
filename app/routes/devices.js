@@ -3,6 +3,7 @@ module.exports = function(app, apiurl){
   var devices = require('./../resources/devices');
   var events = require('./../resources/device.events');
   var data = require('./../resources/device.data');
+  var rules = require('./../resources/rules');
   
   app.get(apiurl+'/device/events.:format?', devices.events);
   //app.get(apiurl+'/device/:device/events.:format?', devices.events);
@@ -16,5 +17,7 @@ module.exports = function(app, apiurl){
   var dataResource = app.resource('data', data);
   devicesResource.map(dataResource);
   
+  var ruleResource = app.resource('rule', rules);
+  devicesResource.map(ruleResource);
   
 }

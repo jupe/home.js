@@ -16,6 +16,7 @@ var RuleAction = new Schema({
 });
 var Rule = new Schema({
     uuid : {type: String, index: true},
+    device :  { type: String },
     name  :  { type: String, required: true },
     created: {
         user: {type: String},
@@ -25,12 +26,12 @@ var Rule = new Schema({
         user: {type: String},
         timestamp: {type: Date, default: Date.now}
     },
-    device :  { type: String },
     conditions: [ RuleCondition ],
     actions: [RuleAction]
 }).pre('save', function (next) {
-   if( this.isNew )
+   if( this.isNew ){
     this.uuid = uuid.v1();
+   }
    next();
 });
 
