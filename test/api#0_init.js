@@ -5,7 +5,7 @@ var exec=require('child_process').exec
 var appurl = 'http://localhost:3000';
 var apiurl = appurl+'/api/v0';  
 
-describe('init', function() {
+describe('api#0:init', function() {
   
   it('server start as daemon', function(done) {
     this.timeout(5000);

@@ -7,7 +7,7 @@ var apiurl = appurl+'/api/v0';
 
 
 
-describe('init', function() {
+describe('api#1:init', function() {
   before( function(){
     
   });
@@ -23,7 +23,7 @@ describe('init', function() {
   });
 });
 
-describe('basics', function() {  
+describe('api#1:basics', function() {  
   var schedules = [];
   it('[POST] /login (login:fail)', function(done) {
     var options = {
@@ -47,7 +47,7 @@ describe('basics', function() {
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
-      assert.equal(body.length, 1);
+      assert.isTrue(body.length >= 1);
       assert.equal(body[0].name, 'admin');
       done();
     });
@@ -279,7 +279,7 @@ describe('basics', function() {
     });
   });
   
-  it('[GET] /device.json', function(done) {
+  it('[GET] /device.json (success)', function(done) {
     request.get({url: apiurl+'/device.json', json:true}, 
       function(err, res, body){
       assert.equal(err, null);
@@ -289,7 +289,7 @@ describe('basics', function() {
     });
   });
   
-  it('[GET] /event.json', function(done) {
+  it('[GET] /event.json (success)', function(done) {
     request.get({url: apiurl+'/event.json', json:true}, 
       function(err, res, body){
       assert.equal(err, null);
@@ -334,7 +334,7 @@ describe('basics', function() {
   });
 });
 
-describe('stop', function() {  
+describe('api#1:stop', function() {  
   it('server stop', function(done) {
     this.timeout(5000);
     exec('node index --silent --stop --pidfile app.pid',function(err,stdout,stderr){

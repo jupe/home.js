@@ -2,7 +2,7 @@ var fs = require('fs');
 var assert = require('chai').assert;
 var TimeSeries = require('../');
 
-describe('basic', function() {
+describe('TimeSeries:basic', function() {
   
   var db;
   var unixStamp = parseInt(new Date().getTime()/1000);
@@ -70,7 +70,7 @@ describe('basic', function() {
       assert.typeOf(data, 'Object');
       assert.equal(data.timeInfo.interval, 60000);
       assert.equal(data.values.length, 17);
-      assert.equal(data.values[16], 1234);
+      assert.equal(data.values[15]|data.values[16], 1234);
       done();
     });
   });
@@ -89,8 +89,8 @@ describe('basic', function() {
       assert.equal(data[0][1], 1234);
       //console.log( new Date(unixStamp*1000) );
       //console.log( new Date(data[0][0]) );
-      assert.isTrue( data[0][0] > (unixStamp*1000-30000) );
-      assert.isTrue( data[0][0] < (unixStamp*1000+30000) );
+      assert.isTrue( data[0][0] > (unixStamp*1000-60000) );
+      assert.isTrue( data[0][0] < (unixStamp*1000+60000) );
       done();
     });
   });

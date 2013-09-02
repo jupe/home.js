@@ -9,7 +9,7 @@ var match = {
   uuid: /[0-f,0-9]{8}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{4}-[0-f,0-9]{12}/
 }
 
-describe('init', function() {
+describe('api#2:init', function() {
   it('server start as daemon', function(done) {
     this.timeout(5000);
     exec('node index --silent --start --pidfile app.pid',function(err,stdout,stderr){
@@ -23,7 +23,7 @@ describe('init', function() {
 });
 
 
-describe('device', function() {  
+describe('api#2:device', function() {  
   
   it('[GET] /device', function(done) {
     request.get({json: true, url: apiurl+'/device.json'},
@@ -82,7 +82,7 @@ describe('device', function() {
     });
   });
 });
-describe('device/event', function() {
+describe('api#2:device/event', function() {
   it('[GET] /device/:device/event (success)', function(done) {
     request({json: true, url: apiurl+'/device/'+uuid+'/event'}, function(err, res, body){
       assert.equal(err, null);
@@ -96,7 +96,7 @@ describe('device/event', function() {
   });
   
 });
-describe('device/data', function() {  
+describe('api#2:device/data', function() {  
   it('[POST] /device/:device/data (success)', function(done) {
     var options = {
       uri: apiurl+'/device/'+uuid+'/data',
@@ -130,7 +130,7 @@ describe('device/data', function() {
 }); 
 
 
-describe('device/rule', function() {  
+describe('api#2:device/rule', function() {  
   it('[GET] /device/:device/rule (success)', function(done) {
     request({json: true, url: apiurl+'/device/'+uuid+'/rule'}, function(err, res, body){
       assert.equal(err, null);
@@ -173,7 +173,7 @@ describe('device/rule', function() {
   });
 });
 
-describe('device', function() {  
+describe('api#2:device', function() {  
   it('[DELETE] /device/:device (success)', function(done) {
     var options = {
       uri: apiurl+'/device/'+uuid,
@@ -243,7 +243,7 @@ describe('device', function() {
   });
 });
 
-describe('stop', function() {  
+describe('api#2:stop', function() {  
   it('server stop', function(done) {
     this.timeout(5000);
     exec('node index --silent --stop --pidfile app.pid',function(err,stdout,stderr){
