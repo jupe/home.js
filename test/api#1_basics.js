@@ -153,6 +153,17 @@ describe('api#1:basics', function() {
     });
   });
   
+  it('[GET] /event (login-success)', function(done) {
+    request.get({json: true, url: apiurl+'/event?l=1&s={"created.timestamp":-1}'},
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body.length, 1);
+      assert.equal(body[0].type, 'info');
+      done();
+    });
+  });
+  
   it('[POST] /login   (login:already logged in)', function(done) {
     var options = {
       uri: apiurl+'/login',

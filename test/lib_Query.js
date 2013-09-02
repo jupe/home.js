@@ -1,0 +1,1 @@
+require('./../app/lib/Query/test/tests');

@@ -47,11 +47,13 @@ exports.login = function(req, res, next){
           }
           doc.comparePassword( req.body.password, function(ok){
             if(ok){
+              db.event.store({type: 'info', 'source.component': 'user', msg: user.name+' login success'});
               console.log('pwd valid' .green);
               req.createSession( user, function(msg){
                 res.json(user);
               });
             } else {
+              db.event.store({type: 'info', 'source.component': 'user', msg: user.name+' login fail', details: 'pwd not match'});
               console.log('pwd invalid'.red);
               res.json(403, {note: 'pwd not match'});
             }

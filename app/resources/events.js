@@ -12,7 +12,7 @@ exports.index = function(req, res){
   switch (req.params.format) {
     case (undefined):
     case ('json'):
-        db.event.find(req.query, function (error, results) {
+        db.event.query(req.query, function (error, results) {
           if (error) {
             res.json(500, {error: error});
           } else {

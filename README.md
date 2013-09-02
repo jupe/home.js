@@ -105,6 +105,20 @@ HTTP API /api/v0
  * rules [HTTP] /device/:device/rule  || /device/rule
   * Immediately rules when data received. If rule(s) match, start execute action(s)
   
+  
+### Query parameters:
+
+[q=<query>][&c=true][&f=<fields>][&fo=true][&s=<order>][&sk=<skip>][&l=<limit>]
+q=<query> - restrict results by the specified JSON query
+c=true - return the result count for this query
+f=<set of fields> - specify the set of fields to include or exclude in each document (1 - include; 0 - exclude)
+fo=true - return a single document from the result set (same as findOne() using the mongo shell
+s=<sort order> - specify the order in which to sort each specified field (1- ascending; -1 - descending)
+p=<set of fields> - specify the set of fields to populate in each document
+sk=<num results to skip> - specify the number of results to skip in the result set; useful for paging
+l=<limit> - specify the limit for the number of results (default is 1000)
+    
+  
 ##  
  
 ## To do
