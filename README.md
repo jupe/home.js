@@ -56,6 +56,7 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
  * [keypress](https://npmjs.org/package/keypress)
  * [optimist](https://npmjs.org/package/optimist)
  * [daemonize2](https://npmjs.org/package/daemonize2)
+ * [mongoose-query](https://npmjs.org/package/mongoose-query)
 
 
 ## Front-end libraries
