@@ -7,7 +7,7 @@
   
 */
 
-var dbg = true;
+var dbg = false;
 
 var parseQuery = function(query){
   /**
@@ -18,6 +18,7 @@ var parseQuery = function(query){
   s=<sort order> - specify the order in which to sort each specified field (1- ascending; -1 - descending)
   sk=<num results to skip> - specify the number of results to skip in the result set; useful for paging
   l=<limit> - specify the limit for the number of results (default is 1000)
+  p=<populate> - specify the fields for populate
   */
   var qy = {
     q: {},      //  query
@@ -26,6 +27,7 @@ var parseQuery = function(query){
     s: false,      //  sort
     sk: false,      //  skip
     l: 1000,     //  limit
+    p: false    //populate
   }
   
   var toJSON = function(str){
@@ -33,6 +35,7 @@ var parseQuery = function(query){
     try{
       json = JSON.parse(str);
     } catch(e){
+      console.log('parsing error');
       json = {};
     } 
     return json;
@@ -46,6 +49,7 @@ var parseQuery = function(query){
       case('s'): qy.s = toJSON(query[key]); break;
       case('sk'): qy.sk = parseInt(query[key]); break;
       case('l'): qy.l = parseInt(query[key]); break;
+      case('p'): qy.p = query[key]; break;
       default: 
         qy.q[key] = query[key];
         break;
@@ -61,34 +65,40 @@ var doQuery = function(query, model, callback)
   if(dbg)console.log(q);
   var find = model;
   
-  if( q.t === 'find') find = find.find(q.q);
-  else if(q.t === 'findOne') find = find.findOne(q.q);
-  else if(q.t === 'count') {
-    find.count(q.q, callback);
-    return;
+  switch(q.t){
+    case('find'): 
+    case('findOne'):    
+        find = find.find(q.q);
+        break;
+    case('count'):
+        find.count(q.q, callback);
+        return;
+    case('distinct'):
+        find.distinct(q.f, q.q, callback);
+        return; 
+    case('aggregate'):
+        find.aggregate(q.q, q.s, callback);
+        return;
+    default: 
+        console.log('not supported query type');
+        return;
   }
-  else if(q.t === 'distinct') {
-    find.distinct(q.f, q.q, callback);return; 
-  }
-  else if(q.t === 'aggregate') {
-    find.aggregate(q.q, q.s, callback);
-  }
-  /*else if(q.t === 'populate'){
-    find.populate(q.q, q.s, callback);
-  }*/
-  else find = find.find(q.q);
   
   if( ['find','findOne'].indexOf(q.t) >= 0 ){
-      if( q.f) find = find.select(q.f);
-      if(q.l ) find = find.limit(q.l);
-      if(q.sk ) find = find.skip(q.sk);
-      if(q.s ) find = find.sort(q.s);
+    
+    if(q.s) find = find.sort(q.s);
+    if(q.sk) find = find.skip(q.sk);
+    if(q.l) find = find.limit(q.l);
+    if(q.f) find = find.select(q.f);
+    if(q.p) find = find.populate(q.p);
+    
+    if( q.t === 'findOne' ){
+      find.findOne(callback);
+    } else {
+      find.execFind(callback);
+    }
+      
   }
-  
-  if( callback ){
-    find.execFind(callback);
-  }
-  else return find;
 }
 
 module.exports = doQuery;
