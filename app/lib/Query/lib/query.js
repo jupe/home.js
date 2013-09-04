@@ -7,13 +7,13 @@
   
 */
 
-var dbg = false;
+var dbg = true;
 
 var parseQuery = function(query){
   /**
   [q=<query>][&c=true][&f=<fields>][&fo=true][&s=<order>][&sk=<skip>][&l=<limit>]
   q=<query> - restrict results by the specified JSON query
-  t= find|findOne|count|aggregate|distinct|populate..
+  t= find|findOne|count|aggregate|distinct..
   f=<set of fields> - specify the set of fields to include or exclude in each document (1 - include; 0 - exclude)
   s=<sort order> - specify the order in which to sort each specified field (1- ascending; -1 - descending)
   sk=<num results to skip> - specify the number of results to skip in the result set; useful for paging
@@ -22,9 +22,9 @@ var parseQuery = function(query){
   var qy = {
     q: {},      //  query
     t: 'find',   //  count
-    f: '',      // fields
-    s: {},      //  sort
-    sk: 0,      //  skip
+    f: false,      // fields
+    s: false,      //  sort
+    sk: false,      //  skip
     l: 1000,     //  limit
   }
   
@@ -53,34 +53,42 @@ var parseQuery = function(query){
   }
   return qy;
 }
-var doQuery = function(query, model)
+var doQuery = function(query, model, callback)
 {
-  var query = parseQuery(query);
-  if(!model)return query;
   if(dbg)console.log(query);
+  var q = parseQuery(query);
+  if(!model)return q;
+  if(dbg)console.log(q);
   var find = model;
   
-  switch( query.t ){
-    case('find'): find = find.select(query.f); break;
-    case('findOne'): find = find.findOne(query.q); break;
-    case('count'): find = find.count(query.q); return find;
-    case('distinct'): 
-      find = find.distinct(query.f, query.q);
-      return find;
-    case('aggregate'): 
-      find = find.aggregate(query.q);
-    case('populate'): 
-      find = find.populate(query.q);
+  if( q.t === 'find') find = find.find(q.q);
+  else if(q.t === 'findOne') find = find.findOne(q.q);
+  else if(q.t === 'count') {
+    find.count(q.q, callback);
+    return;
   }
-  if( query.t != 'aggregate' ){
-    if( query.f) find = find.select(query.f);
+  else if(q.t === 'distinct') {
+    find.distinct(q.f, q.q, callback);return; 
+  }
+  else if(q.t === 'aggregate') {
+    find.aggregate(q.q, q.s, callback);
+  }
+  /*else if(q.t === 'populate'){
+    find.populate(q.q, q.s, callback);
+  }*/
+  else find = find.find(q.q);
+  
+  if( ['find','findOne'].indexOf(q.t) >= 0 ){
+      if( q.f) find = find.select(q.f);
+      if(q.l ) find = find.limit(q.l);
+      if(q.sk ) find = find.skip(q.sk);
+      if(q.s ) find = find.sort(q.s);
   }
   
-  if( query.l ) find = find.limit(query.l);
-  if( query.sk ) find = find.skip(query.sk);
-  if( query.s ) find = find.sort(query.s);
-  
-  return find;
+  if( callback ){
+    find.execFind(callback);
+  }
+  else return find;
 }
 
 module.exports = doQuery;
