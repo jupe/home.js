@@ -1,7 +1,8 @@
 {
   "name": "home.js",
   "description": "Home automation server",
-  "version": "0.0.1",
+  "keywords": ["automation", "home", "mongoose", "angular", "build", "sensor", "zwave", "vbus", "onewire"],
+  "version": "0.0.2",
   "homepage": "https://github.com/jupe/home.js",
   "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
   "bugs" : {
@@ -38,7 +39,8 @@
     "keypress": "0.2.1",
     "winston": ">=0.7.2",
     "colors": "*",
-    "password-hash": "*"
+    "password-hash": "*",
+    "mongoose-query": "0.1.1"
   },
   "devDependencies": {
       "mocha": "*",
@@ -46,7 +48,8 @@
       "request": "*"
   },
   "contributors": [
-    "Jussi Vatjus-Anttila <jussiva@gmail.com>"
+    "Jussi Vatjus-Anttila <jussiva@gmail.com>",
+    "Juhamatti Niemelä <iiska@iki.com>"
   ],
   "scripts": {
    "start": "node index --start",

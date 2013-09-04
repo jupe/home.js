@@ -1,0 +1,4 @@
+config/config.json
+node_modules
+temp
+/*.pid

@@ -14,30 +14,27 @@ exports.index = function(req, res){
   switch( req.params.format )
   {
     case(undefined):
-    case('html'):
-        res.render('actions', {
-            user: req.session.user
-        });
-        break;
     case('json'):
-        console.log("find actions");
-        db.action.find(req.params.query, function(err, actions){
+        db.action.query(req.query, function(err, actions){
+          if (error) {
+              res.json(500, {error: error});
+          } else {
             res.json( actions );
+          }
         });
         break;
+    default: res.send(501); //Not Implemented
   }
 };
-
-exports.new = function(req, res){
-  console.log('new actions');
-  console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
-};
-
 exports.create = function(req, res){
   console.log('create actions');
-  console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
+  db.action.store(req.body, function(err, action){
+    if( err ){
+        res.json(403, {error: err});
+    } else if(action){
+        res.json(action);
+    }
+  });
 };
 
 exports.show = function(req, res){
@@ -46,23 +43,15 @@ exports.show = function(req, res){
   switch( req.params.format )
   {
     case(undefined):
-    case('html'):
-        res.render('actions_show', {uuid: req.params.action, user: req.session.user});
-        break;
     case('json'):
         console.log("find actions");
         db.action.findOne({uuid: req.params.action}, function(err, action){
             res.json( action );
         });
         break;
+    default: res.send(501); //Not Implemented
   }
   
-};
-
-exports.edit = function(req, res){
-  console.log('edit action ');
-  console.log(req.params);
-  res.render('actions_edit', {uuid: req.params.action, user: req.session.user});
 };
 
 exports.update = function(req, res){
@@ -73,11 +62,11 @@ exports.update = function(req, res){
     console.log(ok);
     if( err ){
         console.log(err);
-        res.send(403);
+        res.json(403);
     } else if(ok){
         res.json({ok: ok});
     } else {
-        res.send(403);
+        res.json(403);
     }
   });
 };
@@ -85,5 +74,14 @@ exports.update = function(req, res){
 exports.destroy = function(req, res){
   console.log('destroy schedule ');
   console.log(req.params);
-  res.render(501, { user: req.session.user}); //Not Implemented
+  db.action.remove( {uuid: req.params.action}, function(err, ok){
+    if( err ){
+        console.log(err);
+        res.send(403);
+    } else if(ok){
+        res.json({ok: ok});
+    } else {
+        res.send(403);
+    }
+  });
 };

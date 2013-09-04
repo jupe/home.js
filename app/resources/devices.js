@@ -22,7 +22,7 @@ exports.index = function (req, res) {
 	switch (req.params.format) {
     case (undefined):
     case ('json'):
-        db.device.find(req.query, function (error, results) {
+        db.device.query(req.query, function (error, results) {
           if (error) {
               console.log(error);
               res.send(500, error);
@@ -84,7 +84,9 @@ exports.show = function (req, res, next) {
         case (undefined):
         case ('json'):
             console.log("get json devices");
-            db.device.findOne({uuid: req.params.device}, function (error, device) {
+            db.device.findOne(
+              {uuid: req.params.device}, 
+              function (error, device) {
                 if (error) {
                     console.log(err);
                     res.json(err);
@@ -113,13 +115,15 @@ exports.show = function (req, res, next) {
             });
             break;
         default:
-            res.render(501, {user: req.session.user}); //Not Implemented
+            res.send(501); //Not Implemented
             break;
 	}
 };
 exports.event = function(req,res)
 {
-  db.device.events.findOne( { device: req.params.device, uuid: req.params.event}, function(error, event){
+  db.device.events.findOne( 
+    { device: req.params.device, uuid: req.params.event}, 
+    function(error, event){
     if( error ) { 
         res.send(500, error);
     } else {
@@ -136,7 +140,9 @@ exports.events = function(req,res)
     switch (req.params.format) {
         case (undefined):
         case ('json'):
-            db.device.events.find( { device: req.params.device}, function(error, events){
+            db.device.events.find( 
+              { device: req.params.device}, 
+              function(error, events){
                 res.json(events);
             });
             break;
@@ -183,7 +189,7 @@ exports.events = function(req,res)
             });
             break;*/
         default:
-            res.render(501, {user: req.session.user}); //Not Implemented
+            res.send(501); //Not Implemented
             break;
 	}
 }
@@ -261,7 +267,10 @@ exports.edit = function (req, res) {
 */
 exports.update = function (req, res) {
 	console.log('update device '+req.params.device);
-	db.device.findOneAndUpdate( {uuid: req.params.device}, req.body, function(error, doc){    
+	db.device.findOneAndUpdate( 
+    {uuid: req.params.device}, 
+    req.body, 
+    function(error, doc){    
       if (error) {
         console.log(error);
         res.send(500, error);

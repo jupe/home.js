@@ -24,7 +24,7 @@ exports.index = function (req, res) {
         });
         break;
     default:
-        res.render(501, {user: req.session.user}); //Not Implemented
+        res.send(501); //Not Implemented
         break;
 	}
 };
@@ -45,29 +45,32 @@ exports.show = function (req, res, next) {
 	console.log('show device');
 	console.log(req.params);
 	switch (req.params.format) {
-        case (undefined):
-        case ('json'):
-            console.log("get json devices");
-            db['device.event'].findOne({uuid: req.params.event}, function (error, event) {
-                if (error) {
-                    console.log(err);
-                    res.json(err);
-                } else if(event) {
-                    res.json(event);
-                } else {
-                  console.log("NotFound");
-                  res.send(404);
-                }
-            });
-            break;
-        default:
-            res.render(501, {user: req.session.user}); //Not Implemented
-            break;
+    case (undefined):
+    case ('json'):
+      console.log("get json devices");
+      db['device.event'].findOne({uuid: req.params.event}, function (error, event) {
+          if (error) {
+              console.log(err);
+              res.json(err);
+          } else if(event) {
+              res.json(event);
+          } else {
+            console.log("NotFound");
+            res.send(404);
+          }
+      });
+      break;
+    default:
+      res.send(501); //Not Implemented
+      break;
 	}
 };
 exports.update = function (req, res) {
 	console.log('update device event '+req.params.device);
-	db['device.event'].findOneAndUpdate( {device: req.params.device, uuid: req.params.event}, req.body, function(error, doc){    
+	db['device.event'].findOneAndUpdate( 
+    {device: req.params.device, uuid: req.params.event}, 
+    req.body, 
+    function(error, doc){    
       if (error) {
         console.log(error);
         res.send(500, error);
@@ -79,11 +82,13 @@ exports.update = function (req, res) {
 
 exports.destroy = function (req, res) {
 	console.log('destroy device event');
-	db['device.event'].remove( {uuid: req.params.event}, function(error, ok){    
-    if (error) {
-        res.json(500, {error: error});
-    }
-		else if (ok) {res.json({});}
-		else {res.json(404, {error: 'not found'});}
-    });
+	db['device.event'].remove( 
+    {uuid: req.params.event}, 
+    function(error, ok){    
+      if (error) {
+          res.json(500, {error: error});
+      }
+      else if (ok) {res.json({});}
+      else {res.json(404, {error: 'not found'});}
+  });
 };

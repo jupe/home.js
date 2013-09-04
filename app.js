@@ -126,6 +126,9 @@ app.configure(function(){
   
   //app.use(express.staticCache());
   
+  //Allow cross domain 
+  app.use( require('./app/middleware/allowCrossDomain.js') );
+  
   //these files shouldn't never change
   app.use(express.static(__dirname + '/public'/*, {maxAge: 86400000}*/)); 
   

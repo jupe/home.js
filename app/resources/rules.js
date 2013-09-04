@@ -10,16 +10,15 @@ DELETE  /items/:item       ->  destroy
 
 
 exports.index = function (req, res) {
-  var query = req.query;
   
   if( req.params.device ){
-    query.device = req.params.device;
+    req.query.device = req.params.device;
   }
   
 	switch (req.params.format) {
     case (undefined):
     case ('json'):
-        db.rule.find(query, function (error, results) {
+        db.rule.query(req.query, function (error, results) {
           if (error) {
               console.log(error);
               res.send(500, error);
@@ -29,7 +28,7 @@ exports.index = function (req, res) {
         });
         break;
     default:
-        res.render(501, {user: req.session.user}); //Not Implemented
+        res.send(501); //Not Implemented
         break;
 	}
 };
@@ -73,7 +72,7 @@ exports.show = function (req, res, next) {
             });
             break;
         default:
-            res.render(501, {user: req.session.user}); //Not Implemented
+            res.send(501); //Not Implemented
             break;
 	}
 }

@@ -10,9 +10,9 @@ exports.index = function (req, res) {
 	switch (req.params.format) {
     case (undefined):
     case ('json'):
-        db['device.data'].find(req.query, function (error, results) {
+        db['device.data'].query(req.query, function (error, results) {
           if (error) {
-              res.json(500, {error: error});
+            res.json(500, {error: error});
           } else {
             res.json(results);
           }
@@ -97,5 +97,5 @@ exports.destroy = function (req, res) {
     }
 		else if (ok) {res.json({});}
 		else {res.json(404, {error: 'not found'});}
-    });
+  });
 };

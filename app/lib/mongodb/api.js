@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 
 /* own libraries */  
-var Query = require('../query');
+var Query = require('mongoose-query');
 
 /* Implementation */ 
 var Schema = mongoose.Schema;
@@ -61,8 +61,6 @@ var Mongo = function(collection, schema)
   }
   this.query = function(query, callback){
     Query(query, model).execFind(callback);
-    //var q = new qParser(query).get();
-    //model.find(q.conditions).select(q.select).sort(q.sorts).skip(q.skips).limit(q.limit).execFind(callback);
   }
   this.findByUuid = function(uuid, callback){
      model.findOne( {uuid: uuid},callback);

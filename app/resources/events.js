@@ -21,15 +21,9 @@ exports.index = function(req, res){
         });
         break;
     default:
-        res.render(501, {user: req.session.user}); //Not Implemented
+        res.send(501); //Not Implemented
         break;
 	}
-};
-
-exports.new = function(req, res){
-  console.log('new events');
-  console.log(req.params);
-  res.render(501, {user: req.session.user}); //Not Implemented
 };
 
 exports.create = function(req, res){

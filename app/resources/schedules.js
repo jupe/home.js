@@ -16,19 +16,16 @@ exports.index = function(req, res){
     case(undefined):
     case('json'):
         console.log("find schedules");
-        db.schedule.find(req.params.query, function(err, schedules){
+        db.schedule.query(req.query, function(err, schedules){
             res.json( schedules );
         });
         break;
-    default: res.render(501, {user: req.session.user}); break;
+    default: 
+      res.send(501); //Not Implemented
+      break;
   }
 };
 
-exports.new = function(req, res){
-  console.log('new schedule');
-  console.log(req.params);
-  res.render(501, {user: req.session.user|'null'}); //Not Implemented
-};
 
 exports.create = function(req, res){
   console.log('create schedule');
@@ -55,21 +52,15 @@ exports.show = function(req, res){
   
 };
 
-exports.edit = function(req, res){
-  console.log('edit schedule');
-  console.log(req.params);
-  res.render('schedules_edit', {uuid: req.params.schedule, user: req.session.user|'null'});
-        
-};
 
 exports.update = function(req, res){
   console.log('update schedule');
   db.schedule.findOneAndUpdate( {uuid: req.params.schedule}, req.body, function(err, doc){    
     if( err ){
-        res.send(403);
-        console.log(err);
+      res.send(403);
+      console.log(err);
     } else {
-        res.json(doc);
+      res.json(doc);
     }
   });
 };
@@ -77,5 +68,12 @@ exports.update = function(req, res){
 exports.destroy = function(req, res){
   console.log('destroy schedule ');
   console.log(req.params);
-  res.render(501, {user: req.session.user|'null'}); //Not Implemented
+  db.schedule.remove( {uuid: req.params.schedule}, function(error, ok){    
+    if (error) {
+        console.log(error);
+        res.send(500, error);
+    }
+		else if (ok) {res.send(200);}
+		else {res.send(404);}
+    });
 };
