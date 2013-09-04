@@ -15,7 +15,7 @@ exports.index = function(req, res){
   {
     case(undefined):
     case('json'):
-        db.action.query(req.query, function(err, actions){
+        db.action.query(req.query, function(error, actions){
           if (error) {
               res.json(500, {error: error});
           } else {

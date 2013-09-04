@@ -158,7 +158,8 @@ describe('api#1:basics', function() {
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
-      assert.typeOf(body.length, 1);
+      assert.typeOf(body, 'Array');
+      assert.equal(body.length, 1);
       assert.equal(body[0].type, 'info');
       done();
     });

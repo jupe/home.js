@@ -60,7 +60,7 @@ var Mongo = function(collection, schema)
     model.find(condition).populate(populate).execFind(callback);
   }
   this.query = function(query, callback){
-    Query(query, model).execFind(callback);
+    Query(query, model, callback);
   }
   this.findByUuid = function(uuid, callback){
      model.findOne( {uuid: uuid},callback);
