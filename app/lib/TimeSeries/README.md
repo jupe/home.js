@@ -1,7 +1,7 @@
 TimeSeries
 ==========
 
-TimeSeries db library, which used hoard database background.
+TimeSeries db library, which use hoard database at background.
 
 Api:
 TimeSeries(cfg)
