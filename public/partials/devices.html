@@ -1,0 +1,6 @@
+<ul class="devices">
+    <li ng-repeat="device in devices | filter:query">
+      <a href="#/devices/{{device.id}}">{{device.name}}</a>
+    </li>
+</ul>
+

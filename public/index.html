@@ -1,62 +1,32 @@
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en" ng-app="homejs">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-	<title></title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-
-	<link rel="stylesheet" href="css/styles.css">
-
-	<script data-main="js/main" src="js/libs/require/require.js"></script>
-  <!-- Uncomment if you want use google analystics
-  <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-2114950-4']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-  -->
+  <meta charset="utf-8">
+  <title>Home.js</title>
+  <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
-
-<div id="container">
-  <div id="logo">
+  <header>
     <h1>Home.js</h1>
-  </div>
-  
-  <div class="menu navbar">
-    <div class="navbar-inner">
-      <ul class="nav">
-        <li><a href="#">Overview</a></li>
-        <li><a href="#/device">Devices</a></li>
-        <!-- <li><a href="#/network">Network</a></li> -->
-        <li><a href="#/automation">Automation</a></li>
-        <li><a href="#/event">Events</a></li>
-        <li><a href="#/admin">Admin</a></li>
-        <li><a href="#/info">Info</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <div id="login"></div>
-  <div id="page">
-    Loading....
-  </div>
-  <div id="footer"></div>
-</div> 
+    <ul class="menu">
+      <li><a href="#/">Overview</a></li>
+      <li><a href="#/devices">Devices</a></li>
+      <li><a href="#/automation">Automation</a></li>
+      <li><a href="#/events">Events</a></li>
+      <li><a href="#/admin">Admin</a><li>
+      <li><a href="#/info">Info</a></li>
+    </ul>
+  </header>
 
+  <div ng-view></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-resource.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
 </body>
 </html>
