@@ -31,7 +31,6 @@ var Ellab = function(options){
     csvjs.parseCsv( csvdata, { 
       rules: {
           //Rules:
-          //="P?iv?";="Yhteens? (kWh)";="PV (kWh)";="Y? (kWh)";="Ulkol?mp?tila (?C)"
           'date': {path: 'date', convert: function(value){
             var arr = value.match(/([0-9]{1,2}).([0-9]{1,2})/);
             if(arr && arr.length == 3){
