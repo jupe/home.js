@@ -3,27 +3,33 @@
 <head>
   <meta charset="utf-8">
   <title>Home.js</title>
-  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-  <header>
-    <h1>Home.js</h1>
-
-    <ul class="menu">
-      <li><a href="#/">Overview</a></li>
-      <li><a href="#/devices">Devices</a></li>
-      <li><a href="#/automation">Automation</a></li>
-      <li><a href="#/events">Events</a></li>
-      <li><a href="#/admin">Admin</a><li>
-      <li><a href="#/info">Info</a></li>
+  <header class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Home.js</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav nav">
+        <li class="active"><a href="#/">Overview</a></li>
+        <li><a href="#/devices">Devices</a></li>
+        <li><a href="#/automation">Automation</a></li>
+        <li><a href="#/events">Events</a></li>
+        <li><a href="#/admin">Admin</a><li>
+        <li><a href="#/info">Info</a></li>
     </ul>
+    </div>
   </header>
 
-  <div ng-view></div>
+  <div id="main" class="container" ng-view></div>
 
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular/angular-resource.js"></script>
   <script src="lib/angular/angular-route.js"></script>
+  <script src="lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
