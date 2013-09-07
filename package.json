@@ -40,7 +40,8 @@
     "winston": ">=0.7.2",
     "colors": "*",
     "password-hash": "*",
-    "mongoose-query": "0.1.1"
+    "mongoose-query": "0.1.1",
+    "csv-json": ">=0.1.0"
   },
   "devDependencies": {
       "mocha": "*",

@@ -3,7 +3,6 @@ var   email = require('emailjs')
     , owservice = require("./../lib/onewire.js");
 
 
-
 var CronService = function() {
   var self = this;
   //Create ow service schedule and actions

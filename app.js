@@ -85,18 +85,23 @@ mongoose.connection.on('connected', function(){
  global.db = db;
  app.set('db', db);
  global.service = {};
- fs.readdirSync(__dirname + '/app/services').forEach(function(file){
-    if( file.indexOf('.js')>= 0 ) {
-      var serv = require('./app/services/'+file);
+ var folders = fs.readdirSync(__dirname + '/app/services');
+ folders.forEach(function(file){
+    var filename = './app/services/'+file+'/index.js';
+    console.log(filename);
+    if( fs.existsSync(filename) ) {
+      console.log(file);
+      /** @bug somewhy this causes error: "error: uncaughtException" */
+      /*var serv = require(filename);
       var name = file.substr(0, file.length-3);
-      if( serv.disable ){}
-      else {
+      if( serv.disable ){
+        winston.info('Init service '+name .cyan + 'disabled');
+      } else {
         winston.info('Init service '+name .cyan);
         global.service[name] = new serv(app);
-      }
+      }*/
     }
   });
- 
 });
 
 
