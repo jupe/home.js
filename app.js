@@ -81,27 +81,10 @@ mongoose.connection.on('connected', function(){
  console.log("Connect mongodb success");
  // Register db models and other db related stuff
  var db = new Db(); 
-
+  
  global.db = db;
  app.set('db', db);
- global.service = {};
- var folders = fs.readdirSync(__dirname + '/app/services');
- folders.forEach(function(file){
-    var filename = './app/services/'+file+'/index.js';
-    console.log(filename);
-    if( fs.existsSync(filename) ) {
-      console.log(file);
-      /** @bug somewhy this causes error: "error: uncaughtException" */
-      /*var serv = require(filename);
-      var name = file.substr(0, file.length-3);
-      if( serv.disable ){
-        winston.info('Init service '+name .cyan + 'disabled');
-      } else {
-        winston.info('Init service '+name .cyan);
-        global.service[name] = new serv(app);
-      }*/
-    }
-  });
+ require('./app/services')();
 });
 
 
