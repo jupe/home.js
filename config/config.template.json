@@ -5,20 +5,26 @@
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
     "date": "2013-04-4T17:14:20.000Z",
     "admin": "admin",
-    "service": { "cron": {
-      "poll_interval": 5000 }
+    "service": { 
+      "cron": {
+        "poll_interval": 5000 
+      },
+      "ellaweb": {
+        "place": 0,
+        "nCustomerID": 0
+      },
+      "owfs": {
+        "enable": true,
+        "host": "127.0.0.1",
+        "port": 4304,
+        "simulate": true
+      }
     }
   },
   "email": {
     "from": "no-reply@gmail.com",
     "host": "smtp.kolumbus.fi",
     "ssl": false
-  },
-  "owfs": {
-    "enable": true,
-    "host": "127.0.0.1",
-    "port": 4304,
-    "simulate": true
   },
   "mongodb": {
     "host": "localhost",

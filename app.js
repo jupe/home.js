@@ -42,7 +42,10 @@ var
     .alias('d', 'start')
     
   , argv = cli.argv
-  , SessionStore = require("session-mongoose")(express);
+  , SessionStore = require("session-mongoose")(express)
+  
+  // Own modules
+  , services = require('./app/services');
   
 if( argv.help || argv.h ){
   cli.showHelp();
@@ -69,7 +72,7 @@ global.winston = winston;
 
 /** Load configurations and cronjob */
 var app = express();
-var Db = require("./app/lib/database");
+var Db = require("./app/database");
 
 /* Create database connection */
 mongoose.connect(  'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, 
@@ -84,7 +87,7 @@ mongoose.connection.on('connected', function(){
   
  global.db = db;
  app.set('db', db);
- require('./app/services')();
+ services();
 });
 
 
@@ -185,16 +188,18 @@ fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
     }
   }
 });
-
+/*
 process.on('uncaughtException', function(err) {
+  var stack = new Error().stack;
   if(err.errno === 'EADDRINUSE'){
     winston.error( ('Sorry, port '+app.get('port')+' is already in use').red);
   } else {
     winston.error('uncaughtException');
-    winston.error(err);
+    if(err)winston.error(err);
+    winston.error( stack )
   }
   process.exit(1);
-});
+}); */
 
 // Windows doesn't use POSIX signals
 if (process.platform === "win32" && argv.d === false) {
@@ -214,12 +219,8 @@ process.on('exit', function() {
   winston.log('About to exit.');
 });
 process.on('SIGINT', function() {
-  for(var key in service){
-    if( service[key].stop ) {
-      service[key].stop();
-    }
-  }
-  process.exit(1);
+  //Wait for while for service stops
+  setInterval( function(){ process.exit(1)}, 1000 );
 });
 app.listen(app.get('port'), function(){
   winston.log("home.js server listening on port " + app.get('port'));

@@ -3,7 +3,7 @@ var path = require('path');
 var request = require('request');
 var csvjs = require('csv-json');
 
-var Ellab = function(options){
+var Ellaweb = function(options){
   var apiurl = 'https://ellaweb.ouka.fi/online'
   
   var doUrl = function(oper){
@@ -85,7 +85,7 @@ var Ellab = function(options){
     });
   }
   
-  var Stat = function(cfg, cb){
+  var Stat = function(cb){
     var url = doUrl('stat');
     var formdata = {
       'page_id':15,
@@ -98,13 +98,13 @@ var Ellab = function(options){
       'year1':2013,
       'year2':'',
       'timeperiod':1,
-      'place':cfg.place,
+      'place':options.place,
       'reportinformation':1,
       'freetext':false,
       'sComponentQuantity':'ENERGY',
-      'nCustomerID': cfg.nCustomerID,
+      'nCustomerID': options.nCustomerID,
       'sCompanyCode':'OE',
-      'nUsagePlaceID':cfg.place,
+      'nUsagePlaceID':options.place,
       'sProductInterfaceName':'AIKA',
       'sahko_type':''
     };
@@ -136,8 +136,8 @@ var Ellab = function(options){
     Stat: Stat
   }
 }
-
-
+module.exports = Ellaweb;
+/*
 // TEST 
 var api = Ellab();
 
@@ -153,5 +153,5 @@ var password = ''
     console.log(data);
   });
 //});
-
+*/
 

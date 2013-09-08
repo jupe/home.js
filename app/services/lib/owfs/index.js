@@ -1,50 +1,63 @@
-var http = require('http');
-var httpjs = require('http-json-request');
+var http = require('http')
+  , httpjs = require('http-json-request')
+  , Ow = require("./onewire");
+
+/*
+global.CFG = {app: {
+  host: 'home',
+  port: 100
+}}
+global.db = {
+  action: {
+    findOrCreate: function(){}
+  }
+}
+*/
+
+
+
 
 httpjs.defaultHost( CFG.app.host );
 httpjs.defaultPort( CFG.app.port );
 
 
-var Ow = require("./api_onewire");
-var ow = new Ow(CFG.owfs.host, CFG.owfs.port);
+var OwApi = function(config){
+  var self = this;
+  var ow = new Ow(config.host, config.port);
 
-
-function findOwid(id, cb)
-{
-    db.device.findOne( {id: id, protocol: 'ow'}, function(error, data){
-        if(error){
-            cb(error);
-        } else if( data )
-        {
-            cb(null, data);
-        } else{
-            cb(null, null, id);
-        }
-    });
-}
-function isNumber (o) {
-  return ! isNaN (o-0) && o != null;
-}
-var instance;
-function OwService() {
-    instance=this;
-    
+  var findOwid = function(id, cb)
+  {
+      db.device.findOne( {id: id, protocol: 'ow'}, function(error, data){
+          if(error){
+              cb(error);
+          } else if( data )
+          {
+              cb(null, data);
+          } else{
+              cb(null, null, id);
+          }
+      });
+  }
+  var isNumber = function(o) {
+    return ! isNaN (o-0) && o != null;
+  }
+  var Init = function() {
     //create ping action if it not exists
     db.action.findOrCreate({name: 'owPing'}, { name: 'owPing', type: 'script', script: 'ow.ping();' }, 
-    function(err, action, _new){
-      if( err ){
-          console.log(err);
-      } else {
-        if(_new)console.log('Created owPing action');
-        db.schedule.findOrCreate({name: 'owPing'}, { name: 'owPing', cron: '0 * * * * *', actions: [ action.uuid]}, function(err,doc, _new){
-            if( err ){
-              console.log(err);
-            } else if(_new){
-              console.log('Created owPing schedule');
-            }
-        });
-          
-      }
+      function(err, action, _new){
+        if( err ){
+            console.log(err);
+        } else {
+          if(_new)console.log('Created owPing action');
+          db.schedule.findOrCreate({name: 'owPing'}, { name: 'owPing', cron: '0 * * * * *', actions: [ action.uuid]}, function(err,doc, _new){
+              if( err ){
+                console.log(err);
+              } else if(_new){
+                console.log('Created owPing schedule');
+              }
+          });
+            
+        }
     });
     
     //create measure action if it not exists
@@ -63,9 +76,10 @@ function OwService() {
         });
       }
     });
-    
-}
-OwService.prototype.ping = function(archives, period){
+  }
+  
+
+  var Ping = function(archives, period){
     console.log("reload ow meters");
     
     if( !(archives instanceof Array))
@@ -100,7 +114,7 @@ OwService.prototype.ping = function(archives, period){
                                 period: period
                             }
                         };
-                        httpjs.postJSON( '/device.json', device, function(error, data){
+                        httpjs.postJSON( '/api/v0/device.json', device, function(error, data){
                             console.log(error);
                             //console.log(data);
                             db.event.store( {
@@ -122,9 +136,9 @@ OwService.prototype.ping = function(archives, period){
         console.log("OwException");
         console.log(e); 
     }
-}
-OwService.prototype.read = function(device, callback)
-{
+  }
+  var Read = function(device, callback)
+  {
     var path = "/"+device.id+"/temperature";
     console.log("Reading device: "+path);
     try {
@@ -135,7 +149,7 @@ OwService.prototype.read = function(device, callback)
                 var unixStamp = parseInt(new Date().getTime() / 1000);
                 for(var i=0;i<device.hoard.archives.length;i++)
                     values.push( [unixStamp, result] ); //because all hoard-archives need to be update
-                httpjs.postJSON( '/device/'+device.uuid+"/events.json", 
+                httpjs.postJSON( '/api/v0/device/'+device.uuid+"/events.json", 
                               { values: values, type: 'hoard' }, callback);
             }
             else{ 
@@ -149,17 +163,16 @@ OwService.prototype.read = function(device, callback)
         console.log(e);
         callback(e, device);
     }
-}
-OwService.prototype.readAll = function(){
+  }
+  var ReadAll = function(){
     console.log("readAll");
-    //console.log(instance);
     db.device.find({protocol: 'ow', enable: true}, function(error, devs){
         if( error ) {
             console.log("getDevicesByProtocol::error");
             console.log(error);
         } else {
             for(var i=0;i<devs.length;i++) {
-                instance.read( devs[i], function(error, device){
+                self.Read( devs[i], function(error, device){
                   if( error ){
                     db.device.update( {uuid: device.uuid}, {enable: false}, function(){});
                     db.event.store( {
@@ -184,6 +197,17 @@ OwService.prototype.readAll = function(){
             }
         }
     });
+  }
+  
+  Init();
+  return {
+    Ping   : Ping,   //(archives, period)
+    Read   : Read,   //(device, callback)
+    ReadAll: ReadAll //()
+  }
 }
+
 // export the class
-module.exports = OwService;
+module.exports = OwApi;
+
+//var o = new OwApi('123', '');

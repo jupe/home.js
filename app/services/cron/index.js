@@ -1,16 +1,46 @@
-var   email = require('emailjs')
-    , cronJob = require('cron').CronJob
-    , owservice = require("./../lib/onewire.js");
+var   fs = require('fs')
+    , email = require('emailjs')
+    , cronJob = require('cron').CronJob;
 
 
 var CronService = function() {
   var self = this;
-  //Create ow service schedule and actions
-  var ow = new owservice();
+  
+  var LoadApi = function(api, filename){
+    var GetCfg = function(){
+      try{
+        return CFG.app.service[api];
+      } catch(e){
+        winston.error('service '+api+' not contains any configurations?!');
+        return false;
+      }
+    }
+    winston.info('Loading '+'cron'.cyan+' api '+api .cyan);
+    try{
+      var lib = require(filename);
+      self[api] = new lib(GetCfg());
+    } catch(e){
+      winston.error('cron api '+ api .red+'loading failed');
+    }
+  }
+  var LoadAll = function(){
+    
+    var folders = fs.readdirSync(__dirname+'/../lib/' );
+    
+    folders.forEach(function(api){
+      var filename = __dirname+'/../lib/'+api+'/index.js';
+      if( fs.existsSync(filename) ) {
+        LoadApi(api, filename);
+      }
+    });
+  }
+  LoadAll();
+  
   var timer = false;
   var cronSession = {}
   var statusnow = {
-    cron: {active: false, time: new Date()},
+    enable: false,
+    cron: {time: new Date()},
     services: []
   }
   var timeZone ="";
@@ -126,7 +156,7 @@ var CronService = function() {
   /* Interface functions */
   var start = function(){
       console.log('Start cron service' .cyan + ' . Interval: '+configurations.interval/1000+ ' s.');
-      statusnow.cron.active = true;
+      statusnow.enable = true;
       statusnow.cron.time = new Date();
       // loop all schedules every 5 second and activate/deactivate if needed..
       timer = setInterval( function(){
@@ -146,7 +176,7 @@ var CronService = function() {
   }
   var stop = function(){
       console.log('Stop cron service' .cyan);
-      statusnow.cron.active = false
+      statusnow.enable = false
       statusnow.cron.time = new Date();
       if(self.timer) self.timer.stop();
       self.timer = false;

@@ -1,34 +1,78 @@
 var fs = require('fs');
-var Services = function(){
+
+var Services = function(app){
   var Load = function(){
     global.service = {};
-     var loadService = function(filename){
-      winston.info('Loading service '+filename .cyan);
-      try{
-        /** @bug somewhy this causes error: "error: uncaughtException" */
-        var serv = require(filename);
-        var name = file.substr(0, file.length-3);
-        if( serv.disable ){
-          winston.info('Init service '+name .cyan + 'disabled');
-        } else {
-          winston.info('Init service '+name .cyan);
-          global.service[name] = new serv(app);
+    
+    var loadService = function(service, filename){
+      var GetCfg = function(){
+        try{
+          return CFG.app.service[service];
+        } catch(e){
+          winston.error('service '+service+' not contains any configurations?!');
+          return false;
         }
-      } catch(e){
-        winston.error(e);
       }
+      winston.info('Loading service '+service .cyan);
+      //try{
+        var serv = require(filename);
+        if( serv.disable ){
+          winston.info('Init service '+service .cyan + 'disabled');
+        } else {
+          winston.info('Init service '+service .cyan);
+          global.service[service] = new serv(GetCfg(), app);
+        }
+      //} catch(e){
+      //  winston.error(e);
+      //}
      }
      
      var folders = fs.readdirSync(__dirname );
-     folders.forEach(function(file){
-        var filename = __dirname+'/'+file+'/index.js';
+     folders.forEach(function(service){
+        var filename = __dirname+'/'+service+'/index.js';
         if( fs.existsSync(filename) ) {
-          loadService(filename);          
+          loadService(service, filename);          
         }
       });
   }
-  
   Load();
+  process.on('SIGINT', function() {
+    for(var key in service){
+      if( service[key].stop ) {
+        service[key].stop();
+      }
+    }
+  });
 }
 
+
 module.exports = Services;
+/* TEST
+require('colors');
+global.winston = {
+  info: function(x){console.log(x);},
+  log: function(x){console.log(x);},
+  error: function(x){console.log(x);}
+}
+global.CFG = {
+  app: {
+    host: ''
+  },
+  owfs: {
+    host: 'locahost'
+  },
+  email: {
+    from: '',
+    to: '',
+  },
+  app: {
+    service: {
+      cron: {
+        poll_interval: 1000,
+      }
+    }
+  }
+};
+var app;
+var test = Services(app);
+*/
