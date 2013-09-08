@@ -11,14 +11,14 @@ function Database() {
   var self = this;
   
   var Load = function(){
+    winston.info('Register db models');
     fs.readdirSync(__dirname + '/model').forEach(function(file){
       var sch = require('./schema/'+file);
       if( sch.disable ){}
       else {
         var name = file.substr(0,file.length-3);
-        winston.info('Register model '+name .cyan);
+        //winston.info('Register model '+name .cyan);
         self[name] = new Mongo( name, sch);
-        //require('./mongodb/model/'+file);
       }
     });
     

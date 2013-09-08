@@ -3,9 +3,7 @@ var Ellaweb = require('./ellaweb');
 var EllawebService = function(cfg) {
   var self = this;
   var timer = false;
-  console.log(cfg);
   var ellaweb = new Ellaweb(cfg);
-  
   
   var fetch = function(){
     winston.log('Read ellaweb data');
@@ -24,7 +22,8 @@ var EllawebService = function(cfg) {
   }
   var stop = function(){
     if(timer){
-      timer.stop();
+      clearTimeout(timer);
+      timer = false;
     }
     return status();
   }

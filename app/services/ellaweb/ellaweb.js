@@ -22,7 +22,7 @@ var Ellaweb = function(options){
                 
   
   var parseData = function(csvdata, cb){
-    console.log(csvdata);
+    //console.log(csvdata);
     csvdata = csvdata.split('\n');
     csvdata = csvdata.slice(4, csvdata.length);
     csvdata = csvdata.join('\n').trim();

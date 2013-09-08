@@ -14,17 +14,26 @@ var Services = function(app){
         }
       }
       winston.info('Loading service '+service .cyan);
-      //try{
+      try{
         var serv = require(filename);
         if( serv.disable ){
           winston.info('Init service '+service .cyan + 'disabled');
         } else {
           winston.info('Init service '+service .cyan);
+          
           global.service[service] = new serv(GetCfg(), app);
+          
+          db.service.findOrCreate( {name: service}, {name: service, enable: false}, function(error, doc){
+            if(error){ winston.error(error); }
+            else if( doc.enable ){
+              winston.info('Activating service '+doc.name.cyan);
+              global.service[doc.name].start();
+            }
+          });
         }
-      //} catch(e){
-      //  winston.error(e);
-      //}
+      } catch(e){
+        winston.error('Cannot load service '+service .red);
+      }
      }
      
      var folders = fs.readdirSync(__dirname );

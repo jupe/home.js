@@ -177,13 +177,14 @@ app.get( '/shutdown', function(req, res, next){
 /**
  * Mount all routes from "routes" -folder.
  */
+winston.info('Init routes');
 fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
   if( file.indexOf('.js') >= 0 ) {
     var route = require('./app/routes/'+file);
     if( route.disable ){}
     else {
       var name = file.substr(0, file.length-3);
-      winston.info('Init routes '+name .cyan);
+      //winston.info('Init routes '+name .cyan);
       route(app, '/api/v0');
     }
   }

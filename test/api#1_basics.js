@@ -117,8 +117,7 @@ describe('api#1:basics', function() {
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
-      assert.equal(body.cron.active, false);
-      assert.equal(body.services.length, 0);
+      assert.equal(body.status.enable, false);
       done();
     });
   });
@@ -218,8 +217,8 @@ describe('api#1:basics', function() {
       function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
-      assert.equal(res.body.cron.active, true);
-      assert.equal(res.body.services.length, 0);
+      assert.equal(body.status.enable, true);
+      //assert.equal(body.services.length, 0);
       done();
     });
   });
