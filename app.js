@@ -29,11 +29,15 @@ var
   , cli = require('optimist')
     .usage('Usage: npm start]')
     
-    .boolean(['f', 'd'])
+    .boolean(['f', 'd', 'start', 'help', 'stop', 'status', 'restart'])
+    
+    .default('pidfile', '')
     
     //.demand(['x','y'])
     .default('f', false)
     .alias('f', 'fork')
+    
+    .alias('f', 'h')
     
     .default('p', 3000)
     .alias('p', 'port')
@@ -41,16 +45,25 @@ var
     .default('d', false)
     .alias('d', 'start')
     
+    .default('s', false)
+    .alias('s', 'silent')
+    
   , argv = cli.argv
   , SessionStore = require("session-mongoose")(express)
   
-  // Own modules
-  , services = require('./app/services');
   
+  // Own modules
+  , services = require('./app/services')
+  , Routes = require('./app/routes')
+  , Db = require("./app/database")
+  //, Daemon = require("./lib/daemon");
+
+//Daemon(cli); 
+/*
 if( argv.help || argv.h ){
   cli.showHelp();
   process.exit();
-}
+}*/
 
 if (cluster.isMaster && argv.fork) {
     var cpus = require('os').cpus().length;
@@ -66,22 +79,30 @@ if( argv.d ) {
         colorize: false
       }).remove(winston.transports.Console);
 }
-winston.info('Initializing..');
+
+
 global.CFG = config.init(argv);
 global.winston = winston;
 
 /** Load configurations and cronjob */
 var app = express();
-var Db = require("./app/database");
+
+app.configure('development', function(){
+  winston.info('Initializing development version'.yellow);
+  app.use(express.errorHandler());
+});
+app.configure('production', function(){
+  winston.info('Initializing production version'.yellow);
+  app.use(express.errorHandler());
+});
 
 /* Create database connection */
-mongoose.connect(  'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, 
-                  CFG.mongodb.opts );
+mongoose.connect( 'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, CFG.mongodb.opts );
 mongoose.connection.on('error', function(error){
-  console.error("Failed to connect mongodb");
+  winston.error("Failed to connect mongodb");
 });
 mongoose.connection.on('connected', function(){
- console.log("Connect mongodb success");
+ winston.log("Connect mongodb success");
  // Register db models and other db related stuff
  var db = new Db(); 
   
@@ -99,6 +120,7 @@ process.chdir(require('path').dirname(require.main.filename));
 
 app.configure(function(){
   
+  app.set('argv', argv);
   app.set('port', CFG.app.port);
   app.set('view engine', 'jade');
   app.set('views', __dirname + '/app/views');
@@ -121,7 +143,7 @@ app.configure(function(){
   app.use( require('./app/middleware/allowCrossDomain.js') );
   
   //these files shouldn't never change
-  app.use(express.static(__dirname + '/public'/*, {maxAge: 86400000}*/)); 
+  app.use(express.static(__dirname + '/app/public'/*, {maxAge: 86400000}*/)); 
   
   
   app.use(express.favicon());
@@ -139,12 +161,8 @@ app.configure(function(){
   }));
   app.use( require('./app/middleware/authentication') );
   app.use(app.router);
-  
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
 app.use(function(req, res, next){
   // the status option, or res.statusCode = 404
   // are equivalent, however with the option we
@@ -165,30 +183,9 @@ app.use(function(err, req, res, next){
   //res.send(404);
   next();
 });
-app.get( '/argv', function( req, res){
-  res.json(argv);
-});
-app.get( '/shutdown', function(req, res, next){
-  if( req.query.secret === 'secret' ){
-    res.json({shutdown: 'on progress'});
-    setTimeout( process.exit, 1000);
-  } else next();
-});
-/**
- * Mount all routes from "routes" -folder.
- */
-winston.info('Init routes');
-fs.readdirSync(__dirname + '/app/routes').forEach(function(file){
-  if( file.indexOf('.js') >= 0 ) {
-    var route = require('./app/routes/'+file);
-    if( route.disable ){}
-    else {
-      var name = file.substr(0, file.length-3);
-      //winston.info('Init routes '+name .cyan);
-      route(app, '/api/v0');
-    }
-  }
-});
+
+/** Mount all routes from "routes" -folder. */
+Routes(app);
 /*
 process.on('uncaughtException', function(err) {
   var stack = new Error().stack;
@@ -224,5 +221,5 @@ process.on('SIGINT', function() {
   setInterval( function(){ process.exit(1)}, 1000 );
 });
 app.listen(app.get('port'), function(){
-  winston.log("home.js server listening on port " + app.get('port'));
+  winston.info("home.js server listening on port " + (app.get('port')+'') .green);
 });

@@ -1,1 +1,0 @@
-require('./../app/lib/TimeSeries/test/tests');

@@ -13,7 +13,6 @@ var Services = function(app){
           return false;
         }
       }
-      winston.info('Loading service '+service .cyan);
       try{
         var serv = require(filename);
         if( serv.disable ){
