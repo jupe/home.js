@@ -16,15 +16,26 @@ var Mongo = function(collection, schema)
   var schema = schema;
   var model = mongoose.model(collection, schema);
 
-
-  this.jsonform = function(cb)
-  {
-      return this.model.jsonform();
+  
+  var Init = function(){
+    //register schema static functions
+    var keys = Object.keys(model);
+    keys.forEach(function(element, key, _array){
+      if( typeof(model[element]) == 'function'){
+        self[element] = model[element];
+      }
+    });/*
+    //register default mongoose functions
+    // this not working correctly --> map manually
+    keys = Object.keys(model.base.Model);
+    keys.forEach(function(element, key, _array){
+      if( typeof(model.base.Model[element]) == 'function'){
+        self[element] = model.base.Model[element];
+      }
+    });*/
   }
-  this.store = function(obj, callback) {
-      var newObj = new model(obj);
-      newObj.save( callback );
-  }
+  //Init();
+  
   this.findOne = function(condition, callback){
      model.findOne(condition, callback);
   }
@@ -33,6 +44,30 @@ var Mongo = function(collection, schema)
   }
   this.findAndModify = function(condition, update, callback ) {
     model.findAndModify(condition, update, callback );
+  }
+  this.distinct = function(field, condition, callback){
+    model.distinct(field, condition, callback);
+  }
+  this.update = function(condition, update, callback){
+    model.update( condition, update, callback);    
+  }
+  this.count = function(condition, callback ) {
+     model.count(condition, callback);
+  }
+  this.remove = function(condition, callback ) {
+     model.remove(condition, callback );
+  }
+  this.findOneAndRemove = function(condition, callback ) {
+    model.findOneAndRemove(condition, callback );
+  }
+  this.jsonform = function(cb)
+  {
+    cb(this.model.jsonform());
+    return this.model.jsonform();
+  }
+  this.store = function(obj, callback) {
+    if( callback ) model.create(obj, callback);
+    else model.create(obj, function(){});
   }
   this.find = function(condition, sorts, skips, limits, select, callback){
     if( !callback && !select && !limits && !skips ) {
@@ -47,8 +82,9 @@ var Mongo = function(collection, schema)
       else if(doc){ 
         callback(null, doc);
       } else {
-        self.store(obj, function(error, doc){
-          callback(error, doc, true/*new*/);
+        model.create(obj, function(error, doc){
+          doc.isNew = true; //abnormal valu
+          callback(error, doc);
         });
       }
     });
@@ -65,26 +101,11 @@ var Mongo = function(collection, schema)
   this.findByUuid = function(uuid, callback){
      model.findOne( {uuid: uuid},callback);
   }
-  this.distinct = function(field, condition, callback){
-    model.distinct(field, condition, callback);
-  }
-  this.update = function(condition, update, callback){
-    model.update( condition, update, callback);    
-  }
   this.updateByUuid = function(uuid, update, callback){
     model.update( {uuid: uuid}, update, callback);    
   }
-  this.count = function(condition, callback ) {
-     model.count(condition, callback);
-  }
   this.removeByUuid = function(uuid, callback ) {
     model.remove({uuid: uuid}, callback );
-  }
-  this.remove = function(condition, callback ) {
-     model.remove(condition, callback );
-  }
-  this.findOneAndRemove = function(condition, callback ) {
-    model.findOneAndRemove(condition, callback );
   }
   this.getIndexes = function( callback ){
      model.collection.getIndexes( callback);

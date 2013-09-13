@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 var Schema = mongoose.Schema;
 
-var Mongo = require('./api');
+var MongoApi = require('./api');
 
 
 // Constructor
@@ -12,13 +12,14 @@ function Database() {
   
   var Load = function(){
     winston.info('Register db models');
-    fs.readdirSync(__dirname + '/model').forEach(function(file){
+    fs.readdirSync(__dirname + '/schema').forEach(function(file){
       var sch = require('./schema/'+file);
       if( sch.disable ){}
       else {
         var name = file.substr(0,file.length-3);
+        
         //winston.info('Register model '+name .cyan);
-        self[name] = new Mongo( name, sch);
+        self[name] = new MongoApi( name, sch);
       }
     });
     

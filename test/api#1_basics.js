@@ -14,10 +14,8 @@ describe('api#1:init', function() {
   it('server start as daemon', function(done) {
     this.timeout(5000);
     exec('node index --silent --start --pidfile app.pid',function(err,stdout,stderr){
-      console.log('starting daemon');
       assert.typeOf(err, 'null');
       assert.equal(stderr, '');
-      console.log(stdout);
       setTimeout(done, 2000);
     })
   });
@@ -351,7 +349,7 @@ describe('api#1:stop', function() {
     exec('node index --silent --stop --pidfile app.pid',function(err,stdout,stderr){
       assert.equal(err, null);
       assert.equal(stderr, '');
-      setTimeout(done, 2000);
+      setTimeout(done, 4000);
     });
   });
 });  

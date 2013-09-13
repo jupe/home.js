@@ -186,7 +186,7 @@ app.use(function(err, req, res, next){
 
 /** Mount all routes from "routes" -folder. */
 Routes(app);
-/*
+
 process.on('uncaughtException', function(err) {
   var stack = new Error().stack;
   if(err.errno === 'EADDRINUSE'){
@@ -197,7 +197,7 @@ process.on('uncaughtException', function(err) {
     winston.error( stack )
   }
   process.exit(1);
-}); */
+});
 
 // Windows doesn't use POSIX signals
 if (process.platform === "win32" && argv.d === false) {

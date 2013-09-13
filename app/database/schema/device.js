@@ -3,7 +3,7 @@ var uuid = require('node-uuid');
 var Schema = mongoose.Schema;
 
 var Device = new Schema({
-    uuid : {type: String, index: true}, 
+    uuid : {type: String, index: true, unique: true}, 
     name  :  { type: String, required: true },
     id    :  { type: String, index: true },
     enable: {type: Boolean, default: true},
@@ -26,7 +26,7 @@ var Device = new Schema({
         archives: {type: Object},
         period: {type: Number}
     },*/
-    protocol  :  { type: String, enum: ['ow', 'zwave', 'vbus'], index: true, required: true }, 
+    protocol  :  { type: String, enum: ['ow', 'zwave', 'vbus', 'service'], index: true, required: true }, 
     type: { type: String, enum: ['switch', 'sensor', 'meter', 'thermostat', 'camera']},
     created :  {
         timestamp: { type: Date, default: Date.now },
@@ -72,6 +72,14 @@ var Device = new Schema({
   }
   
   next();
+});
+
+Device.static('newMeasurementResult', function (device, timestamp, value, callback) {
+  if( value instanceof Array ) {
+  } else {
+    //this.findOne({ uuid: device }, callback);
+    //console.log(value);
+  }
 });
 
 module.exports = Device;

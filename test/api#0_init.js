@@ -13,7 +13,6 @@ describe('api#0:init', function() {
       console.log('starting daemon');
       assert.typeOf(err, 'null');
       assert.equal(stderr, '');
-      console.log(stdout);
       setTimeout(done, 2000);
     })
   });
