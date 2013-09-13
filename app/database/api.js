@@ -34,7 +34,7 @@ var Mongo = function(collection, schema)
       }
     });*/
   }
-  //Init();
+  Init();
   
   this.findOne = function(condition, callback){
      model.findOne(condition, callback);
