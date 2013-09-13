@@ -34,7 +34,7 @@ var Ellaweb = function(options){
           'date': {path: 'date', convert: function(value){
             var arr = value.match(/([0-9]{1,2}).([0-9]{1,2})/);
             if(arr && arr.length == 3){
-              return (new Date( 2013, parseInt(arr[1]), parseInt(arr[2]))).getTime();
+              return (new Date( 2013, parseInt(arr[2]), parseInt(arr[1]))).getTime();
             } return value;
           }},
           'sum': {path: 'sum', convert: function(value){

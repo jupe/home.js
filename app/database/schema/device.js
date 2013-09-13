@@ -79,6 +79,24 @@ Device.static('newMeasurementResult', function (device, timestamp, value, callba
   } else {
     //this.findOne({ uuid: device }, callback);
     //console.log(value);
+    db.device.findOne({uuid: device}, function(error, dev){
+      db.data.findOrCreate({'metadata.device': dev._id}, 
+      {
+        metadata: {
+          device: dev._id,
+          date: new Date(timestamp)
+        }
+      }, function(error, doc){
+        if(error)winston.error(error)
+        else if(doc) doc.push(timestamp, value);
+      });
+    });
+    /*
+    db['device.data'].store({
+      device :  device,
+      timestamp: timestamp,
+      values: [{value: value}]
+    }, callback);*/
   }
 });
 

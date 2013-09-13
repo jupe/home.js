@@ -11,7 +11,7 @@ var DeviceData = new Schema({
     device :  { type: String, required: true },
     timestamp: {type: Date, default: Date.now},
     values: [{
-        unit: { type: String, enum: ['W', 'kWh', 'C', 'V','A'], required: true },
+        unit: { type: String, enum: ['W', 'kWh', 'C', 'V','A'] },
         value: {type: Number, required: true}
     }],
 }).pre('save', function (next) {

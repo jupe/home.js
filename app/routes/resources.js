@@ -6,6 +6,8 @@ module.exports = function(app,apiurl){
   
   app.resource(apiurl.substr(1)+'/event', require('./../resources/events'));
   
+  app.resource(apiurl.substr(1)+'/data', require('./../resources/datas'));
+  
   /*
   //app.resource('meter', require('./resources/meters'));
   app.resource(apiurl.substr(1)+'/chart', require('./../resources/charts'));

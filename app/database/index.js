@@ -17,8 +17,7 @@ function Database() {
       if( sch.disable ){}
       else {
         var name = file.substr(0,file.length-3);
-        
-        //winston.info('Register model '+name .cyan);
+        winston.log('Register model '+name .cyan);
         self[name] = new MongoApi( name, sch);
       }
     });

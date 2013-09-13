@@ -22,6 +22,7 @@ var DataSchema = new Schema({
   updatedAt: {
     date: {type: Date},
   },
+  daily: {type: Number, default: 0},
   hourly: {
     "0":{type: Number, default: 0},  "1":{type: Number, default: 0}, "2":{type: Number, default: 0}, "3":{type: Number, default: 0}, "4":{type: Number, default: 0}, "5":{type: Number, default: 0}, "6":{type: Number, default: 0}, "7":{type: Number, default: 0}, "8":{type: Number, default: 0}, "9":{type: Number, default: 0},
     "10":{type: Number, default: 0},"11":{type: Number, default: 0},"12":{type: Number, default: 0},"13":{type: Number, default: 0},"14":{type: Number, default: 0},"15":{type: Number, default: 0},"16":{type: Number, default: 0},"17":{type: Number, default: 0},"18":{type: Number, default: 0},"19":{type: Number, default: 0},
@@ -56,14 +57,21 @@ var DataSchema = new Schema({
 });
 
 DataSchema.pre('save', function (next) {
-  console.log('saving..'); // Should be approximately now
-  //console.log(this); // Should be approximately now
+  if( this.isNew ){
+  }
   next();
 });
-DataSchema.methods.push = function pushData(timestamp, value, cb) {
-  console.log('pushData');
+DataSchema.method( 'push', function pushData(timestamp, value, cb) {
+  var ts = new Date(timestamp);
+  var h = ts.getHours(),
+      m = ts.getMinutes(),
+      s = ts.getSeconds();
+  this.set('daily', value);
+  this.set('hourly.'+h+'', value);
+  this.set('minute.'+h+'.'+m, value);
+  this.set('minute.'+h+'.'+m+'.'+s, value);
+  this.save(cb);
   
-  
-};
+});
 module.exports = DataSchema;
 module.exports.toDate = toDate;

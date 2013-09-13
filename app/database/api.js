@@ -83,8 +83,8 @@ var Mongo = function(collection, schema)
         callback(null, doc);
       } else {
         model.create(obj, function(error, doc){
-          doc.isNew = true; //abnormal valu
-          callback(error, doc);
+          //doc.isNew = true; //abnormal valu
+          callback(error, doc, true);
         });
       }
     });

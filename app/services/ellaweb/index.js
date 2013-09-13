@@ -46,15 +46,15 @@ var EllawebService = function(cfg) {
   var fetch = function(){
     winston.log('Read ellaweb data');
     ellaweb.Stat( function(error, data, stat){
-      //console.log(data);
       data.forEach( function(row){
         db.device.newMeasurementResult(id.pwr, row.date, row.sum,function(error, ok){
         });
         db.device.newMeasurementResult(id.day, row.date, row.day ,function(error, ok){
         });
         db.device.newMeasurementResult(id.temp, row.date, row.temp ,function(error, ok){
-          timer = setTimeout( fetch, 60000*60*24 ); //every 24h
+          if(error)winston.error(error);
         });
+        timer = setTimeout( fetch, 60000*60*24 ); //every 24h
       });
       
       
