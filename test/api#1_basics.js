@@ -265,6 +265,26 @@ describe('api#1:basics', function() {
     });
   });
   
+  
+  it('[PUT] /admin/configure -> update', function(done) {
+    var options = {
+      uri: apiurl+'/admin/configure',
+      method: 'PUT',
+      json: {app: {admin: "test"}}
+    };
+    request(options, 
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'object');
+      assert.typeOf(body.app, 'object');
+      assert.typeOf(body.app.admin, 'string');
+      assert.equal(body.app.admin, 'test');
+      done();
+    });
+  });
+  
+  
   it('[GET] /logout', function(done) {
     request.get({url: apiurl+'/logout', json:true}, 
       function(err, res, body){
@@ -349,7 +369,7 @@ describe('api#1:stop', function() {
     exec('node index --silent --stop --pidfile app.pid',function(err,stdout,stderr){
       assert.equal(err, null);
       assert.equal(stderr, '');
-      setTimeout(done, 4000);
+      setTimeout(done, 2000);
     });
   });
 });  

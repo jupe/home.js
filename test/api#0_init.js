@@ -18,7 +18,7 @@ describe('api#0:init', function() {
   });
   
   
-  it('frontpage', function(done) {
+  it('[GET] /', function(done) {
     request.get(appurl, 
       function(err, res, body){
       assert.equal(err, null);
@@ -27,7 +27,7 @@ describe('api#0:init', function() {
     });
   });
   
-  it('argv', function(done) {
+  it('[GET] /argv', function(done) {
     request.get(appurl+'/argv', 
       function(err, res, body){
       assert.equal(err, null);
@@ -41,6 +41,46 @@ describe('api#0:init', function() {
     });
   });
   
+  it('[GET] /admin/configure', function(done) {
+    request.get({json: true, url: apiurl+'/admin/configure'}, 
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'object');
+      assert.typeOf(body.app, 'object');
+      assert.typeOf(body.app.port, 'number');
+      assert.equal(body.app.port, 3000);
+      assert.typeOf(body.email, 'object');
+      assert.typeOf(body.mongodb, 'object');
+      done();
+    });
+  });
+  
+  it('[PUT] /admin/configure', function(done) {
+    request.get({json: true, url: apiurl+'/admin/configure'}, 
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'object');
+      assert.typeOf(body.app, 'object');
+      assert.typeOf(body.app.port, 'number');
+      assert.equal(body.app.port, 3000);
+      assert.typeOf(body.email, 'object');
+      assert.typeOf(body.mongodb, 'object');
+      done();
+    });
+  });
+  it('[GET] /admin/commit', function(done) {
+    request.get({json: true, url: apiurl+'/admin/commit'}, 
+      function(err, res, body){
+      assert.equal(err, null);
+      assert.equal(res.statusCode, 200);
+      assert.typeOf(body, 'object');
+      assert.typeOf(body.id, 'string');
+      assert.typeOf(body.timestamp, 'string');
+      done();
+    });
+  });
   
   it('server stop', function(done) {
     this.timeout(5000);

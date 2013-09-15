@@ -5,6 +5,10 @@
     "feed": "https://github.com/jupe/home.js/commits/master.atom",
     "date": "2013-04-4T17:14:20.000Z",
     "admin": "admin",
+    "update": {
+      "period": 86400000,
+      "url": "https://api.github.com/repos/jupe/home.js/tag"
+    },
     "service": { 
       "cron": {
         "poll_interval": 5000 

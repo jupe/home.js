@@ -1,0 +1,63 @@
+{
+  "app": {
+    "type": "object",
+    "properties": {
+      "port": "number",
+      "release": "string",
+      "feed": "uri",
+      "date": "date",
+      "admin": "string",
+      "update": {
+        "type": "object",
+        "properties": {
+          "period": "number",
+          "url": "uri"
+        }
+      },
+      "service": {
+        "type": "object",
+        "properties": {
+          "cron": {
+            "type": "object",
+            "properties": {
+              "poll_interval": "number"
+            }
+          },
+          "ellaweb": {
+            "type": "object",
+            "properties": {
+              "place": "number",
+              "nCustomerID": "number"
+            }
+          },
+          "owfs": {
+            "type": "object",
+            "properties": {
+              "enable": "boolean",
+              "host": "string",
+              "port": "number",
+              "simulate": "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "email": {
+    "type": "object",
+    "properties": {
+      "from": "string",
+      "host": "string",
+      "ssl": "boolean"
+    }
+  },
+  "mongodb": {
+    "type": "object",
+    "properties": {
+      "host": "string",
+      "database": "string",
+      "port": "number"
+    }
+  }
+  
+}
