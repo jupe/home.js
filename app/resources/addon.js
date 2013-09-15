@@ -48,7 +48,6 @@ exports.show = function(req, res){
         break;
     default: res.render(501); break;
   }
-  
 };
 
 

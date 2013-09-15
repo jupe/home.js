@@ -130,6 +130,7 @@ var updateavailable = function(response){
     winston.log('No updates available');
   } else if(response===true){
     winston.info('Update available!');
+    db.event.create( {type: 'info', msg: 'update available'}, function(){});
   } else {
     winston.error('Update check error: '+response);
   }
