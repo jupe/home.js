@@ -31,7 +31,9 @@ function iterateUpdates(obj, key) {
     }
   }
 }
-
+exports.edit = function(req, res){
+  res.json( cfgschema );
+}
 exports.update = function(req, res){
   
   if( validate(req.body, cfgschema ).errors.length == 0 ) {

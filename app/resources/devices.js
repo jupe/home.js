@@ -36,6 +36,9 @@ exports.index = function (req, res) {
         break;
 	}
 };
+exports.new = function(req, res){
+  res.json(db.device.jsonform());
+}
 exports.create = function (req, res) {
 	console.log('create device');
 	console.log(req.params);

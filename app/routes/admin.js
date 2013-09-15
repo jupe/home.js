@@ -6,6 +6,7 @@ module.exports = function(app, apiurl){
   
   app.get(apiurl+'/admin/configure', admin.configure);
   app.put(apiurl+'/admin/configure', [auth.isAdmin], admin.update);
+  app.get(apiurl+'/admin/configure/edit.:format?', admin.edit); //get json schema for UI
   
   
   app.get(apiurl+'/admin/upgrade.:format?', upgrade.versions);

@@ -5,15 +5,19 @@ var mongoose = require('mongoose');
 
 /* own libraries */  
 var Query = require('mongoose-query');
+var SchemaToJSON = require('./../lib/MongooseSchemaToJson');
 
 /* Implementation */ 
 var Schema = mongoose.Schema;
+
+
 
 //Mongo functions
 var Mongo = function(collection, schema) 
 {
   var self = this;
   var schema = schema;
+  //console.log(schema);
   var model = mongoose.model(collection, schema);
 
   
@@ -62,8 +66,10 @@ var Mongo = function(collection, schema)
   }
   this.jsonform = function(cb)
   {
-    cb(this.model.jsonform());
-    return this.model.jsonform();
+    //cb(model.jsonform());
+    //console.log(model.jsonform);
+    //return model.jsonform();
+    return SchemaToJSON(schema.tree);
   }
   this.store = function(obj, callback) {
     if( callback ) model.create(obj, callback);

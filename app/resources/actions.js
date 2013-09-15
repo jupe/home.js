@@ -26,6 +26,9 @@ exports.index = function(req, res){
     default: res.send(501); //Not Implemented
   }
 };
+exports.new = function(req, res){
+  res.json(db.action.jsonform());
+}
 exports.create = function(req, res){
   console.log('create actions');
   db.action.store(req.body, function(err, action){

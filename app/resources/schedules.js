@@ -34,7 +34,9 @@ exports.create = function(req, res){
     res.json(doc);
   });
 };
-
+exports.new = function(req, res){
+  res.json(db.schedule.jsonform());
+}
 exports.show = function(req, res){
   console.log('show schedule');
   console.log(req.params);

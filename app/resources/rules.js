@@ -32,6 +32,9 @@ exports.index = function (req, res) {
         break;
 	}
 };
+exports.new = function(req, res){
+  res.json(db.rule.jsonform());
+}
 exports.create = function (req, res) {
 	console.log('create rule');
 	console.log(req.params);

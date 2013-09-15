@@ -28,6 +28,9 @@ exports.index = function (req, res) {
         break;
 	}
 };
+exports.new = function(req, res){
+  res.json(db['device.event'].jsonform());
+}
 exports.create = function (req, res) {
 	console.log('create device event');
 	db['device.event'].store(req.body, function (error, event) {

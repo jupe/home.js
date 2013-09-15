@@ -26,7 +26,9 @@ exports.index = function(req, res){
   }
 };
 
-
+exports.new = function(req, res){
+  res.json(db.addon.jsonform());
+}
 exports.create = function(req, res){
   console.log('create schedule');
   db.addon.store( req.body, function(error, doc){

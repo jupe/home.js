@@ -25,7 +25,9 @@ exports.index = function(req, res){
         break;
 	}
 };
-
+exports.new = function(req, res){
+  res.json(db.event.jsonform());
+}
 exports.create = function(req, res){
   console.log('create events');
   console.log(req.params);
