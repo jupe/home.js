@@ -2,7 +2,7 @@
   "name": "home.js",
   "description": "Home automation server",
   "keywords": ["automation", "home", "mongoose", "angular", "build", "sensor", "zwave", "vbus", "onewire"],
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/jupe/home.js",
   "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>)",
   "bugs" : {
