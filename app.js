@@ -1,9 +1,9 @@
 /************************************************************
  *
- *   NODE-HOME-AUTOMATION
+ *   HOME.JS
  *   designed by JVA
  *
- *   Code license: GNU GPL v2
+ *   Code license: MIT
  *
  ************************************************************/
  /*
