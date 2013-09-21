@@ -3,8 +3,41 @@
 /* Controllers */
 
 angular.module('homejs.controllers', [])
-  .controller('OverviewController', [function() {
-  
+  .controller('OverviewController', ['$scope',function($scope) {
+    $scope.chart = {
+    "type": "LineChart",
+    "displayed": true,
+    "cssStyle": "height:300px; width:100%;",
+    "data": {       
+      "cols": [
+        {id: "month", label: "Month", type: "string"},
+        {"id": "id", "label": "Sensor#X", "type": "number" },
+      ],
+      "rows": [
+        {
+          "c": [
+            {
+              "f": "January",
+              "v": -30
+            },
+            {              
+              "v": -5
+            }
+          ]
+        }
+      ] 
+    },
+    "options": {
+      "title": "Temperature avg per month",
+      "isStacked": "true",
+      "fill": 20,
+      "displayExactValues": true,
+      "vAxis": { "title": "Temperature", "gridlines": { "count": 10 }, min: -30, max: 30 },
+      "hAxis": { "title": "Date" },
+      "tooltip": { "isHtml": false }
+    },
+    "formatters": {}
+    }
   }])
   .controller('DevicesController', ['$scope', 'Device', function($scope, Device) {
     $scope.devices = Device.query();
@@ -78,7 +111,7 @@ angular.module('homejs.controllers', [])
       ]
     };
   }])
-  .controller('InfoController', [function() {
+  .controller('InfoController', ['$scope', function($scope) {
     $scope.version = 'test';
     $scope.commitid = '1234';
   }]);
