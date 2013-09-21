@@ -1,0 +1,17 @@
+<ul class="devices">
+  <table>
+    <tr>
+      <th>Source</th>
+      <th>Timestamp</th>
+      <th>Type</th>
+      <th>Msg</th>
+    </tr>
+    <tr ng-repeat="event in events | filter:query">
+      <td>{{event.source.name}}</td>
+      <td>{{event.created.timestamp}}</td>
+      <td>{{event.type}}</td>
+      <td>{{event.msg}}</td>
+    </tr>
+  </table>
+</ul>
+
