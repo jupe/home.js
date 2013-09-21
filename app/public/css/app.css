@@ -3,3 +3,9 @@
 #main {
     margin-top: 5em;
 }
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 800px; 
+    height: 500px
+}

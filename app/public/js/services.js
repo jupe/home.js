@@ -6,13 +6,13 @@
 angular.module('homejs.services', ['ngResource'])
   .factory('Device', function($resource) {
     return $resource(
-	    "/api/v0/device/:id.json", {id: '@uuid'},
+	    "/api/v0/device/:id", {id: '@uuid'},
 	    {update: {method: "PUT"}}
     );
   })
   .factory('Event', function($resource) {
     return $resource(
-	    "/api/v0/event/:id.json", {id: '@uuid'},
+	    "/api/v0/event/:id", {id: '@uuid'},
 	    {update: {method: "PUT"}}
     );
   });;
