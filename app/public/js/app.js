@@ -1,18 +1,10 @@
-// Filename: app.js
-define([
-  'jquery', 
-  'underscore', 
-  'backbone',
-  'jquery.event.drag',
-  'jquery.ui.sortable',
-  'router', // Request router.js
-], function($, _, Backbone, jed, jus, Router){
-  var initialize = function(){
-    // Pass in our Router module and call it's initialize function
-    Router.initialize();
-  };
+'use strict';
 
-  return { 
-    initialize: initialize
-  };
-});
+
+// Declare app level module which depends on filters, and services
+angular.module('homejs', ['ngRoute', 'ui.bootstrap', 'homejs.controllers', 'homejs.services']).
+  config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/', {templateUrl: 'partials/overview.html', controller: 'OverviewController'});
+    $routeProvider.when('/devices', {templateUrl: 'partials/devices.html', controller: 'DevicesController'});
+    $routeProvider.otherwise({redirectTo: '/'});
+  }]);
