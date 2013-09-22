@@ -3,8 +3,9 @@ var path = require('path');
 var request = require('request');
 var csvjs = require('csv-json');
 
-var Ellaweb = function(options){
+var Ellaweb = function(cfg){
   var apiurl = 'https://ellaweb.ouka.fi/online'
+  var options = cfg;
   
   var doUrl = function(oper){
     switch(oper){
@@ -124,6 +125,9 @@ var Ellaweb = function(options){
       }
     });
   }
+  var Options = function(opt) {
+    options = opt;
+  }
   /*var testdata = fs.readFileSync('./temp.csv').toString();
   parseData(testdata, function(error, data, stat){
     console.log(error);
@@ -133,7 +137,8 @@ var Ellaweb = function(options){
   
   return {
     Login: Login,
-    Stat: Stat
+    Stat: Stat,
+    Options: Options
   }
 }
 module.exports = Ellaweb;

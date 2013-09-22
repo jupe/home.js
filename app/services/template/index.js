@@ -25,3 +25,4 @@ var TemplateService = function() {
 }
 // export the class
 module.exports = TemplateService;
+module.exports.disable = true;

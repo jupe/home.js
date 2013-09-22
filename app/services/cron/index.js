@@ -198,9 +198,20 @@ var CronService = function() {
   return {
     start: start,
     stop: stop,
-    status: status
+    status: status,
+    configurations: configurations
   }
-  
+}
+var OptionTemplate = {
+  poll_interval: 5000
+}
+var OptionSchema = {
+  type: 'object',
+  properties: {
+    poll_interval: {type: 'string', default: 5000}
+  }
 }
 // export the class
 module.exports = CronService;
+module.exports.OptionTemplate = OptionTemplate;
+module.exports.OptionSchema = OptionSchema;

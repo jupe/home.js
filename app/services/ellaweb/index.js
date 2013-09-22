@@ -6,42 +6,45 @@ var EllawebService = function(cfg) {
   var ellaweb = new Ellaweb(cfg);
   var id = { temp: '', pwr: '', day: ''};
   
-  db.device.findOrCreate(
-    { name: 'ellaweb-temp'}, 
-    { name: 'ellaweb-temp', 
-      protocol : 'service', 
-      type: 'meter'
-    }, function(error, doc){
-      if( error ){
-        winston.error(error);
-      } else if(doc){
-        id.temp = doc.uuid;
-      }
-  });
-  db.device.findOrCreate(
-    { name: 'ellaweb-pwr-sum'}, 
-    { name: 'ellaweb-pwr-sum', 
-      protocol : 'service', 
-      type: 'meter'
-    }, function(error, doc){
-      if( error ){
-        winston.error(error);
-      } else if(doc){
-        id.pwr = doc.uuid;
-      }
-  });
-  db.device.findOrCreate(
-    { name: 'ellaweb-pwr-day'}, 
-    { name: 'ellaweb-pwr-day', 
-      protocol : 'service', 
-      type: 'meter'
-    }, function(error, doc){
-      if( error ){
-        winston.error(error);
-      } else if(doc){
-        id.day = doc.uuid;
-      }
-  });
+  var Init = function(){
+    //Create devices if not exists
+    db.device.findOrCreate(
+      { name: 'ellaweb-temp'}, 
+      { name: 'ellaweb-temp', 
+        protocol : 'service', 
+        type: 'meter'
+      }, function(error, doc){
+        if( error ){
+          winston.error(error);
+        } else if(doc){
+          id.temp = doc.uuid;
+        }
+    });
+    db.device.findOrCreate(
+      { name: 'ellaweb-pwr-sum'}, 
+      { name: 'ellaweb-pwr-sum', 
+        protocol : 'service', 
+        type: 'meter'
+      }, function(error, doc){
+        if( error ){
+          winston.error(error);
+        } else if(doc){
+          id.pwr = doc.uuid;
+        }
+    });
+    db.device.findOrCreate(
+      { name: 'ellaweb-pwr-day'}, 
+      { name: 'ellaweb-pwr-day', 
+        protocol : 'service', 
+        type: 'meter'
+      }, function(error, doc){
+        if( error ){
+          winston.error(error);
+        } else if(doc){
+          id.day = doc.uuid;
+        }
+    });
+  }
   
   var fetch = function(){
     winston.log('Read ellaweb data');
@@ -63,6 +66,7 @@ var EllawebService = function(cfg) {
   
   /* Interface functions */
   var start = function(){
+    Init();
     if(!timer){
       timer = setTimeout( fetch, 1000 );
     }
@@ -80,14 +84,38 @@ var EllawebService = function(cfg) {
       enable: timer?true:false
     };
   }
+  var configurations = function(cfg){
+    if( cfg ) {
+      console.log('ellaweb configs: '+cfg);
+      ellaweb.configurations(cfg);
+    } 
+    return {
+      place: 0,
+      nCustomerID: 0
+    }
+  }
 
   /* MODULE API */
   return {
     start: start,
     stop: stop,
-    status: status
+    status: status,
+    configurations: configurations
   }
   
 }
+var OptionTemplate = {
+  "place": 0,
+  "nCustomerID": 0
+}
+var OptionSchema = {
+  type: 'object',
+  properties: {
+    place: 'number',
+    nCustomerID: 'number'
+  } 
+}
 // export the class
 module.exports = EllawebService;
+module.exports.OptionTemplate = OptionTemplate;
+module.exports.OptionSchema = OptionSchema;

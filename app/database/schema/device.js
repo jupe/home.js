@@ -3,44 +3,51 @@ var uuid = require('node-uuid');
 var Schema = mongoose.Schema;
 
 var Device = new Schema({
-    uuid : {type: String, index: true, unique: true}, 
-    name  :  { type: String, required: true },
-    id    :  { type: String, index: true },
-    enable: {type: Boolean, default: true},
-    ow: {
-        FamilyCode: {type: String, max_length: 2},
-        id: {type: String},
-        crc: {type: String},
-        lastValue: {type: Number},
-    },
-    funcs: [  
-      // functions are executed every time when [POST] /device/:device/data  {value: ..} is received
-      { 
-        comparision: {type: String},  // e.g. "return (value > 28 )"
-        action: {type: String}        // action uuid what happens if comparision is true
-      }
-    ],/*
-    hoard: {
-        enable: {type: Boolean },
-        file: {type: String },
-        archives: {type: Object},
-        period: {type: Number}
-    },*/
-    protocol  :  { type: String, enum: ['ow', 'zwave', 'vbus', 'service'], index: true, required: true }, 
-    type: { type: String, enum: ['switch', 'sensor', 'meter', 'thermostat', 'camera']},
-    created :  {
-        timestamp: { type: Date, default: Date.now },
-        user: {type: String}
-    },
-    modified: {
+  uuid : {type: String, index: true, unique: true}, 
+  name  :  { type: String, required: true },
+  id    :  { type: String, index: true },
+  enable: {type: Boolean, default: true},
+  ow: {
+    FamilyCode: {type: String, max_length: 2},
+    id: {type: String},
+    crc: {type: String},
+    lastValue: {type: Number},
+  },
+  data: [
+    {
+      name: {type: String}, //data name, e.g. temperature
+      url: {type: String}, //rest api
+      type: {type: String, enum:['timeseries'] }
+    }
+  ],
+  funcs: [  
+    // functions are executed every time when [POST] /device/:device/data  {value: ..} is received
+    { 
+      comparision: {type: String},  // e.g. "return (value > 28 )"
+      action: {type: String}        // action uuid what happens if comparision is true
+    }
+  ],/*
+  hoard: {
+      enable: {type: Boolean },
+      file: {type: String },
+      archives: {type: Object},
+      period: {type: Number}
+  },*/
+  protocol  :  { type: String, enum: ['ow', 'zwave', 'vbus', 'service'], index: true, required: true }, 
+  type: { type: String, enum: ['switch', 'sensor', 'meter', 'thermostat', 'camera']},
+  created :  {
       timestamp: { type: Date, default: Date.now },
       user: {type: String}
-    },
-    location: {
-        room: {type: String},
-        geo: {type: [Number], index: '2d'},
-        map: {type: [Number], index: '2d', index: true},
-    }
+  },
+  modified: {
+    timestamp: { type: Date, default: Date.now },
+    user: {type: String}
+  },
+  location: {
+    room: {type: String},
+    geo: {type: [Number], index: '2d'},
+    map: {type: [Number], index: '2d', index: true},
+  }
 }).pre('save', function (next) 
 {
   if( this.isNew ){

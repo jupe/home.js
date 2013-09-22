@@ -10,6 +10,9 @@ exports.index = function (req, res) {
 	switch (req.params.format) {
     case (undefined):
     case ('json'):
+        if(req.params.device){
+          req.query.device=req.params.device;
+        }
         db['device.event'].find(req.query, function (error, results) {
           if (error) {
               console.log(error);

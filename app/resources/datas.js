@@ -15,15 +15,21 @@ exports.index = function (req, res) {
     case ('json'):
         db.device.findOne({uuid: req.params.device}, 
          function(error, device){
-          req.query['metadata.device'] = device._id;
-          db.data.query(req.query, function (error, results) {
-            if (error) {
-              res.json(500, {error: error});
-            } else {
-              res.json(results);
-            }
-          });
+          if( error ) {
+          } else if( device ) {
+            req.query['metadata.device'] = device._id;
+            db.data.query(req.query, function (error, results) {
+              if (error) {
+                res.json(500, {error: error});
+              } else {
+                res.json(results);
+              }
+            });
+          } else {
+            res.json(404, {error: 'not found'});
+          }
         });
+        
         break;
     default:
         res.render(501, {user: req.session.user}); //Not Implemented

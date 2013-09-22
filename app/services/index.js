@@ -5,14 +5,6 @@ var Services = function(app){
     global.service = {};
     
     var loadService = function(service, filename){
-      var GetCfg = function(){
-        try{
-          return CFG.app.service[service];
-        } catch(e){
-          winston.error('service '+service+' not contains any configurations?!');
-          return false;
-        }
-      }
       try{
         var serv = require(filename);
         if( serv.disable ){
@@ -20,17 +12,31 @@ var Services = function(app){
         } else {
           winston.info('Init service '+service .cyan);
           
-          global.service[service] = new serv(GetCfg(), app);
-          
-          db.service.findOrCreate( {name: service}, {name: service, enable: false}, function(error, doc){
+          //create new service instance with configs(if something is in config.json file)
+          db.service.findOrCreate( 
+            {name: service}, 
+            { name: service, 
+              enable: false
+            }, function(error, doc, isNew){
+            if(isNew){
+              console.log('isNew');
+              if( serv.OptionTemplate ){ 
+                //if there is something for options, store it to db
+                doc.configurations = serv.OptionTemplate;
+              }
+            }
+            global.service[service] = new serv(doc.configurations, app);
+            
             if(error){ winston.error(error); }
             else if( doc.enable ){
               winston.info('Activating service '+doc.name.cyan);
               global.service[doc.name].start();
             }
+            doc.save();
           });
         }
       } catch(e){
+        console.log(e);
         winston.error('Cannot load service '+service .red);
       }
      }
@@ -45,6 +51,7 @@ var Services = function(app){
   }
   Load();
   process.on('SIGINT', function() {
+    //Exist all services if they exists.
     for(var key in service){
       if( service[key].stop ) {
         service[key].stop();
