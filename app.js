@@ -76,7 +76,9 @@ if (cluster.isMaster && argv.fork) {
 if( argv.d ) {
   winston.add(winston.transports.File, 
       { filename: __dirname + '/log/homejs.log',
-        colorize: false
+        colorize: false,
+        handleExceptions: true,
+        json: false
       }).remove(winston.transports.Console);
 }
 

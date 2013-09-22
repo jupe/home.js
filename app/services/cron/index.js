@@ -58,8 +58,8 @@ var CronService = function() {
       else {
           data.source['uuid']  =uuid;
       }
-      data.details = details|'';
-      db.event.create( data, function(){});
+      if(details)data.details = details;
+      db.event.store( data, function(){});
   }
   //helper function for scripts
   function sendEmail( to, subject, msg, cb){
@@ -213,5 +213,6 @@ var OptionSchema = {
 }
 // export the class
 module.exports = CronService;
+module.exports.disable = true;
 module.exports.OptionTemplate = OptionTemplate;
 module.exports.OptionSchema = OptionSchema;

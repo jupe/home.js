@@ -96,7 +96,7 @@ var OwApi = function(config){
             var id = directories[i];
             if( id[0] == '/' && id[3] == '.' && id.length>14  )
             {
-                id = id.replace("/","");	
+                id = id.replace("/","");
                 //console.log("Founded device %s, check if its already in db", id);
                 findOwid(id, function(error, device, id){
                     if( error ){
@@ -105,14 +105,17 @@ var OwApi = function(config){
                     } else {
                         console.log("New OW sensor detected with id "+id);
                         var device = {
-                            protocol: 'ow',
                             type: 'meter',
-                            id: id,
-                            hoard: {
-                                enable: true,
-                                archives: archives,
-                                period: period
-                            }
+                            name: id,
+                            sensors: [ {
+                              protocol: 'ow',
+                              id: id,
+                              hoard: {
+                                  enable: true,
+                                  archives: archives,
+                                  period: period
+                              }
+                            }]
                         };
                         httpjs.postJSON( '/api/v0/device.json', device, function(error, data){
                             console.log(error);
@@ -166,13 +169,13 @@ var OwApi = function(config){
   }
   var ReadAll = function(){
     console.log("readAll");
-    db.device.find({protocol: 'ow', enable: true}, function(error, devs){
+    db.device.find({'sensors.protocol': 'ow', enable: true}, function(error, devs){
         if( error ) {
             console.log("getDevicesByProtocol::error");
             console.log(error);
         } else {
-            for(var i=0;i<devs.length;i++) {
-                self.Read( devs[i], function(error, device){
+            for(var i=0;i<devs.length;i++){
+                self.Read( devs.sensors[0][i], function(error, device){
                   if( error ){
                     db.device.update( {uuid: device.uuid}, {enable: false}, function(){});
                     db.event.store( {

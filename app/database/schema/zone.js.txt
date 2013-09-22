@@ -1,0 +1,28 @@
+var mongoose = require('mongoose')
+  , uuid = require('node-uuid')
+  , Schema = mongoose.Schema;
+
+var Zone = new Schema({
+  uuid: {type: String, unique: true},
+  name: {type: String},
+  location: {
+    geo: [ {type: [Number], index: '2d'} ],
+    map: [ {type: [Number], index: '2d', index: true} ],
+  },
+  created: {
+      timestamp: { type: Date, default: Date.now },
+      user: {type: String}
+  },
+  modified: {
+    timestamp: { type: Date, default: Date.now },
+    user: {type: String}
+  },
+}).pre('save', function (next) 
+{
+  if( this.isNew ){
+    // New
+    this.uuid = uuid.v1();
+  }
+});
+
+module.exports = Zone;

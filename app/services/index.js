@@ -8,7 +8,7 @@ var Services = function(app){
       try{
         var serv = require(filename);
         if( serv.disable ){
-          winston.info('Init service '+service .cyan + 'disabled');
+          winston.info('Init service '+service .cyan + ' - disabled');
         } else {
           winston.info('Init service '+service .cyan);
           
@@ -26,7 +26,6 @@ var Services = function(app){
               }
             }
             global.service[service] = new serv(doc.configurations, app);
-            
             if(error){ winston.error(error); }
             else if( doc.enable ){
               winston.info('Activating service '+doc.name.cyan);

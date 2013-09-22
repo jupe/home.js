@@ -23,11 +23,23 @@ var Ellaweb = function(cfg){
                 
   
   var parseData = function(csvdata, cb){
-    //console.log(csvdata);
     csvdata = csvdata.split('\n');
+    var recordDate = csvdata[0].match(/([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})/);
+    if( recordDate.length == 4 ) {
+      recordDate = new Date(parseInt(recordDate[3]), parseInt(recordDate[2]), parseInt(recordDate[1]));
+    } else {
+      cb('cannot parse date field');
+      return;
+    }
+    console.log('recordDate: '+recordDate );
+    if( csvdata.length < 6 ){
+      console.log(csvdata);
+      cb('not enought lines: '+csvdata.length);
+      return;
+    }
     csvdata = csvdata.slice(4, csvdata.length);
     csvdata = csvdata.join('\n').trim();
-    csvdata = '"date";"sum";"day";"night";"temp"\n'+csvdata
+    csvdata = '"hour";"sum";"day";"night";"temp"\n'+csvdata
     // ;Päivä;Yhteensä (kWh);PV (kWh);Yö (kWh);Ulkolämpötila (C)
     csvjs.parseCsv( csvdata, { 
       rules: {
@@ -38,14 +50,20 @@ var Ellaweb = function(cfg){
               return (new Date( 2013, parseInt(arr[2]), parseInt(arr[1]))).getTime();
             } return value;
           }},
+          'hour': {path: 'hour', convert: function(value){
+            var arr = value.match(/([0-9]{1,2})-([0-9]{1,2})/);
+            if(arr && arr.length == 3){
+              return (new Date( recordDate.getFullYear(), recordDate.getMonth(), recordDate.getDate(), parseInt(arr[1]))).getTime();
+            } return value;
+          }},
           'sum': {path: 'sum', convert: function(value){
-            return parseFloat(value);
+            return parseFloat(value.replace(',','.'));
           }},
           'day': {path: 'day', convert: function(value){
-            return parseFloat(value);
+            return parseFloat(value.replace(',','.'));
           }},
           'night': {path: 'night', convert: function(value){
-            return parseFloat(value);
+            return parseFloat(value.replace(',','.'));
           }},
           'temp': {path: 'temp', convert: function(value){
             return parseFloat(value);
@@ -55,7 +73,6 @@ var Ellaweb = function(cfg){
         delimiter : ';'
       }},
       cb
-      
     );
   }
   
@@ -79,26 +96,25 @@ var Ellaweb = function(cfg){
       }
       else if(response.statusCode == 302 ){
         console.log(body);
-       cb( null, 1);
+        cb( null, 1);
       } else {
         cb( response.statusCode );
       }
     });
   }
-  
-  var Stat = function(cb){
+  var Stat = function(date, cb){
     var url = doUrl('stat');
     var formdata = {
       'page_id':15,
       'domain_id':1,
       'mode':'reportTool',
-      'month':'',
+      'month':(date.getMonth()+1),
       'month2':'',
-      'day':'',
+      'day': date.getDate(),
       'day2':'',
-      'year1':2013,
+      'year1':date.getFullYear(),
       'year2':'',
-      'timeperiod':1,
+      'timeperiod':7, //day report
       'place':options.place,
       'reportinformation':1,
       'freetext':false,
@@ -119,6 +135,7 @@ var Ellaweb = function(cfg){
         cb( error );
       }
       else if(response.statusCode == 200 ){
+        //console.log('body: '+JSON.stringify(body));
         parseData(body, cb);
       } else {
         cb(response.statusCode);
@@ -142,19 +159,17 @@ var Ellaweb = function(cfg){
   }
 }
 module.exports = Ellaweb;
-/*
+
 // TEST 
-var api = Ellab();
+/*
+var api = Ellaweb({ place: ,  nCustomerID: } );
 
 var username = '';
 var password = ''
 
 // no login needed!?
 //api.Login(username, password, function(error, ok){
-  api.Stat({
-        place: 0,
-        nCustomerID: 0
-    }, function(error, data, stat){
+  api.Stat(new Date(2013, 6, 1), function(error, data, stat){
     console.log(data);
   });
 //});

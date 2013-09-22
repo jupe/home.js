@@ -9,12 +9,11 @@ var fromDate = function(v){
   return v;
 }
 //http://blog.pythonisito.com/2012/09/mongodb-schema-design-at-scale.html
-
-/* Thinking how to replace hoard/rrdtool with mongodb.. not in use yet */
-var DataSchema = new Schema({
+var TimeSeriesSchema = new Schema({
   metadata: {
     date: {type: Date, set: toDate, get: fromDate},
-    device: {type: Schema.Types.ObjectId, ref: 'devices'},
+    sensor: {type: String },
+    device: {type: String },
   },
   createdAt: {
     date: {type: Date, default: Date},
@@ -56,12 +55,12 @@ var DataSchema = new Schema({
   }
 });
 
-DataSchema.pre('save', function (next) {
+TimeSeriesSchema.pre('save', function (next) {
   if( this.isNew ){
   }
   next();
 });
-DataSchema.method( 'push', function pushData(timestamp, value, cb) {
+TimeSeriesSchema.method( 'push', function pushData(timestamp, value, cb) {
   var ts = new Date(timestamp);
   var h = ts.getHours(),
       m = ts.getMinutes(),
@@ -70,8 +69,11 @@ DataSchema.method( 'push', function pushData(timestamp, value, cb) {
   this.set('hourly.'+h+'', value);
   this.set('minute.'+h+'.'+m, value);
   this.set('minute.'+h+'.'+m+'.'+s, value);
+  this.set('updatedAt.date', new Date());
   this.save(cb);
-  
 });
-module.exports = DataSchema;
+TimeSeriesSchema.method('toDate', function(timestamp){
+  return toDate(timestamp);
+});
+module.exports = TimeSeriesSchema;
 module.exports.toDate = toDate;

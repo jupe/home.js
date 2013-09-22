@@ -13,12 +13,14 @@ function Database() {
   var Load = function(){
     winston.info('Register db models');
     fs.readdirSync(__dirname + '/schema').forEach(function(file){
-      var sch = require('./schema/'+file);
-      if( sch.disable ){}
-      else {
-        var name = file.substr(0,file.length-3);
-        winston.log('Register model '+name .cyan);
-        self[name] = new MongoApi( name, sch);
+      if( file.match(/.js$/) ) {
+        var sch = require('./schema/'+file);
+        if( sch.disable ){}
+        else {
+            var name = file.substr(0,file.length-3);
+            winston.log('Register model '+name .cyan);
+            self[name] = new MongoApi( name, sch);
+        }
       }
     });
     

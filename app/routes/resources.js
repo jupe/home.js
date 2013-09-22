@@ -6,7 +6,9 @@ module.exports = function(app,apiurl){
   
   app.resource(apiurl.substr(1)+'/event', require('./../resources/events'));
   
-  app.resource(apiurl.substr(1)+'/data', require('./../resources/datas'));
+  var timeseries = require('./../resources/timeseries');
+  app.resource(apiurl.substr(1)+'/timeserie', timeseries);
+  app.get(apiurl+'/timeserie/:sensor/:resolution.:format?', timeseries.array);
   
   /*
   //app.resource('meter', require('./resources/meters'));

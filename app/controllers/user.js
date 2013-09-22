@@ -59,7 +59,7 @@ exports.login = function(req, res, next){
             }
           });
         } else {
-          res.json(403, {note: 'pwd not match'});
+          res.json(403, {note: 'user not found'});
         }
       });
     }

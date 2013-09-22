@@ -23,7 +23,7 @@ describe('api#2:init', function() {
 });
 
 
-describe('api#2:device', function() {  
+describe('api#2:device', function() {
   
   it('[GET] /device', function(done) {
     request.get({json: true, url: apiurl+'/device.json'},
@@ -43,8 +43,12 @@ describe('api#2:device', function() {
       method: 'POST',
       json: {
         name: 'test',
-        id: '28.C7DC7A030000',
-        protocol: 'ow'
+        sensors: [{
+          protocol: 'ow',
+          ow: {
+            id: '28.C7DC7A030000',
+          }
+        }]
       }
     };
     request(options, function(err, res, body){
@@ -53,12 +57,14 @@ describe('api#2:device', function() {
       assert.typeOf( body, 'Object' );
       uuid = body.uuid;
       assert.isTrue( body.uuid.match(match.uuid).length==1 );
-      assert.equal(body.id, '28.C7DC7A030000');
       assert.equal(body.enable, true);
       assert.equal(body.name, 'test');
-      assert.equal(body.ow.crc, '00');
-      assert.equal(body.ow.id, 'C7DC7A0300');
-      assert.equal(body.ow.FamilyCode, '28');
+      assert.typeOf(body.sensors, 'array');
+      assert.equal(body.sensors.length, 1);
+      assert.equal(body.sensors[0].name, '28.C7DC7A030000');
+      assert.equal(body.sensors[0].ow.crc, '00');
+      assert.equal(body.sensors[0].ow.id, 'C7DC7A0300');
+      assert.equal(body.sensors[0].ow.FamilyCode, '28');
       done();
     });
   });
@@ -80,26 +86,27 @@ describe('api#2:device', function() {
       done();
     });
   });
+  
 });
-describe('api#2:device/event', function() {
-  it('[GET] /device/:device/event (success)', function(done) {
-    request({json: true, url: apiurl+'/device/'+uuid+'/event'}, function(err, res, body){
+
+
+
+describe('api#2:device/sensor', function() {  
+  
+  it('[GET] /device/:sensor', function(done) {
+    request.get({json: true, url: apiurl+'/device/'+uuid+'/sensor'},
+      function(err, res, body){
       assert.equal(err, null);
       assert.equal(res.statusCode, 200);
       assert.typeOf( body, 'Array' );
-      //assert.equal( body.length, 1 );
-      assert.equal(body[0].level, 'notice');
-      assert.equal(body[0].msg, 'Created');
+      assert.equal( body.length, 0 );
       done();
     });
   });
-  
-});
-/*
-describe('api#2:device/data', function() {  
-  it('[POST] /device/:device/data (success)', function(done) {
+  /*
+  it('[PUT] /device/:device/sensor (success)', function(done) {
     var options = {
-      uri: apiurl+'/device/'+uuid+'/data',
+      uri: apiurl+'/device/'+uuid+'/sensor',
       method: 'POST',
       json: {
         values: [{unit: 'C', value: 12}]
@@ -113,7 +120,7 @@ describe('api#2:device/data', function() {
       done();
     });
   });
-  
+  /*
   it('[GET] /device/:device/data (success)', function(done) {
     request({json: true, url: apiurl+'/device/'+uuid+'/data'}, function(err, res, body){
       assert.equal(err, null);
@@ -126,10 +133,10 @@ describe('api#2:device/data', function() {
       assert.equal(body[0].values[0].value, 12);
       done();
     });
-  });
+  });*/
 }); 
 
-
+/*
 describe('api#2:device/rule', function() {  
   it('[GET] /device/:device/rule (success)', function(done) {
     request({json: true, url: apiurl+'/device/'+uuid+'/rule'}, function(err, res, body){
@@ -215,15 +222,9 @@ describe('api#2:device', function() {
       done();
     });
   });*/
-  it('[GET] /device/:device/event (dev not found)', function(done) {
-    request.get({json: true, url: apiurl+'/device/1231456789/event'},
-      function(err, res, body){
-      assert.equal(err, null);
-      assert.equal(res.statusCode, 404);
-      done();
-    });
-  });
-  it('[GET] /device/:device/data (not found)', function(done) {
+  
+   /*
+   it('[GET] /device/:device/data (not found)', function(done) {
     request.get({json: true, url: apiurl+'/device/1234596789/data'},
       function(err, res, body){
       assert.equal(err, null);
@@ -233,7 +234,7 @@ describe('api#2:device', function() {
       done();
     });
   });
-  /*
+ 
   it('[GET] /rule (empty)', function(done) {
     request.get({json: true, url: apiurl+'/rule'},
       function(err, res, body){

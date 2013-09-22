@@ -5,7 +5,10 @@ module.exports = function(app,apiurl){
   app.get('/logout', defaults.logout);
   app.get(apiurl+'/logout', defaults.logout);
   
-  app.get('/routes', function(req,res){ res.json(app.routes)}); //print all possible routes
+  app.get(apiurl+'/routes', function(req,res){ 
+    //print all possible routes
+    res.json(app.routes)
+  }); 
   
   app.get( '/argv', function( req, res){
     res.json( app.get('argv') );

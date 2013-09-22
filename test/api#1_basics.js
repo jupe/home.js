@@ -109,7 +109,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  /*
   it('[GET] /service/cron (success)', function(done) {
     request.get ({json: true, url: apiurl+'/service/cron'},
       function(err, res, body){
@@ -119,7 +119,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  */
   it('[POST] /service/cron/start (fail)', function(done) {
     var options = {
       uri: apiurl+'/service/cron/start',
@@ -178,8 +178,8 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
-  it('[POST] /service/cron/start', function(done) {
+  /*
+  it('[POST] /service/cron/start (success)', function(done) {
     var options = {
       uri: apiurl+'/service/cron/start',
       method: 'POST'
@@ -191,7 +191,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  */
   it('[POST] /user (create: success)', function(done) {
     var options = {
       uri: apiurl+'/user',
@@ -209,8 +209,8 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
-  it('[GET] /service/cron', function(done) {
+  /*
+  it('[GET] /service/cron (success)', function(done) {
     request.get({json: true, url: apiurl+'/service/cron'},
       function(err, res, body){
       assert.equal(err, null);
@@ -220,7 +220,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  */
   it('[PUT] /schedule/[owPing].json (success)', function(done) {
     var options = {
       uri: apiurl+'/schedule/'+schedules[0].uuid+'.json',
@@ -251,7 +251,7 @@ describe('api#1:basics', function() {
     });
   });
   
-  
+  /*
   it('[GET] /service/cron/stop', function(done) {
     var options = {
       uri: apiurl+'/service/cron/stop',
@@ -264,7 +264,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  */
   
   it('[PUT] /admin/configure -> update', function(done) {
     var options = {
