@@ -108,13 +108,17 @@ var EllawebService = function(cfg) {
       nCustomerID: 0
     }
   }
+  var schema = function(){
+    return OptionSchema;
+  }
   Init();
   /* MODULE API */
   return {
     start: start,
     stop: stop,
     status: status,
-    configurations: configurations
+    configurations: configurations,
+    schema: schema
   }
   
 }
@@ -126,8 +130,8 @@ var OptionTemplate = {
 var OptionSchema = {
   type: 'object',
   properties: {
-    place: 'number',
-    nCustomerID: 'number',
+    place: {type: 'string', required: true},
+    nCustomerID: {type: 'string', required: true},
     timestamp: 'date'
   } 
 }

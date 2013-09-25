@@ -42,7 +42,8 @@
     "colors": "*",
     "password-hash": "*",
     "mongoose-query": "0.1.2",
-    "csv-json": ">=0.1.0"
+    "csv-json": ">=0.1.0",
+    "flat": "1.0.0"
   },
   "devDependencies": {
       "mocha": "*",

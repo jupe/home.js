@@ -183,7 +183,7 @@ app.use(function(err, req, res, next){
       status: err.status || 500
     , error: err
   });*/
-  res.json(err.status || 500, {error: err});
+  //res.json(err.status || 500);
   winston.error(err);
   //res.send(404);
   next();

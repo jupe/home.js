@@ -1,3 +1,9 @@
+/* Node modules */
+var validate = require('jsonschema').validate
+  , flat = require('flat')
+  , flatten = flat.flatten
+  , unflatten = flat.unflatten;
+
 /* Service controller functions */
 exports.index = function(req, res){
   db.service.query(req.query, function(error, data){
@@ -75,6 +81,17 @@ exports.status = function(req, res){
 exports.update = function(req, res){
   //authorization zone
   if( service[req.params.service] ) {
+    var ok =true;
+    console.log('updating..');
+    if( service[req.params.service].schema() ){
+      var valid = validate(unflatten(req.body), {configurations: {type: 'object', properties: service[req.params.service].schema()}} );
+      console.log(valid);
+      if(valid.errors.length != 0 ){
+        res.json( 400, {invalid: unflatten(req.body), details: valid} ); //invalid parameters
+        return;
+      }
+    }
+    
     if(req.body.name) delete req.body.name; //disallow to change name!
     db.service.findOneAndUpdate( {name: req.params.service}, req.body, function(error, doc){
       if(error){

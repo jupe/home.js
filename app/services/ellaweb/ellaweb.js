@@ -25,11 +25,18 @@ var Ellaweb = function(cfg){
   var parseData = function(csvdata, cb){
     csvdata = csvdata.split('\n');
     var recordDate = csvdata[0].match(/([0-9]{1,2}).([0-9]{1,2}).([0-9]{4})/);
-    if( recordDate.length == 4 ) {
-      recordDate = new Date(parseInt(recordDate[3]), parseInt(recordDate[2]), parseInt(recordDate[1]));
-    } else {
+    if( recordDate.length != 4 ) {
       cb('cannot parse date field');
       return;
+    } else {
+      recordDate = new Date(parseInt(recordDate[3]), 
+                            parseInt(recordDate[2]), 
+                            parseInt(recordDate[1]) );
+      //Verify that date is really constructed
+      if( typeof(recordDate.getMonth) != 'function' ) {
+        cb('cannot parse date field');
+        return;
+      }
     }
     console.log('recordDate: '+recordDate );
     if( csvdata.length < 6 ){
