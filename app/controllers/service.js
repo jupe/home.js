@@ -76,7 +76,7 @@ exports.update = function(req, res){
   //authorization zone
   if( service[req.params.service] ) {
     if(req.body.name) delete req.body.name; //disallow to change name!
-    db.service.findAndUpdate( {name: req.params.service}, req.body, function(error, doc){
+    db.service.findOneAndUpdate( {name: req.params.service}, req.body, function(error, doc){
       if(error){
         res.json(500, {error: error});
       } else if( doc ){

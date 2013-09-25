@@ -4,7 +4,10 @@ var Ellaweb = require('./ellaweb'),
 var EllawebService = function(cfg) {
   var self = this;
   var timer = false;
-  var timestamp = cfg.timestamp;
+  var timestamp = new Date();
+  if( cfg && cfg.timestamp){
+    timestamp = cfg.timestamp;
+  }
   var ellaweb = new Ellaweb(cfg);
   var apiurl = 'http://localhost:3000/api/v0';
   

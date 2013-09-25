@@ -1,11 +1,14 @@
-/************************************************************
+/*!
+ *  HOME.JS  v0.1.0
+ *  http://github.com/jupe/home.js
  *
- *   HOME.JS
- *   designed by JVA
+ *  Copyright 2013 Jussi Vatjus-Anttila
+ *  Released under the MIT license
+ *  https://github.com/jupe/home.js/blob/master/LICENSE
  *
- *   Code license: MIT
- *
- ************************************************************/
+ *  Date: 2013-9-25
+ */
+ 
  /*
  * 
  * Module dependencies.
@@ -170,7 +173,7 @@ app.use(function(req, res, next){
   // are equivalent, however with the option we
   // get the "status" local available as well
   //console.log(req.url);
-  res.render('404', { status: 404, url: req.url, user: req.session.user });
+  res.json('404', { status: 404, url: req.url });
 });
 app.use(function(err, req, res, next){
   // we may use properties of the error object
@@ -180,7 +183,7 @@ app.use(function(err, req, res, next){
       status: err.status || 500
     , error: err
   });*/
-  //res.send(err.status || 500);
+  res.json(err.status || 500, {error: err});
   winston.error(err);
   //res.send(404);
   next();

@@ -5,5 +5,5 @@ module.exports = function(app, apiurl){
   app.get(apiurl+'/service.:format?', service.index);
   app.post(apiurl+'/service/:service/:operation', auth.isAdmin, service.operation);
   app.get(apiurl+'/service/:service', service.status);
-  app.post(apiurl+'/service/:service', auth.isAdmin, service.update);
+  app.put(apiurl+'/service/:service', auth.isAdmin, service.update);
 }
