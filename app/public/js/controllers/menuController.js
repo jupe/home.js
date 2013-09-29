@@ -1,4 +1,4 @@
-angular.module('homejs.controllers', [])
+angular.module('homejs.controllers')
   .controller("MenuController",function($scope, $http) {
 
     $scope.items = [
