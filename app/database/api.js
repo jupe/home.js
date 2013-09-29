@@ -2,7 +2,7 @@
 
 /* 3rd party libraries */
 var mongoose = require('mongoose');
-
+var extend = require('node.extend');// needed for deep copy even though underscore has an extend
 /* own libraries */  
 var Query = require('mongoose-query');
 var SchemaToJSON = require('./../lib/MongooseSchemaToJson');
@@ -19,7 +19,7 @@ var Mongo = function(collection, schema)
   var schema = schema;
   //console.log(schema);
   var model = mongoose.model(collection, schema);
-
+  
   
   var Init = function(){
     //register schema static functions
@@ -39,6 +39,74 @@ var Mongo = function(collection, schema)
     });*/
   }
   Init();
+  
+  this.preprocess = function (paths, formSchema) {
+      var outPath = {},
+        hiddenFields = [];
+      for (var element in paths) {
+          if (paths.hasOwnProperty(element) && element != '__v') {
+              // check for schemas
+              if (paths[element].schema) {
+                  var subSchemaInfo = this.preprocess(paths[element].schema.paths);
+                  outPath[element] = {schema: subSchemaInfo.paths};
+  //                hiddenFields = _.
+                  if (paths[element].options.form) {
+                      outPath[element].options = {form: extend(true, {}, paths[element].options.form)};
+                  }
+              } else {
+                  // check for arrays
+                  var realType = paths[element].caster ? paths[element].caster : paths[element];
+                  if (!realType.instance) {
+
+                      if (realType.options.type) {
+                          var type = realType.options.type(),
+                              typeType = typeof type;
+
+                          if (typeType === "string") {
+                              realType.instance = (Date.parse(type) !== NaN) ? "Date" : "String";
+                          } else {
+                              realType.instance = typeType;
+                          }
+                      }
+                  }
+                  outPath[element] = extend(true, {}, paths[element]);
+                  if (paths[element].options.secure) {
+                      hiddenFields.push(element);
+                  }
+              }
+          }
+      }
+      if (formSchema) {
+          var vanilla = outPath;
+          outPath = {};
+          for (var fld in formSchema) {
+              if (formSchema.hasOwnProperty(fld)) {
+                  outPath[fld] = vanilla[fld];
+                  outPath[fld].options = outPath[fld].options || {};
+                  for (var override in formSchema[fld]) {
+                      if (formSchema[fld].hasOwnProperty(override)) {
+                          if (!outPath[fld].options.form) {
+                              outPath[fld].options.form = {};
+                          }
+                          outPath[fld].options.form[override] = formSchema[fld][override];
+                      }
+                  }
+              }
+          }
+      }
+      return {paths:outPath, hidden:hiddenFields};
+  };
+
+  this.schema = function (formName) {
+      
+      var formSchema = null;
+      if (formName) {
+        formSchema = model.schema.statics['form'](formName)
+      }
+      var paths = this.preprocess(model.schema.paths, formSchema).paths;
+      return paths;
+  };
+  
   
   this.findOne = function(condition, callback){
      model.findOne(condition, callback);

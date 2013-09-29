@@ -7,9 +7,9 @@ var MongoApi = require('./api');
 
 
 // Constructor
-function Database() {
+function Database(app) {
   var self = this;
-  
+   
   var Load = function(){
     winston.info('Register db models');
     fs.readdirSync(__dirname + '/schema').forEach(function(file){
@@ -17,9 +17,9 @@ function Database() {
         var sch = require('./schema/'+file);
         if( sch.disable ){}
         else {
-            var name = file.substr(0,file.length-3);
-            winston.log('Register model '+name .cyan);
-            self[name] = new MongoApi( name, sch);
+          var name = file.substr(0,file.length-3);
+          winston.log('Register model '+name .cyan);
+          self[name] = new MongoApi( name, sch);
         }
       }
     });

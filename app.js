@@ -109,13 +109,11 @@ mongoose.connection.on('error', function(error){
 mongoose.connection.on('connected', function(){
  winston.log("Connect mongodb success");
  // Register db models and other db related stuff
- var db = new Db(); 
-  
+ var db = new Db(app); 
  global.db = db;
  app.set('db', db);
  services();
 });
-
 
 // Change process title
 process.title = 'home.js';

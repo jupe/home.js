@@ -55,6 +55,13 @@ angular.module('homejs.services', ['ngResource'])
       }
     }
   })
+  .factory('Service', function($resource) {
+    return {rest: $resource(
+        "/api/v0/service/:id", {id: '@name'},
+        {update: {method: "PUT"}}
+      )
+    };
+  })
   .factory('Commit', function($http){
     return {
       get: function() { 

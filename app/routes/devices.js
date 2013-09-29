@@ -5,6 +5,9 @@ module.exports = function(app, apiurl){
   var timeseries = require('./../resources/timeseries');
   var rules = require('./../resources/rules');
   
+  app.get(apiurl+'/device/schema', function(req, res){
+    res.json(db.device.schema(req.query.formName))
+  });
   app.get(apiurl+'/device/events.:format?', devices.events);
   //app.get(apiurl+'/device/:device/events.:format?', devices.events);
   //app.get(apiurl+'/device/:device/events/:event.:format?', devices.event);

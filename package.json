@@ -43,7 +43,8 @@
     "password-hash": "*",
     "mongoose-query": "0.1.3",
     "csv-json": ">=0.1.0",
-    "flat": "1.0.0"
+    "flat": "1.0.0",
+    "node.extend": "*"
   },
   "devDependencies": {
       "mocha": "*",

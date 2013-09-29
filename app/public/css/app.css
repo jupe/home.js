@@ -5,8 +5,14 @@
 }
 
 .gridStyle {
-    border: 1px solid rgb(212,212,212);
-    width: 800px; 
-    height: 500px;
-    color: #333333;
+  border: 1px solid rgb(212,212,212);
+  width: 800px; 
+  height: 500px;
+  color: #333333;
+}
+.gridServices {
+  border: 1px solid rgb(212,212,212);
+  width: 800px; 
+  height: 200px;
+  color: #333333;
 }
