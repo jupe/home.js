@@ -8,8 +8,8 @@ angular.module('homejs.controllers')
     
     
     Configure.get().then( function(response){
-      $scope.configurations = response.data;
-      console.log(response.data);
+      //$scope.configurations = response.data;
+      //console.log(response.data);
       
     });;
     
