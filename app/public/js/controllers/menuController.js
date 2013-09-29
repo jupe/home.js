@@ -23,7 +23,8 @@ angular.module('homejs.controllers')
     {"itemId":5, "title":"Admin", "description":"Admin",href: "#/admins",
          "sublinks":[
             {"title":"Configurations", "href":"#/admins/configurations"},
-            {"title":"Services", "href":"#/admins/services"},
+            {"title":"Services", "href":"#/services"},
+            {"title":"Logs", "href":"#/logs"},
          ]},
     {"itemId":6, "title":"Info", "description":"Info",href: "#/info",
          "sublinks":[

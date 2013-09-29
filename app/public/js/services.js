@@ -46,13 +46,16 @@ angular.module('homejs.services', ['ngResource'])
 	    {update: {method: "PUT"}}
     );
   })
-  .factory('Configure', function($http) {
+  .factory('Configure', function($resource, $http) {
     return {
       get: function(params){
         return $http.get("/api/v0/admin/configure", {
             params: params
           });
-      }
+      },
+      rest: $resource(
+        "/api/v0/admin/configure/:id", {id: '@name'}, {update: {method: "PUT"}}
+      ) 
     }
   })
   .factory('Service', function($resource) {
