@@ -9,25 +9,28 @@
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-  <header class="navbar navbar-inverse navbar-fixed-top">
+  <header class="navbar navbar-inverse navbar-fixed-top" ng-controller="MenuController">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Home.js</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav nav">
-        <li class="active"><a href="#/">Overview</a></li>
-        <li><a href="#/charts">Charts</a></li>
-        <li><a href="#/devices">Devices</a></li>
-        <li><a href="#/automation">Automation</a></li>
-        <li><a href="#/events">Events</a></li>
-        <li><a href="#/admin">Admin</a><li>
-        <li><a href="#/info">Info</a></li>
-    </ul>
+        <li ng-repeat="item in items" ng-click="showSubMenu(item,$index)" >
+        <a ng-href="{{item.href}}" target="{{item.target}}" >{{item.title}}</a>
+        </li>
+      </ul>
+      <div style="clear:both;"></div>
+      <ul ng-style="subLeft" class="navbar-nav nav">
+          <li class="navbar-nav nav" ng-repeat="sublink in sublinks">
+              <a ng-href="{{sublink.href}}" target="{{sublink.target}}" >{{sublink.title}}</a>
+          </li>
+      </ul>
+      <div style="clear:both;"></div>
     </div>
   </header>
 
-  <div id="main" class="container" ng-view></div>
+  <div id="main" class="container" ng-view ></div>
 
   <script src="lib/jquery/jquery-1.9.1.js"></script>
   <script src="lib/angular/angular.js"></script>
@@ -44,6 +47,7 @@
   <script src="js/services.js"></script>
   
   <script src="js/controllers.js"></script>
+  <script src="js/controllers/MenuController.js"></script>
   <script src="js/controllers/OverviewController.js"></script>
   <script src="js/controllers/DeviceController.js"></script>
   <script src="js/controllers/EventsController.js"></script>
