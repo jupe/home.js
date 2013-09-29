@@ -55,6 +55,24 @@ angular.module('homejs.services', ['ngResource'])
       }
     }
   })
+  .factory('Commit', function($http){
+    return {
+      get: function() { 
+        return $http.get("/api/v0/admin/commit").then( function(results){
+            return $http.get("https://api.github.com/repos/jupe/home.js/commits/"+results.data.id);
+        });
+      }
+    }
+  })
+  .factory('CommitsAhead', function($http){
+    return {
+      get: function() { 
+        return $http.get("/api/v0/admin/commit").then( function(results){
+            return $http.get("https://api.github.com/repos/jupe/home.js/commits", {sha:results.data.id});
+        });
+      }
+    }
+  })
   .factory('Timeserie', function($http) {
     return {
       getRaw: function(params){

@@ -1,5 +1,11 @@
 <h1>home.js</h1>
 
-<li><a href="github.com/jupe/home.js">GitHub project page</a></li>
-<li>Version: {{version}}</li>
-<li>Commit ID: {{commitid}}</li>
+<h2></h2>
+New commits count: {{commitAhead.length}}
+
+<h2> Current version: </h2>
+<b>CommitSHA:</b> <a href="{{commit.html_url}}">{{commit.sha}}</a><br>
+<b>Committer:</b> {{commit.commit.committer.name}} @ {{commit.commit.committer.date}}<br>
+<b>File Changes</b>{{commit.files.length}}<br>
+<b>Msg:</b><br>
+{{commit.commit.message}}<br>

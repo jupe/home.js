@@ -7,5 +7,6 @@
 .gridStyle {
     border: 1px solid rgb(212,212,212);
     width: 800px; 
-    height: 500px
+    height: 500px;
+    color: #333333;
 }
