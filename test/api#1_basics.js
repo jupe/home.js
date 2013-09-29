@@ -83,7 +83,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  /*
   it('[GET] /action.json (success)', function(done) {
     request.get ({json: true, url: apiurl+'/action.json'},
       function(err, res, body){
@@ -108,7 +108,7 @@ describe('api#1:basics', function() {
       
       done();
     });
-  });
+  });*/
   /*
   it('[GET] /service/cron (success)', function(done) {
     request.get ({json: true, url: apiurl+'/service/cron'},
@@ -327,7 +327,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
-  
+  /*
   it('[GET] /schedule.json', function(done) {
     request.get({url: apiurl+'/schedule.json', json:true}, 
       function(err, res, body){
@@ -361,6 +361,7 @@ describe('api#1:basics', function() {
       done();
     });
   });
+  */
 });
 
 describe('api#1:stop', function() {  

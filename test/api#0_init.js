@@ -8,7 +8,7 @@ var apiurl = appurl+'/api/v0';
 describe('api#0:init', function() {
   
   it('server start as daemon', function(done) {
-    this.timeout(5000);
+    this.timeout(7000);
     exec('node index --start --silent --pidfile app.pid',function(err,stdout,stderr){
       console.log('starting daemon');
       assert.typeOf(err, 'null');
