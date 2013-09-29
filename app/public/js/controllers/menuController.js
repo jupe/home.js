@@ -2,7 +2,7 @@ angular.module('homejs.controllers')
   .controller("MenuController",function($scope, $http) {
 
     $scope.items = [
-    {"itemId":1, "title":"Overview", "description":"Overview", href: "#/",
+    {"itemId":1, "title":"Overview", "description":"Overview", href: "#/", "class": "active",
      "sublinks":[
             /*{"title":"Google", "href":"http://google.com/", "target":"_blank"}*/
       ]},
@@ -35,18 +35,34 @@ angular.module('homejs.controllers')
     // Defaults
     $scope.sublinks = null;
     $scope.activeItem = null;
+    //$scope.showItem = null;
 
     // Default submenu left padding to 0
     $scope.subLeft = {'padding-left':'0px'};
-
+    
+    $scope.mouseOverMenu = function(item,pos) {
+      // Move submenu based on position of parent
+      $scope.subLeft = {'padding-left':(80 * pos)+'px'};
+      $scope.sublinks = item.sublinks;
+    }
+    $scope.mouseLeaveMenu = function(item,pos) {
+      //$scope.activeItem = $scope.activeItem;
+      //$scope.sublinks = null;
+    }
     /*
      * Set active item and submenu links
      */
-    $scope.showSubMenu = function(item,pos) {
+    $scope.clickMenu = function(item,pos) {
         // Move submenu based on position of parent
         $scope.subLeft = {'padding-left':(80 * pos)+'px'};
         // Set activeItem and sublinks to the currectly
         // selected item.
+        $scope.items.forEach( function(tem){ tem.class=""; });
+        item.class="active"
+        
+        //item.sublinks.forEach( function(tem){ tem.class=""; });
+        //item.sublinks.class="active"
+        
         $scope.activeItem = item;
         $scope.sublinks = item.sublinks;
     };
