@@ -3,8 +3,14 @@
 /* Controllers */
 
 angular.module('homejs.controllers')
-  .controller('OverviewController', ['$scope', 'Timeserie', function($scope, Timeserie) {
-  
+  .controller('OverviewController', ['$scope', 'Device', 'Timeserie', function($scope, Device, Timeserie) {
+
+    // @todo how to fetch devices and those sensors timeseries data
+    /*
+    Device.query().forEach( function(device){
+      console.log(device);
+    });*/
+    // this is hardcoded sensor uuid
     Timeserie.getHourly({uuid: '637670f0-2371-11e3-bbe5-0f40648d40c4'}).then( function(response){
       response.forEach( function(row, key){
         row[0] = new Date(row[0]);
@@ -13,7 +19,7 @@ angular.module('homejs.controllers')
     });
 
     $scope.myChartOpts = { 
-        title:'Data Point Highlighting',
+        title:'',
         axes:{
           xaxis:{
             renderer:$.jqplot.DateAxisRenderer,
