@@ -3,9 +3,42 @@
 /* Controllers */
 
 angular.module('homejs.controllers')
-  .controller('OverviewController', ['$scope',function($scope) {
-  /*
+  .controller('OverviewController', ['$scope', 'Timeserie', function($scope, Timeserie) {
+  
+    Timeserie.getHourly({uuid: '637670f0-2371-11e3-bbe5-0f40648d40c4'}).then( function(response){
+      response.forEach( function(row, key){
+        row[0] = new Date(row[0]);
+      });
+      $scope.someData = [response]
+    });
+
+    $scope.myChartOpts = { 
+        title:'Data Point Highlighting',
+        axes:{
+          xaxis:{
+            renderer:$.jqplot.DateAxisRenderer,
+            tickOptions:{
+              formatString:'%b&nbsp;%#d'
+            } 
+          },
+          yaxis: {
+            tickOptions:{
+              formatString:'%.2f C'
+              }
+          }
+        },
+        legend: { show:true, location: 'e' },
+        highlighter: {
+          show: true,
+          sizeAdjust: 7.5
+        },
+        cursor: {
+          show: false
+        }
+      }
+    
     // d3js:
+    /*
     var scope = $scope;
     $.getJSON('http://localhost:3000/api/v0/timeserie/637670f1-2371-11e3-bbe5-0f40648d40c4/hourly', function(data){
       var arr = []
@@ -44,6 +77,7 @@ angular.module('homejs.controllers')
     */
     
     //google chart:
+    /*
     var scope = $scope;
     $scope.chart = {
       "type": "LineChart",
@@ -78,9 +112,8 @@ angular.module('homejs.controllers')
         "tooltip": { "isHtml": false }
       },
       "formatters": {}
-    }
-    /*
-    $.getJSON('http://localhost:3000/api/v0/timeserie/637670f1-2371-11e3-bbe5-0f40648d40c4/hourly', function(json){
+    }*/
+    /*    $.getJSON('http://localhost:3000/api/v0/timeserie/637670f1-2371-11e3-bbe5-0f40648d40c4/hourly', function(json){
       var arr = [];
       var i;
       for(i=0;i<json.length;i++){

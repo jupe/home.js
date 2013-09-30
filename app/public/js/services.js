@@ -53,6 +53,9 @@ angular.module('homejs.services', ['ngResource'])
             params: params
           });
       },
+      save: function(configure){
+        return $http.put("/api/v0/admin/configure", configure);
+      },
       rest: $resource(
         "/api/v0/admin/configure/:id", {id: '@name'}, {update: {method: "PUT"}}
       ) 
@@ -92,7 +95,7 @@ angular.module('homejs.services', ['ngResource'])
           });
       },
       getHourly: function(params){
-        return $http.get("/api/v0/timeserie/"+params.uuid+'/hourly', {params : params})
+        return $http.get("/api/v0/timeserie/"+params.uuid+'/hourly', {params : params.query})
           .then(function(result){
             return result.data;
           });

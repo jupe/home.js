@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Home.js</title>
-   <link rel="stylesheet" href="lib/ng-grid/ng-grid.css" />
-   <!-- <link rel="stylesheet" href="lib/d3js/line-chart.css" /> -->
+  <link rel="stylesheet" href="lib/ng-grid/ng-grid.css" />
+  <!-- <link rel="stylesheet" href="lib/d3js/line-chart.css" /> -->
+  <link rel="stylesheet" href="lib/jqPlot/jquery.jqplot.min.css" />
   <link rel="stylesheet" href="css/bootstrap.css" />
   <link rel="stylesheet" href="css/app.css" />
   
@@ -67,8 +68,15 @@
   <script src="lib/ng-grid/ng-grid-csv-export.js"></script>
   <!-- <script src="lib/d3js/moment.min.js"></script>
   <script src="lib/d3js/d3.v3.min.js"></script>
-  <script src="lib/d3js/line-chart.js"></script> -->
-  <script src="lib/ng-google-chart/ng-google-chart.js"></script>
+  <script src="lib/d3js/line-chart.js"></script>
+  <script src="lib/ng-google-chart/ng-google-chart.js"></script> -->
+  <script src="lib/jqPlot/jquery.jqplot.min.js"></script>
+  <script src="lib/jqPlot/plugins/jqplot.highlighter.min.js"></script>
+  <script src="lib/jqPlot/plugins/jqplot.cursor.min.js"></script>
+  <script src="lib/jqPlot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+  <script src="lib/angular/ui-chart.js"></script>
+  
+  
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   
@@ -81,8 +89,8 @@
   <script src="js/controllers/DeviceController.js"></script>
   <script src="js/controllers/EventsController.js"></script>
   <script src="js/controllers/AdminController.js"></script>
-  <script src="js/controllers/AdminConfigurationController.js"></script>
   <script src="js/controllers/ServiceController.js"></script>
+  <script src="js/controllers/AdminConfigurationController.js"></script>
   
   <script src="js/filters.js"></script>
   <script src="js/directives.js"></script>

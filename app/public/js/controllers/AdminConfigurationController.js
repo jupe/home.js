@@ -7,12 +7,15 @@ angular.module('homejs.controllers')
     //Controller for service page
    Configure.get().then( function(response){
      $scope.config = response.data;
-     $scope.port = response.data.app.port;
-     $scope.email = response.data.email.from;
-     $scope.port = response.data.app.port;
    });
-   
+   $scope.showSave = false;
    $scope.changed = function(){
-    console.log('something changed: '+$scope.port);
+    $scope.showSave = true;
+   }
+   $scope.save = function(){
+    console.log('Saving..: '+JSON.stringify());
+    Configure.save($scope.config).then( function(response){
+        console.log('Saving..: '+JSON.stringify());
+    });
    }
   }]);

@@ -1,5 +1,8 @@
 <h1>Configurations</h1>
-<form name="cfgForm" ng-controller="AdminConfigurationController">
+
+
+
+<form name="cfgForm">
 <h2>server</h2> 
 <label>Port</label> 
 <input type="number" ng-model="config.app.port" ng-change="changed()" min="80" max="10000" required><br>
@@ -14,4 +17,7 @@ ssl: <input type="checkbox" ng-model="config.email.ssl" ng-change="changed()"><b
 Host: <input type="text" ng-model="config.mongodb.host" ng-change="changed()"><br>
 Database: <input type="text" ng-model="config.mongodb.database" ng-change="changed()"><br>
 Port: <input type="number" ng-model="config.mongodb.port" ng-change="changed()"><br>
+
+<input type="button" ng-show="showSave" ng-click="save()", value="Save"/>
+
 </form>
