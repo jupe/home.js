@@ -12,26 +12,18 @@ angular.module('homejs.controllers')
         device.sensors.forEach(function(sensor){
           Timeserie.getHourly({uuid: sensor.uuid})
             .then( function(response){
-              if( response ){
+              if( response.length > 0 ){
                 response.forEach( function(row, key){
                   row[0] = new Date(row[0]);
                 });
-                $scope.someData = [response];
+                $scope.someData.push(response);
               }
             });
         });
       });    
     });    
-    /*
-    // this is hardcoded sensor uuid
-    Timeserie.getHourly({uuid: '65a136d0-238a-11e3-987b-f9f88c23cf94'})
-      .then( function(response){
-        response.forEach( function(row, key){
-          row[0] = new Date(row[0]);
-        });
-        $scope.someData = [response]
-      });*/
     
+    //$scope.chartOptions = [ohlc];
     $scope.myChartOpts = { 
         title:'',
         axes:{
@@ -39,23 +31,31 @@ angular.module('homejs.controllers')
             renderer:$.jqplot.DateAxisRenderer,
             tickOptions:{
               formatString:'%#d/%#m/%Y'
-            } 
+            },
+            tickInterval: "2 weeks",
           },
           yaxis: {
             tickOptions:{
-              formatString:'%.2f C'
+              formatString:'%.2f'
               }
           }
+        },
+        seriesDefaults: {
+          showMarker:false,
+          //renderer:$.jqplot.OHLCRenderer
         },
         legend: { show:true, location: 'e' },
         highlighter: {
           show: true,
-          sizeAdjust: 7.5
-        },
+          showMarker:false,
+          //sizeAdjust: 7.5,
+          //yvalues: 4,
+          
+        }/*,
         cursor: {
           show: false,
           zoom:true, 
-        }
+        }*/
       }
     
     // d3js:
