@@ -6,18 +6,32 @@ angular.module('homejs.controllers')
   .controller('OverviewController', ['$scope', 'Device', 'Timeserie', function($scope, Device, Timeserie) {
 
     // @todo how to fetch devices and those sensors timeseries data
-    /*Device.query().forEach( function(device){
-      console.log(device.data);
-    });*/
-    
+    $scope.someData = []
+    var devices = Device.query( function(){
+      devices.forEach( function(device){
+        device.sensors.forEach(function(sensor){
+          Timeserie.getHourly({uuid: sensor.uuid})
+            .then( function(response){
+              if( response ){
+                response.forEach( function(row, key){
+                  row[0] = new Date(row[0]);
+                });
+                $scope.someData = [response];
+              }
+            });
+        });
+      });    
+    });    
+    /*
     // this is hardcoded sensor uuid
-    Timeserie.getHourly({uuid: '65a136d1-238a-11e3-987b-f9f88c23cf94'}).then( function(response){
-      response.forEach( function(row, key){
-        row[0] = new Date(row[0]);
-      });
-      $scope.someData = [response]
-    });
-
+    Timeserie.getHourly({uuid: '65a136d0-238a-11e3-987b-f9f88c23cf94'})
+      .then( function(response){
+        response.forEach( function(row, key){
+          row[0] = new Date(row[0]);
+        });
+        $scope.someData = [response]
+      });*/
+    
     $scope.myChartOpts = { 
         title:'',
         axes:{
@@ -134,3 +148,4 @@ angular.module('homejs.controllers')
     */
     
   }]);
+ 
