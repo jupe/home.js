@@ -6,12 +6,12 @@ angular.module('homejs.controllers')
   .controller('OverviewController', ['$scope', 'Device', 'Timeserie', function($scope, Device, Timeserie) {
 
     // @todo how to fetch devices and those sensors timeseries data
-    /*
-    Device.query().forEach( function(device){
-      console.log(device);
+    /*Device.query().forEach( function(device){
+      console.log(device.data);
     });*/
+    
     // this is hardcoded sensor uuid
-    Timeserie.getHourly({uuid: '637670f0-2371-11e3-bbe5-0f40648d40c4'}).then( function(response){
+    Timeserie.getHourly({uuid: '65a136d1-238a-11e3-987b-f9f88c23cf94'}).then( function(response){
       response.forEach( function(row, key){
         row[0] = new Date(row[0]);
       });
@@ -24,7 +24,7 @@ angular.module('homejs.controllers')
           xaxis:{
             renderer:$.jqplot.DateAxisRenderer,
             tickOptions:{
-              formatString:'%b&nbsp;%#d'
+              formatString:'%#d/%#m/%Y'
             } 
           },
           yaxis: {
@@ -39,7 +39,8 @@ angular.module('homejs.controllers')
           sizeAdjust: 7.5
         },
         cursor: {
-          show: false
+          show: false,
+          zoom:true, 
         }
       }
     
