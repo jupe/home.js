@@ -30,7 +30,7 @@ angular.module('homejs.controllers')
           xaxis:{
             renderer:$.jqplot.DateAxisRenderer,
             tickOptions:{
-              formatString:'%#d/%#m/%Y'
+              formatString:'%#H:0 %#d/%#m/%Y'
             },
             tickInterval: "2 weeks",
           },
@@ -48,14 +48,14 @@ angular.module('homejs.controllers')
         highlighter: {
           show: true,
           showMarker:false,
-          //sizeAdjust: 7.5,
+          sizeAdjust: 7.5,
           //yvalues: 4,
           
-        }/*,
+        },
         cursor: {
-          show: false,
+          show: true,
           zoom:true, 
-        }*/
+        }
       }
     
     // d3js:

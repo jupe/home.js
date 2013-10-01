@@ -12,6 +12,13 @@ angular.module('homejs', ['ngRoute', 'ui.bootstrap', 'ngGrid', 'ui.chart', /*'n3
     'AdminController'});
     $routeProvider.when('/admins/configurations', {templateUrl: 'partials/admin.configurations.html', controller: 'AdminConfigurationController'});
     $routeProvider.when('/services', {templateUrl: 'partials/services.html', controller: 'ServiceController'});
+    $routeProvider.when('/services/:serviceId/edit', {
+      templateUrl: 'partials/service.edit.html', controller: 'ServiceEditController', 
+      resolve: {
+          service: function(Service, $route){
+            return Service.rest.query({name:$route.current.params.serviceId});
+          }
+        }});
     /*$routeProvider.when('/admins/services', {templateUrl: 'partials/admin.service.html', controller: 'AdminController'});
     $routeProvider.when('/admins/configuration', {templateUrl: 'partials/admin.service.html', controller: 'AdminController'});*/
     $routeProvider.when('/info', {templateUrl: 'partials/info.html', controller: 'InfoController'});

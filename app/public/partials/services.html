@@ -1,2 +1,27 @@
 <h1>Services</h1>
-<div class="gridServices" ng-grid="gridOptions"></div>
+
+<input type="text" ng-model="search" class="search-query" placeholder="Search">
+<table>
+  <thead>
+  <tr>
+    <th>Enabled</th>
+    <th>Service</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="service in services | filter:search | orderBy:'name'">
+    <td>{{service.enable}}</td>
+    <td><a href="#/services/{{service.name}}" target="_blank">{{service.name}}</a></td>
+    <td>{{service.description}}</td>
+    <td>
+      <a href="#/services/{{service.name}}/edit">edit<i class="icon-pencil"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!--  
+place: <input type="string" ng-model="place"></input><br/>
+nCustomerID: <input type="string" ng-model="nCustomerID"></input><br/>
+-->
