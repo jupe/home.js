@@ -26,9 +26,12 @@ The aim is to provide a general framework for home/build automation that can be 
  * action scripts
  * Email alerts (e.g. if temperature goes over limits)
  * Supported hardware:
-  * onewire
+  * onewire     (owfs/etc)
   * RESOLV VBus (heating system measurement)...
-  * zwave
+  * zwave (zwave.me/etc)
+  * remote reading of electricity
+  * Onkyo Receiver
+  * ...
 
 ## Installation
 
@@ -45,7 +48,6 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 ## Used node modules
  * [express](http://expressjs.com/)
  * [express-resource](https://github.com/visionmedia/express-resource)
- * [jade](http://jade-lang.com/)
  * [mongoose](http://mongoosejs.com/)
  * [uuid](https://github.com/broofa/node-uuid)
  * [owfs](https://npmjs.org/package/owf)
@@ -60,10 +62,7 @@ See [INSTALL](https://github.com/jupe/home.js/blob/master/INSTALL.md) file.
 
 
 ## Front-end libraries
- * [Backbone](http://www.backbonejs.org)
- * [requirejs](http://www.requirejs.org)
- * [w2ui](http://w2ui.com/)
- * [jsTree](http://www.jstree.com)
+ * [Angularjs](http://www.angularjs.org)
  * [jsonform](https://github.com/joshfire/jsonform)
  * [flot](http://www.flotcharts.org/)
  * ...
@@ -123,10 +122,10 @@ l=<limit> - specify the limit for the number of results (default is 1000)
 ##  
  
 ## To do
-- [x] Reorganize folder structure
 - [x] basic test steps against API
-- [ ] nice GUI
-- [ ] more functionality 
+- [ ] nice GUI - work in progress
+- [ ] more functionality - work in progress
+- [ ] plugin functionality
 
 ## Contributors
 
