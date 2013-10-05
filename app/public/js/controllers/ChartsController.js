@@ -20,15 +20,13 @@ angular.module('homejs.controllers')
     
       Timeserie.getHourly({uuid: $scope.sensor.uuid})
       .then( function(response){
-        if($scope.sensor.unit == 'kW'){
-          $scope.total = 0;
-        }
+        $scope.len = 0;
+        $scope.total = 0;
         if( response.length > 0 ){
           response.forEach( function(row, key){
             row[0] = new Date(row[0]);
-            if($scope.sensor.unit == 'kW'){
-              $scope.total += row[1];
-            }
+            $scope.total += row[1];
+            $scope.len++;
           });
           $scope.someData = [response];
         }

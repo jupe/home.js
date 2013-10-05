@@ -9,5 +9,7 @@ Sensor:
 </select>
 <div ng-show="sensor.unit=='kW'">
 Total: {{total | number:2}} {{sensor.unit}} = {{total*0.12 | number:2}} e (0.12e/kW)</div>
+<div ng-show="sensor.unit=='C'">
+Avg: {{total/len | number:2}} {{sensor.unit}}</div>
 
 <div ui-chart="someData" chart-options="myChartOpts" ></div>
