@@ -1,3 +1,13 @@
 <h1>Chart page</h1>
-<div google-chart chart="chart" style="{{chart.cssStyle}}" />
-<!-- <linechart data="data" options="options"></linechart> -->
+
+
+Select Device:
+<select ng-model="device" ng-options="d.name for d in devices">
+</select>
+Sensor:
+<select ng-model="sensor" ng-options="s.name for s in device.sensors" ng-click="fetchChart" ng-change="fetchChart()"> 
+</select>
+<div ng-show="sensor.unit=='kW'">
+Total: {{total | number:2}} {{sensor.unit}} = {{total*0.12 | number:2}} e (0.12e/kW)</div>
+
+<div ui-chart="someData" chart-options="myChartOpts" ></div>

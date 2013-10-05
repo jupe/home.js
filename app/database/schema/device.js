@@ -8,6 +8,7 @@ var Sensor = new Schema({
   name: {type: String},
   device: {type: Schema.Types.ObjectId, ref: 'device'},
   protocol  :  { type: String, enum: ['ow', 'zwave', 'vbus', 'unknown'], default: 'unknown' },
+  unit: {type: String, default: ''},
   ow: {
     FamilyCode: {type: String, max_length: 2, min_length: 2},
     id: {type: String, max_length: 10, min_length: 10},

@@ -20,8 +20,8 @@ var EllawebService = function(cfg) {
       { name: 'ellaweb', 
         type: 'meter',
         sensors: [
-          { name: 'temperature' },
-          { name: 'power' }
+          { name: 'temperature', unit: 'C' },
+          { name: 'power', unit: 'kW' }
         ]
       }, function(error, doc){
         if( error ){
