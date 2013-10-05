@@ -15,21 +15,28 @@
  */
 var 
     //node.js modules:
-    express = require('express')
-  , http = require('http')
+    http = require('http')
   , fs = require('fs')
   , path = require('path')
-  , cluster = require('cluster')
-  
+  , cluster = require('cluster')    
+
   // 3rd party modules:
-  , mongoose = require('mongoose')
-  , Resource = require('express-resource')
-  , email = require('emailjs')
+  , requirejs = require('requirejs');
+
+requirejs.config({
+    baseUrl: __dirname,
+    nodeRequire: require
+});
+
+var 
+    express = requirejs('express')
+  , mongoose = requirejs('mongoose')
+  , Resource = requirejs('express-resource')
+  , email = requirejs('emailjs')
   , colors = require('colors')
-  , config = require('./config')
-  , winston = require('winston')
+  , winston = requirejs('winston')
   //, winstonExpress = require('winston-express')
-  , cli = require('optimist')
+  , cli = requirejs('optimist')
     .usage('Usage: npm start]')
     
     .boolean(['f', 'd', 'start', 'help', 'stop', 'status', 'restart'])
@@ -56,6 +63,7 @@ var
   
   
   // Own modules
+  , config = require('./config')
   , services = require('./app/services')
   , Routes = require('./app/routes')
   , Db = require("./app/database")
@@ -101,8 +109,15 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+var dbhost = 'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database;
+if( CFG.app.db == "file")
+{
+  var tungus = require("tungus");
+  mongoose = require("mongoose");
+  dbhost = 'tingodb://'+__dirname+'/data';
+} 
 /* Create database connection */
-mongoose.connect( 'mongodb://'+CFG.mongodb.host+':'+CFG.mongodb.port+'/'+CFG.mongodb.database, CFG.mongodb.opts );
+mongoose.connect( dbhost, CFG.mongodb.opts );
 mongoose.connection.on('error', function(error){
   winston.error("Failed to connect mongodb");
 });
@@ -119,7 +134,7 @@ mongoose.connection.on('connected', function(){
 process.title = 'home.js';
 
 //change current working directory (required for git pull)
-process.chdir(require('path').dirname(require.main.filename)); 
+process.chdir(__dirname); 
 
 app.configure(function(){
   
@@ -221,6 +236,7 @@ process.on('exit', function() {
 });
 process.on('SIGINT', function() {
   //Wait for while for service stops
+  console.log("About to exit.");
   setInterval( function(){ process.exit(1)}, 1000 );
 });
 app.listen(app.get('port'), function(){
