@@ -35,15 +35,15 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Home.js</a>
     </div>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" ng-mouseleave="hideSubMenu(item,$index)">
       <ul class="navbar-nav nav">
-        <li ng-repeat="item in items" class="{{item.class}}" ng-click="clickMenu(item,$index)" ng-mouseenter="mouseOverMenu(item,$index)" ng-mouseleave="mouseLeaveMenu(item,$index)">
+        <li ng-repeat="item in items" class="{{item.class}}" ng-click="clickMenu(item,$index)" ng-mouseenter="mouseOverMenu(item,$index)" >
           <a ng-href="{{item.href}}" target="{{item.target}}" >{{item.title}}</a>
         </li>
       </ul>
       <div style="clear:both;"></div>
       <ul ng-style="subLeft" class="navbar-nav nav">
-          <li class="navbar-nav nav" class="{{sublink.class}}" ng-mouseleave="hideSubMenu(item,$index)" ng-repeat="sublink in sublinks">
+          <li class="navbar-nav nav" class="{{sublink.class}}" ng-repeat="sublink in sublinks">
               <a ng-href="{{sublink.href}}" target="{{sublink.target}}" >{{sublink.title}}</a>
           </li>
       </ul>

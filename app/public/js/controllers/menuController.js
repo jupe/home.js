@@ -44,8 +44,9 @@ angular.module('homejs.controllers')
     
     $scope.mouseOverMenu = function(item,pos) {
       // Move submenu based on position of parent
-      $scope.subLeft = {'padding-left':(80 * pos)+'px'};
+      $scope.subLeft = {'padding-left':(100 * pos)+'px'};
       $scope.sublinks = item.sublinks;
+      //$scope.overItem = 
     }
     $scope.mouseLeaveMenu = function(item,pos) {
       //$scope.activeItem = $scope.activeItem;
@@ -56,7 +57,7 @@ angular.module('homejs.controllers')
      */
     $scope.clickMenu = function(item,pos) {
         // Move submenu based on position of parent
-        $scope.subLeft = {'padding-left':(80 * pos)+'px'};
+        // $scope.subLeft = {'padding-left':(80 * pos)+'px'};
         // Set activeItem and sublinks to the currectly
         // selected item.
         $scope.items.forEach( function(tem){ tem.class=""; });
