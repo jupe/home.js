@@ -83,6 +83,13 @@ angular.module('homejs.services', ['ngResource'])
       }
     };
   })
+  .factory('UserAuthentication', function(){
+    var sdo = {
+      isLogged: false,
+      username: ''
+    };
+    return sdo;
+  })
   .factory('Commit', function($http){
     return {
       get: function() { 
