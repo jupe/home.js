@@ -5,8 +5,6 @@
 angular.module('homejs.controllers')
   .controller('OverviewController', ['$scope', 'Device', 'Timeserie', function($scope, Device, Timeserie) {
 
-    // @todo how to fetch devices and those sensors timeseries data
-    $scope.someData = []
     var devices = Device.query( function(){
       devices.forEach( function(device){
         device.sensors.forEach(function(sensor){
@@ -16,7 +14,17 @@ angular.module('homejs.controllers')
                 response.forEach( function(row, key){
                   row[0] = new Date(row[0]);
                 });
-                $scope.someData.push(response);
+                if( !$scope.someData ){
+                  $scope.someData = [ response ];
+                  $scope.myChartOpts.series = [{}];
+                } else {
+                  $scope.someData.push(response);
+                  $scope.myChartOpts.series.push({});
+                }
+                var len = $scope.someData.length;
+                $scope.myChartOpts.series[len-1] = {
+                  label: device.name+':'+sensor.name
+                }
               }
             });
         });
