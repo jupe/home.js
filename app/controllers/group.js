@@ -3,7 +3,7 @@ exports.index = function(req, res){
   switch( req.params.format ){
     case( 'json' ):
     default: 
-      db.group.find( req.query, function(error, list){
+      db.group.query( req.query, function(error, list){
         res.json(list);
       });
   }

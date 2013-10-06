@@ -18,13 +18,13 @@ angular.module('homejs.services', ['ngResource'])
   })
   .factory('User', function($resource) {
     return $resource(
-	    "/api/v0/user/:id", {id: '@uuid'},
+	    "/api/v0/user/:id", {id: '@name'},
 	    {update: {method: "PUT"}}
     );
   })
   .factory('Group', function($resource) {
     return $resource(
-	    "/api/v0/group/:id", {id: '@uuid'},
+	    "/api/v0/group/:id", {id: '@name'},
 	    {update: {method: "PUT"}}
     );
   })

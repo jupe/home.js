@@ -23,9 +23,11 @@ angular.module('homejs.controllers')
          "sublinks":[]},
     {"itemId":5, "title":"Admin", "description":"Admin",href: "#/admins",
          "sublinks":[
-            {"title":"Configurations", "href":"#/admins/configurations"},
+            {"title":"Users", "href":"#/users"},
+            {"title":"Groups", "href":"#/groups"},
             {"title":"Services", "href":"#/services"},
             {"title":"Logs", "href":"#/logs"},
+            {"title":"Configurations", "href":"#/admins/configurations"},
          ]},
     {"itemId":6, "title":"Info", "description":"Info",href: "#/info",
          "sublinks":[
@@ -44,7 +46,7 @@ angular.module('homejs.controllers')
     
     $scope.mouseOverMenu = function(item,pos) {
       // Move submenu based on position of parent
-      $scope.subLeft = {'padding-left':(100 * pos)+'px'};
+      $scope.subLeft = {'padding-left':(80 * pos)+'px'};
       $scope.sublinks = item.sublinks;
       //$scope.overItem = 
     }
