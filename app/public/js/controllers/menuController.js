@@ -16,7 +16,8 @@ angular.module('homejs.controllers')
          ]},
     {"itemId":4, "title":"Automation", "description":"Automation", href: "#/automations",
          "sublinks":[
-             /*{"title":"Dogpile", "href":"http://www.dogpile.com", "target":"_blank"},*/
+             {"title":"Actions", "href":"#/actions"},
+             {"title":"Schedules", "href":"#/schedules"}
         ]},
     {"itemId":5, "title":"Events", "description":"Events",href: "#/events",
          "sublinks":[]},

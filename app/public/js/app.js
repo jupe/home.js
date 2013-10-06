@@ -8,6 +8,8 @@ angular.module('homejs', ['ngRoute', 'ui.bootstrap', 'ngGrid', 'ui.chart', /*'n3
     $routeProvider.when('/charts', {templateUrl: 'partials/charts.html', controller: 'ChartsController'});
     $routeProvider.when('/devices', {templateUrl: 'partials/devices.html', controller: 'DevicesController'});
     $routeProvider.when('/events', {templateUrl: 'partials/events.html', controller: 'EventsController'});
+    $routeProvider.when('/actions', {templateUrl: 'partials/actions.html', controller: 'ActionsController'});
+    $routeProvider.when('/schedules', {templateUrl: 'partials/schedules.html', controller: 'SchedulesController'});
     $routeProvider.when('/admins', {templateUrl: 'partials/admins.html', controller:
     'AdminController'});
     $routeProvider.when('/admins/configurations', {templateUrl: 'partials/admin.configurations.html', controller: 'AdminConfigurationController'});
