@@ -103,7 +103,11 @@ angular.module('homejs.services', ['ngResource'])
     return {
       get: function() { 
         return $http.get("/api/v0/admin/commit").then( function(results){
-            return $http.get("https://api.github.com/repos/jupe/home.js/commits", {sha:results.data.id});
+            return $http({
+              method: 'GET',
+              url: "https://api.github.com/repos/jupe/home.js/commits", 
+              params : {since: results.data.timestamp} 
+            });
         });
       }
     }
