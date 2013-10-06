@@ -1,8 +1,7 @@
 // Constructor
-var Ow = function(host, port) {
+var Ow = function(config) {
   var connection;
-  var Client;
-  
+  var Client=false;
   var LoadSimulator = function(){
       function simulator(){}
       simulator.prototype = Object.create(simulator.prototype);
@@ -17,13 +16,15 @@ var Ow = function(host, port) {
               cb(random(-20, 5) );
           else if( url == '/28.9AE37A030002/temperature' )
               cb(random(15, 25) );
-          else cb('false');
+          else cb(false);
       }
       Client = simulator;
-      winston.info('using ow-simulator'.blue);
+      winston.info('using ow-simulator'.yellow);
   }
-  
   try {
+    if( config.simulate ) {
+      throw("use simulator instead");
+    } 
     Client = require("owfs").Client;
   } catch(e){
     //owfs loading fails -> simalator
@@ -31,16 +32,18 @@ var Ow = function(host, port) {
   }
   if(!Client) LoadSimulator();
   
+  
   // always initialize all instance properties
-  connection = new Client(host, port); 
+  connection = new Client(config.host, config.port); 
   
   // class methods
-  var dir = function(url, cb) {
+  this.dir = function(url, cb) {
     connection.dir(url,cb);
   }
-  var read = function(url, cb){
+  this.read = function(url, cb){
     connection.read(url, cb);
   }
+  return this;
 }
 // export the class
 module.exports = Ow;

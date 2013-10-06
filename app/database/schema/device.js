@@ -93,18 +93,16 @@ var Device = new Schema({
       for(var i=0;i<this.sensors.length;i++) {
         this.sensors[i].device = this.uuid;
         if( this.sensors[i].protocol == "ow" ) {
-          var parts = this.sensors[i].ow.id.match(/^(\d{2}).([A-F,0-9]{12})/); //28.C7DC7A030000
-          if( parts.length != 3 ){
-            console.log("ow id length (%i)!= 15 !", this.sensors[i].ow.id.length);
+          var parts = this.sensors[i].name.match(/^(\d{2}).([A-F0-9]{10})([A-F0-9]{2})/); //28.C7DC7A030000
+          if( parts.length != 4 ){
+            console.log("ow id length (%i)!= 15 !", this.sensors[i].name.length);
             next( new Error("invalid id") );
             return;
           } else {
-            if( !this.sensors[i].name){
-                this.sensors[i].name = this.sensors[i].ow.id;
-            this.sensors[i].ow.FamilyCode = this.sensors[i].ow.id.substr(0,2);
-            this.sensors[i].ow.crc = this.sensors[i].ow.id.substr(11,2);
-            this.sensors[i].ow.id = this.sensors[i].ow.id.substr(3,10);
-            
+            this.sensors[i].ow = {
+              FamilyCode: parts[1],
+              id: parts[2],
+              crc: parts[3]
             }
           }
         }

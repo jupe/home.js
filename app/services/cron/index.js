@@ -9,7 +9,7 @@ var CronService = function() {
   var LoadApi = function(api, filename){
     var GetCfg = function(){
       try{
-        return CFG.app.service[api];
+        return CFG.app.service.cron[api];
       } catch(e){
         winston.error('service '+api+' not contains any configurations?!');
         return false;
@@ -26,7 +26,6 @@ var CronService = function() {
   var LoadAll = function(){
     
     var folders = fs.readdirSync(__dirname+'/../lib/' );
-    
     folders.forEach(function(api){
       var filename = __dirname+'/../lib/'+api+'/index.js';
       if( fs.existsSync(filename) ) {
@@ -102,75 +101,77 @@ var CronService = function() {
       }
   }
   function scheduleEvent( schedule ){
-      //schedule Event hanlder
-      console.log('scheduleEvent: '+schedule.name);
-      db.schedule.update( {uuid: schedule.uuid}, {lastTriggered: new Date()}, function(err, ok){}) ;
-      
-      
-      //Event might contains several actions, so loop all actions here
-      for( var i=0;i<schedule.actions.length;i++){
-          console.log( "Action: "+schedule.actions[i] );
-          db.action.findOne( {uuid: schedule.actions[i]}, function( err, action){
-              if( err ){
-                  console.log('Error while fetching action');
-                  console.log(err);
-                  event('fatal', err);
-              } else if( action ){
-                  // New action found and lets execute action
-                  scheduleActionExecuter(schedule, action, function(err, msg){
-                      //what about then?
-                  });
-              } else {
-                  console.log('Cant find action!');
-              }
+    //schedule Event hanlder
+    console.log('scheduleEvent: '+schedule.name);
+    db.schedule.update( {uuid: schedule.uuid}, {lastTriggered: new Date()}, function(err, ok){}) ;
+    
+    //Event might contains several actions, so loop all actions here
+    for( var i=0;i<schedule.actions.length;i++){
+      console.log( "Action: "+schedule.actions[i] );
+      db.action.findOne( {uuid: schedule.actions[i]}, function( err, action){
+        if( err ){
+          console.log('Error while fetching action');
+          console.log(err);
+          event('fatal', err);
+        } else if( action ){
+          // New action found and lets execute action
+          scheduleActionExecuter(schedule, action, function(err, msg){
+              //what about then?
           });
-      }
+        } else {
+          console.log('Cant find action!');
+        }
+      });
+    }
   }
   function initSchedule( schedule ){    
       if( schedule.enable && !cronSession[ schedule.uuid ] ){
-          console.log("starting cron job..");
-          var job = new cronJob(schedule.cron, function(){
-              scheduleEvent( schedule );
-            }, function () {
-              // This function is executed when the job stops
-            }, 
-            true /* Start the job right now */,
-            timeZone /* Time zone of this job. */
-          );
-          cronSession[ schedule.uuid ] = {
-              cron: job,
-              timestamp: new Date()
-          }
-          statusnow.services[schedule.uuid] = cronSession[ schedule.uuid ];
-          return 'start';
+        console.log("initCronSchedule for "+schedule.name);
+        var job = new cronJob(schedule.cron, function(){
+            scheduleEvent( schedule );
+          }, function () {
+            // This function is executed when the job stops
+          }, 
+          true /* Start the job right now */,
+          timeZone /* Time zone of this job. */
+        );
+        cronSession[ schedule.uuid ] = {
+            cron: job,
+            timestamp: new Date()
+        }
+        statusnow.services[schedule.uuid] = cronSession[ schedule.uuid ];
+        return 'start';
       } else if( !schedule.enable && cronSession[ schedule.uuid ] ){
-          console.log("Stopping cron job..");
-          cronSession[schedule.uuid].cron.stop();
-          delete cronSession[schedule.uuid];
-          delete statusnow.services[schedule.uuid];
-          return 'stop';
+        console.log("Stopping schedule "+schedule.name);
+        cronSession[schedule.uuid].cron.stop();
+        delete cronSession[schedule.uuid];
+        delete statusnow.services[schedule.uuid];
+        return 'stop';
       }
   }
   
   
   /* Interface functions */
   var start = function(){
-      console.log('Start cron service' .cyan + ' . Interval: '+configurations.interval/1000+ ' s.');
       statusnow.enable = true;
       statusnow.cron.time = new Date();
       // loop all schedules every 5 second and activate/deactivate if needed..
       timer = setInterval( function(){
-          console.log('Check cron schedules');
-          db.schedule.find({}, function(err, schedules){
-              if( err ) {
-                  event('fatal', err);
-              } else if( schedules.length > 0 ) {
-                  //console.log('Init schedules (n: '+schedules.length+')');
-                  for(var i=0;i<schedules.length;i++){
-                      initSchedule( schedules[i] );
-                  };
-              }
-          });
+        //console.log('Check cron schedules');
+        db.schedule.find({}, function(err, schedules){
+          if( err ) {
+            console.log('db.schedule.find-err');
+            event('fatal', err);
+          } else if( schedules.length > 0 ) {
+            //console.log('Init schedules (n: '+schedules.length+')');
+            schedules.forEach( function( schedule ){
+              initSchedule( schedule );
+            });
+            /*for(var i=0;i<schedules.length;i++){
+              initSchedule( schedules[i] );
+            };*/
+          }
+        });
       }, configurations.interval);
       return status();
   }
@@ -213,6 +214,6 @@ var OptionSchema = {
 }
 // export the class
 module.exports = CronService;
-module.exports.disable = true;
+//module.exports.disable = true;
 module.exports.OptionTemplate = OptionTemplate;
 module.exports.OptionSchema = OptionSchema;
