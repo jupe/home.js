@@ -15,6 +15,16 @@ angular.module('homejs.controllers')
     
     $scope.services = Service.rest.query({fl: true});
     
+    $scope.start = function(service){
+      console.log('Activating..'+service.name);
+      Service.start(service);
+      $scope.services = Service.rest.query({fl: true});
+    }
+    $scope.stop = function(service){
+      console.log('Activating..'+service.name);
+      Service.stop(service);
+      $scope.services = Service.rest.query({fl: true});
+    }
     
     /*
     ng-grid way

@@ -1,18 +1,24 @@
 <h1>Services</h1>
 
-<input type="text" ng-model="search" class="search-query" placeholder="Search">
+
 <table>
   <thead>
   <tr>
-    <th>Enabled</th>
+    <th>State</th>
     <th>Service</th>
     <th>Description</th>
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="service in services | filter:search | orderBy:'name'">
-    <td>{{service.enable}}</td>
-    <td><a href="#/services/{{service.name}}" target="_blank">{{service.name}}</a></td>
+  <tr ng-repeat="service in services | orderBy:'name'">
+    <td>
+    <a href="" ng-click="start(service)" ng-show="{{service.enable}}==false" title="Start service">Disabled</a>
+    <a href="" ng-click="stop(service)" ng-show="{{service.enable}}==true" title="Stop service">Enabled</a>
+    </td>
+    <td>
+    {{service.name}}
+    <!--<a href="#/services/{{service.name}}">{{service.name}}</a>-->
+    </td>
     <td>{{service.description}}</td>
     <td>
       <a href="#/services/{{service.name}}/edit">edit<i class="icon-pencil"></i></a>

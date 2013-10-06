@@ -61,11 +61,26 @@ angular.module('homejs.services', ['ngResource'])
       ) 
     }
   })
-  .factory('Service', function($resource) {
-    return {rest: $resource(
+  .factory('Service', function($resource, $http) {
+    return {
+      rest: $resource(
         "/api/v0/service/:id", {id: '@name'},
         {update: {method: "PUT"}}
-      )
+      ),
+      stop: function(service){
+        return $http.post("/api/v0/service/"+service.name+"/stop")
+         .then( function(result){
+          console.log(result);
+          console.log("stop ok");
+         });
+      },
+      start: function(service){
+        return $http.post("/api/v0/service/"+service.name+"/start")
+         .then( function(result){
+          console.log(result);
+          console.log("start ok");
+         });
+      }
     };
   })
   .factory('Commit', function($http){
