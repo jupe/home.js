@@ -16,7 +16,8 @@ angular.module('homejs.controllers')
         console.log( column.field+' -> '+row.entity[ column.field ] );
         row.entity[column.field] = cellValue;
         //row.entity.$update() // <- the simple case
-
+        //Device.save({column.field: cellValue});
+        
         // I have nested Entity / data in the row <- the complex case
         // var answer = new Answer(question.answers[answerIndex]); // answerIndex is computed with "column.field" variable
         // answer.$update() ...

@@ -12,6 +12,7 @@ angular.module('homejs', ['ngRoute', 'ui.bootstrap', 'ngGrid', 'ui.chart', /*'n3
     $routeProvider.when('/schedules', {templateUrl: 'partials/schedules.html', controller: 'SchedulesController'});
     $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersController'});
     $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginController'});
+    $routeProvider.when('/logs', {templateUrl: 'partials/logs.html', controller: 'LogsController'});
     $routeProvider.when('/groups', {templateUrl: 'partials/groups.html', controller: 'GroupsController'});
     $routeProvider.when('/admins', {templateUrl: 'partials/admins.html', controller:
     'AdminController'});

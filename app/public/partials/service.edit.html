@@ -1,0 +1,19 @@
+
+Service {{service.name}}
+<form name="myForm">
+  
+  <div class="control-group" ng-class="{error: myForm.place.$invalid}">
+    <label>Place</label>
+    <input type="string" name="configurations.place" ng-model="configurations.place" required>
+  </div>
+  
+  <div class="control-group" ng-class="{error: myForm.nCustomerID.$invalid}">
+    <label>nCustomerID</label>
+    <input type="string" name="configurations.nCustomerID" ng-model="configurations.nCustomerID" required>
+  </div>
+
+  <br>
+  <a href="#/services" class="btn">Cancel</a>
+  <button ng-click="save()" ng-disabled="isClean()"
+          class="btn btn-primary">Save</button>
+</form>

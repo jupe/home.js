@@ -1,0 +1,20 @@
+<form name="loginForm" ng-show="!user.isLogged " novalidate ng-controller="LoginController" ng-submit="login()">
+   <div class="form-group">
+     <input class="form-control" name="username" type="text" 
+       placeholder="Username" required ng-model="session.username" />
+     <span class="help-block" 
+       ng-show="loginForm.username.$error.required">Required</span>
+   </div>
+   <div class="form-group">
+     <input class="form-control" name="password" type="password" 
+       placeholder="Password" required ng-model="session.password" />
+     <span class="help-block" 
+       ng-show="loginForm.password.$error.required">Required</span>
+   </div>
+   <div class="form-group">
+       <button type="submit" class="btn btn-primary pull-right" 
+         value="Login" title="Login" ng-disabled="!loginForm.$valid">
+         <span>Login</span>
+       </button>
+   </div>
+ </form>
