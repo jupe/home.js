@@ -1,4 +1,5 @@
 [home.js](http://jupe.github.io/home.js/)
+[group](https://www.facebook.com/groups/home.js)
 =======
 
 *IN PROGRESS!*
@@ -136,4 +137,4 @@ l=<limit> - specify the limit for the number of results (default is 1000)
 Released under the MIT License.
 See [LICENSE](https://github.com/jupe/home.js/blob/master/LICENSE) file.
 
-Copyright © 2013 by Jussi Vatjus-Anttila.
+Copyright ï¿½ 2013 by Jussi Vatjus-Anttila.
