@@ -15,8 +15,6 @@ angular.module('homejs.controllers')
     
     function updateTime(){
       $scope.time = moment().format("YYYY/MM/DD hh:mm:ss");
-      console.log("updated time");
-      console.log("updated time");
       $timeout(updateTime, 1000);
     }
     updateTime();
