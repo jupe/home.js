@@ -1,6 +1,8 @@
 [home.js](http://jupe.github.io/home.js/)
-[group](https://www.facebook.com/groups/home.js)
-=======
+========
+
+[FB group](https://www.facebook.com/groups/home.js)
+
 
 *IN PROGRESS!*
 
