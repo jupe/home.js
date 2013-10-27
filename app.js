@@ -65,6 +65,7 @@ var
   // Own modules
   , config = require('./config')
   , services = require('./app/services')
+  , addons = require('./app/addon')
   , Routes = require('./app/routes')
   , Db = require("./app/database")
   //, Daemon = require("./lib/daemon");
@@ -127,7 +128,8 @@ mongoose.connection.on('connected', function(){
  var db = new Db(app); 
  global.db = db;
  app.set('db', db);
- services();
+ services(app);
+ addons(app);
 });
 
 // Change process title

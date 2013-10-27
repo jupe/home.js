@@ -1,6 +1,7 @@
 var fs = require('fs');
 
 var Services = function(app){
+  var apiurl = 'http://localhost:3000/api/v0';
   var Load = function(){
     global.service = {};
     
@@ -25,7 +26,7 @@ var Services = function(app){
                 doc.configurations = serv.OptionTemplate;
               }
             }
-            global.service[service] = new serv(doc.configurations, app);
+            global.service[service] = new serv(doc.configurations, app, apiurl);
             if(error){ winston.error(error); }
             else if( doc.enable ){
               winston.info('Activating service '+doc.name.cyan);
@@ -60,7 +61,7 @@ var Services = function(app){
 }
 
 
-module.exports = Services;
+module.exports = exports = Services;
 /* TEST
 require('colors');
 global.winston = {

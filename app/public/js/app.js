@@ -14,8 +14,8 @@ angular.module('homejs', ['ngRoute', 'ui.bootstrap', 'ngGrid', 'ui.chart', /*'n3
     $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginController'});
     $routeProvider.when('/logs', {templateUrl: 'partials/logs.html', controller: 'LogsController'});
     $routeProvider.when('/groups', {templateUrl: 'partials/groups.html', controller: 'GroupsController'});
-    $routeProvider.when('/admins', {templateUrl: 'partials/admins.html', controller:
-    'AdminController'});
+    $routeProvider.when('/admins', {templateUrl: 'partials/admins.html', controller:'AdminController'});
+    $routeProvider.when('/entertainment/tv/now', {templateUrl: 'partials/entertainment.tv.now.html', controller:'entertainmentTvNowController'});
     $routeProvider.when('/admins/configurations', {templateUrl: 'partials/admin.configurations.html', controller: 'AdminConfigurationController'});
     $routeProvider.when('/services', {templateUrl: 'partials/services.html', controller: 'ServiceController'});
     $routeProvider.when('/services/:serviceId/edit', {

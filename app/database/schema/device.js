@@ -79,6 +79,8 @@ var Device = new Schema({
   location: {
     //device location
     room: {type: String},
+    city: {type: String},
+    country: {type: String},
     geo: {type: [Number], index: '2d'},
     map: {type: [Number], index: '2d', index: true},
   }

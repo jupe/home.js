@@ -10,18 +10,27 @@ angular.module('homejs.controllers')
         "sublinks":[ 
             /*{"title":"Yahoo", "href":"http://yahoo.com/", "target":"_blank" }*/
         ]},
-    {"itemId":3, "title":"Devices", "description":"Devices", href: "#/devices",
+    {"itemId":3, "title":"Entertainment", "description":"Entertainment", href: "#/entertainment",
+         "sublinks":[
+            {"title":"TV now", "href":"#/entertainment/tv/now" },
+            {"title":"TV records", "href":"#/entertainment/tv/records" },
+            {"title":"TV shows", "href":"#/entertainment/tv/shows" },
+            {"title":"Music", "href":"#/entertainment/music" },
+            {"title":"Movies", "href":"#/entertainment/movies" },
+            
+         ]},
+    {"itemId":4, "title":"Devices", "description":"Devices", href: "#/devices",
          "sublinks":[
             /*{"title":"Bing", "href":"http://www.bing.com", "target":"_blank" }*/
          ]},
-    {"itemId":4, "title":"Automation", "description":"Automation", href: "#/automations",
+    {"itemId":5, "title":"Automation", "description":"Automation", href: "#/automations",
          "sublinks":[
              {"title":"Actions", "href":"#/actions"},
              {"title":"Schedules", "href":"#/schedules"}
         ]},
-    {"itemId":5, "title":"Events", "description":"Events",href: "#/events",
+    {"itemId":6, "title":"Events", "description":"Events",href: "#/events",
          "sublinks":[]},
-    {"itemId":5, "title":"Admin", "description":"Admin",href: "#/admins",
+    {"itemId":7, "title":"Admin", "description":"Admin",href: "#/admins",
          "sublinks":[
             {"title":"Users", "href":"#/users"},
             {"title":"Groups", "href":"#/groups"},
@@ -29,10 +38,11 @@ angular.module('homejs.controllers')
             {"title":"Logs", "href":"#/logs"},
             {"title":"Configurations", "href":"#/admins/configurations"},
          ]},
-    {"itemId":6, "title":"Info", "description":"Info",href: "#/info",
+    {"itemId":8, "title":"Info", "description":"Info",href: "#/info",
          "sublinks":[
-            {"title":"github pages", "href":"http://github.com/jupe/home.js", "target":"_blank"},
-            {"title":"Report issue", "href":"https://github.com/jupe/home.js/issues/new", "target":"_blank"},
+            {"title":"Facebook", "href":"https://www.facebook.com/groups/homejs/", "target":"_blank"},
+            {"title":"github", "href":"http://github.com/jupe/home.js", "target":"_blank"},
+            {"title":"Issues", "href":"https://github.com/jupe/home.js/issues/new", "target":"_blank"},
          ]}
     ];
     
