@@ -16,7 +16,7 @@ angular.module('homejs.controllers')
             {"title":"TV records", "href":"#/entertainment/tv/records" },
             {"title":"TV shows", "href":"#/entertainment/tv/shows" },
             {"title":"Music", "href":"#/entertainment/music" },
-            {"title":"Movies", "href":"#/entertainment/movies" },
+            {"title":"Movies", "href":"#/entertainment/movie" },
             
          ]},
     {"itemId":4, "title":"Devices", "description":"Devices", href: "#/devices",

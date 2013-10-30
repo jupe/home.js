@@ -7,7 +7,8 @@ var Addons = function(app){
       //try{
         var Addon = require(filename);
         if( Addon.disable ){
-          winston.info('Init addon '+addon .cyan + ' - disabled');
+          winston.info('Init addon '+addon.cyan + ' - disabled'.red);
+          return;
         } else {
           winston.info('Init addon '+addon .cyan);
         }
